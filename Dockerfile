@@ -1,14 +1,12 @@
-# ベースイメージの指定（1行のみでOK）
-FROM eclipse-temurin:17-jdk-alpine
-
-# 作業ディレクトリの設定
+# ビルドステージ (例: build)
+FROM gradle:7.2-jdk17 AS build
 WORKDIR /app
+COPY . .
+RUN gradle build
 
-# ビルドしたJARファイルをコンテナにコピー
-COPY build/libs/*.jar app.jar
-
-# ポート指定（8080）
+# 最終ステージ (実行環境)
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/my-app.jar /app/my-app.jar
 EXPOSE 8080
-
-# アプリケーションの実行
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/my-app.jar"]
