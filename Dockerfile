@@ -11,4 +11,4 @@ COPY build/libs/*.jar app.jar
 EXPOSE 8080
 
 # アプリケーションの実行
-ENTRYPOINT ["java", "-jar", "app.jar"]git
+ENTRYPOINT ["java", "-jar", "app.jar"]
