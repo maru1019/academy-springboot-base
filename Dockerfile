@@ -2,14 +2,11 @@
 FROM gradle:7.2-jdk17 AS build
 WORKDIR /app
 COPY . .
+RUN gradle build
 
-# Renderで設定されているはずの環境変数をここで一時的に確認します
-ARG DATABASE_URL
-ARG DATABASE_USER
-ARG DATABASE_PASSWORD
-
-# 環境変数が設定されているかを表示
-RUN echo "DATABASE_URL=$DATABASE_URL" && echo "DATABASE_USER=$DATABASE_USER" && echo "DATABASE_PASSWORD=$DATABASE_PASSWORD"
-
-# テストをスキップしてビルド
-RUN gradle build -x test
+# 最終ステージ (実行環境)
+FROM openjdk:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/my-app.jar /app/my-app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/my-app.jar"]
