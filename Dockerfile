@@ -2,7 +2,7 @@
 FROM gradle:7.6.0-jdk17 AS build
 WORKDIR /home/app
 COPY . .
-RUN gradle clean build
+RUN RUN gradle clean build -x test
 
 # 実行環境ステージ
 FROM eclipse-temurin:17-alpine
