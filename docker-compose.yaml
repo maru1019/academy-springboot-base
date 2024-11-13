@@ -3,6 +3,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    environment:
       - DATABASE_URL=jdbc:postgresql://springboot_database_4imk_user:h0Oy0LhcDCR07MYHzM8aR69xMzYVVhTE@dpg-csnn7823esus73efe1k0-a/springboot_database_4imk
       - DATABASE_USER=${DATABASE_USER}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
