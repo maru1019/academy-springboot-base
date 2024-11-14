@@ -6,7 +6,7 @@ RUN ./gradlew build -x test
 
 # 実行環境ステージ
 FROM eclipse-temurin:17-alpine
-WORKDIR /
+WORKDIR /app
 RUN mkdir -p /app
 COPY --from=build /app/build/libs/spring-0.0.1-SNAPSHOT.jar /app/app.jar
 EXPOSE 8080
