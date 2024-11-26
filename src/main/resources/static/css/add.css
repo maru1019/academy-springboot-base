@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1440px; 
+  height: 1024px;
+  display: flex;
+  flex-direction: column; 
+  gap: 0; 
+  background-color: white;
+}
+
+.header {
+  width: 1440px;
+  height: 120px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1B5678;
+}
+
+.logo {
+  width: 201px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  font: Roboto;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42.19px;
+  color: #FFFFFF;
+}
+
+.login-button {
+  width: 152px;
+  height: 53px;
+  border-radius: 4px;
+  padding: 16px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.login-text {
+  width: 72px;
+  height: 21px;
+  font-family: Roboto;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21.09px;
+  color: #000000;
+}
+
+.login {
+  width: 152px;
+  height: 53px;
+  border-radius: 4px;
+  /* padding: 16px 40px; */
+  font-size: 18px;
+  background-color: #ffffff;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #ffffff;
+
+}
+
+.text-danger {
+  color: red;
+}
+
+h2 {
+  text-align: center;
+  margin: 80px 648px 0 648px;
+  font: Roboto;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48.02px;
+}
+
+form {
+  width: 480px;
+  height: 341px;
+  margin: 88px 480px 0 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+label {
+  display: block;
+}
+
+.form-control {
+  width: 480px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  line-height: 19px;
+}
+
+.form-group-name {
+  width: 480px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group-address {
+  width: 480px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group-password {
+  width: 480px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label-name {
+  width: 25px;
+  height: 12px;
+  gap: 10px;
+  font: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+.label-address {
+  width: 85px;
+  height: 12px;
+  gap: 10px;
+  font: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+.label-password {
+  width: 61px;
+  height: 12px;
+  font: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+.btn {
+  text-align: center;
+}
+
+.btn-blue {
+  width: 232px;
+  height: 53px;
+  border-radius: 4px;
+  padding: 16px 80px 16px 80px;
+  background-color: #1B5678;
+  color: #ffffff;
+}
+
+
+footer {
+  width: 1440px;
+  height: 40px;
+  background-color: #1B5678;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+}
