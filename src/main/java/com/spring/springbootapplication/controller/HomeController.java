@@ -48,6 +48,6 @@ public class HomeController {
         }
        
         userService.save(userNewAddRequest);
-        return "redirect:/user/top";
+        return "user/top";
     }
 }
