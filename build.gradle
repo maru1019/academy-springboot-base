@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.4'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "org.flywaydb.flyway" version "11.0.1" // Flyway プラグインを追加
+
 }
 
 group = 'com.spring'
@@ -19,6 +21,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+	gradlePluginPortal()
 }
 
 dependencies {
@@ -45,7 +48,7 @@ tasks.named('test') {
 }
 
 jar {
-	enabled = false
+	enabled = true
 }
 
 bootJar {

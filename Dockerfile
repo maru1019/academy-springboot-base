@@ -5,7 +5,7 @@ COPY . /app
 RUN ./gradlew build -x test
 
 # 実行環境ステージ
-FROM openjdk:17-jdk-alpine
+FROM eclipse-temurin:17-alpine
 WORKDIR /app
 RUN mkdir -p /app
 COPY --from=build /app/build/libs/spring-0.0.1-SNAPSHOT.jar /app/app.jar

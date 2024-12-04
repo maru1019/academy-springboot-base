@@ -19,7 +19,7 @@
   padding: 0 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #1B5678;
 }
 
@@ -35,35 +35,6 @@
   color: #FFFFFF;
 }
 
-.login-button {
-  width: 152px;
-  height: 53px;
-  border-radius: 4px;
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-}
-
-.login-text {
-  width: 72px;
-  height: 21px;
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 21.09px;
-  color: #000000;
-}
-
-.login {
-  width: 152px;
-  height: 53px;
-  border-radius: 4px;
-  font-size: 18px;
-  background-color: #ffffff;
-}
-
 main {
   flex-grow: 1;
   display: flex;
@@ -71,7 +42,6 @@ main {
   align-items: center;
   flex-direction: column;
   background-color: #ffffff;
-
 }
 
 .text-danger {
@@ -89,7 +59,7 @@ h2 {
 
 form {
   width: 480px;
-  height: 341px;
+  height: 346px;
   margin: 88px 480px 0 480px;
   display: flex;
   flex-direction: column;
@@ -108,14 +78,6 @@ label {
   outline: none;
 }
 
-.form-group-name {
-  width: 480px;
-  height: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .form-group-address {
   width: 480px;
   height: 48px;
@@ -130,18 +92,6 @@ label {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.label-name {
-  width: 25px;
-  height: 12px;
-  gap: 10px;
-  font: Roboto;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 12px;
-  letter-spacing: 0.15px;
-  color: #000000;
 }
 
 .label-address {
@@ -172,7 +122,17 @@ label {
 }
 
 .btn-blue {
-  width: 232px;
+  width: 268px;
+  height: 53px;
+  border-radius: 4px;
+  padding: 16px 80px 16px 80px;
+  background-color: #1B5678;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn-blue2 {
+  width: 268px;
   height: 53px;
   border-radius: 4px;
   padding: 16px 80px 16px 80px;
