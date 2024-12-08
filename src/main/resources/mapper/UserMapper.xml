@@ -5,7 +5,7 @@
 <mapper namespace="com.spring.springbootapplication.dao.UserMapper">
 
 <!--ログイン機能--> 
-    <select id ="findByEmail" resultType = "UserEntity">
+    <select id = "findByEmail" resultType = "com.spring.springbootapplication.entity.UserEntity">
       SELECT * FROM users WHERE email = #{email}
     </select>
 

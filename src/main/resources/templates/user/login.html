@@ -12,11 +12,11 @@
       <div class="logo">MyPortfolio</div>
     </header>
     <main>
-      <div th:if="${validationError}" th:each="error : ${validationError}">
-        <label class="text-danger" th:text="${error}"></label>
+      <div th:if="${param.error}">
+        <p class="text-danger">ログインに失敗しました。メールアドレスまたはパスワードをご確認ください。</p>
       </div>
       <h2 class="title">ログイン</h2>
-      <form th:action="@{/user/create}" th:object="${userNewAddRequest}" th:method="post">
+      <form th:action="@{/user/login}" th:object="${userLoginRequest}" th:method="post">
         <div class="form-group-address">
           <label class="label-address">メールアドレス</label>
           <input type="email" th:field="*{email}" class="form-control">
@@ -27,7 +27,7 @@
         </div>
         <div class="btn">
           <input type="submit" value="ログインする" class="btn-blue">
-          <input type="submit" value="新規登録する" class="btn-blue2">
+          <a href="/user/add" class="btn-blue">新規登録する</a>
         </div>
       </form>
     </main>

@@ -62,7 +62,8 @@ form {
   height: 346px;
   margin: 88px 480px 0 480px;
   display: flex;
-  flex-direction: column;
+  flex-flow: column;
+  justify-content:space-around;
   gap: 48px;
 }
 
@@ -118,29 +119,29 @@ label {
 }
 
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
 }
 
 .btn-blue {
   width: 268px;
   height: 53px;
+  font-size: 18px;
   border-radius: 4px;
   padding: 16px 80px 16px 80px;
+  margin: 20px;
   background-color: #1B5678;
   color: #ffffff;
   cursor: pointer;
+  border:none;
 }
 
-.btn-blue2 {
-  width: 268px;
-  height: 53px;
-  border-radius: 4px;
-  padding: 16px 80px 16px 80px;
-  background-color: #1B5678;
-  color: #ffffff;
-  cursor: pointer;
+a {
+  text-decoration: none;
 }
-
 
 footer {
   width: 1440px;

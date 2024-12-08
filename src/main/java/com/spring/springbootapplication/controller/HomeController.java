@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -32,35 +34,31 @@ public class HomeController {
 
   @GetMapping(value = "/user/top")
     public String displayTop() {
-      return "top"; // `top.html` を返す
+      return "top";
   }
 
   // -----ログイン機能------
   @GetMapping(value = "/user/login")
-    public String displayLogin() {
-      return "user/login";
+    public String displayLogin(Model model) {
+      model.addAttribute("userLoginRequest", new UserLoginRequest());
+      return "/user/login";
     }
 
-  @RequestMapping(value = "/user/login", method = RequestMethod.POST)
-    public String login(@Validated @ModelAttribute UserLoginRequest userLoginRequest, BindingResult result, Model model) {
-      if (result.hasErrors()) {
-        List<String> errorList = new ArrayList<String>();
-        for (ObjectError error : result.getAllErrors()) {
-            errorList.add(error.getDefaultMessage());
+  @PostMapping(value = "/user/login")
+    public String login(
+        @ModelAttribute UserLoginRequest userLoginRequest, 
+        RedirectAttributes redirectAttributes
+    ) {
+        // 入力されたメールアドレスでユーザーを取得
+        UserEntity user = userService.getUserByEmail(userLoginRequest.getEmail());
+
+        // ユーザーが存在しないか、パスワードが一致しない場合
+        if (user == null || !passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
+            redirectAttributes.addFlashAttribute("error", "メールアドレスまたはパスワードが一致しません。");
+            return "user/login"; // ログインページにリダイレクト
         }
-        model.addAttribute("validationError", errorList);
-        return "user/login"; 
-      }
-
-      UserEntity user = userService.getUserByEmail(userLoginRequest.getEmail());
-      if (user == null || !passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-          model.addAttribute("error", "メールアドレスまたはパスワードが一致しません。");
-          return "user/login";
-      }
-    
-      return "user/top";
+        return "user/top";
     }
-
 
   // -----新規登録機能------
   @GetMapping(value = "/user/add")

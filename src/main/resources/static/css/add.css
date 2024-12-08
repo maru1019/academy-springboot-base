@@ -174,11 +174,13 @@ label {
 .btn-blue {
   width: 232px;
   height: 53px;
+  font-size: 18px;
   border-radius: 4px;
   padding: 16px 80px 16px 80px;
   background-color: #1B5678;
   color: #ffffff;
   cursor: pointer;
+  border:none;
 }
 
 

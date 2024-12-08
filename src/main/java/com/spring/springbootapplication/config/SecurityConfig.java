@@ -21,13 +21,13 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/top", "/user/add","/user/create", "/css/**", "/js/**").permitAll() 
+                .requestMatchers("/user/login", "/user/add","/user/create", "/css/**", "/js/**").permitAll() 
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/user/login")
                 .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/user/top, true")
+                .defaultSuccessUrl("/user/top")
                 .failureUrl("/user/login?error=true")
                 .permitAll()
             );
