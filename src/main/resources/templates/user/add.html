@@ -17,7 +17,7 @@
         <label class="text-danger" th:text="${error}"></label>
       </div>
       <h2 class="title">新規登録</h2>
-      <form th:action="@{/user/create}" th:object="${userNewAddRequest}" th:method="post">
+      <form th:action="@{/user/top}" th:object="${userNewAddRequest}" th:method="post">
         <div class="form-group-name">
           <label class="label-name">氏名</label>
           <input type="text" th:field="*{name}" class="form-control">

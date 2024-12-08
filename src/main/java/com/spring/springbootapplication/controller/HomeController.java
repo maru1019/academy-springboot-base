@@ -44,22 +44,6 @@ public class HomeController {
       return "/user/login";
     }
 
-  @PostMapping(value = "/user/login")
-    public String login(
-        @ModelAttribute UserLoginRequest userLoginRequest, 
-        RedirectAttributes redirectAttributes
-    ) {
-        // 入力されたメールアドレスでユーザーを取得
-        UserEntity user = userService.getUserByEmail(userLoginRequest.getEmail());
-
-        // ユーザーが存在しないか、パスワードが一致しない場合
-        if (user == null || !passwordEncoder.matches(userLoginRequest.getPassword(), user.getPassword())) {
-            redirectAttributes.addFlashAttribute("error", "メールアドレスまたはパスワードが一致しません。");
-            return "user/login"; // ログインページにリダイレクト
-        }
-        return "user/top";
-    }
-
   // -----新規登録機能------
   @GetMapping(value = "/user/add")
     public String displayAdd(Model model) {
@@ -67,7 +51,7 @@ public class HomeController {
         return "user/add";
     }
 
-  @RequestMapping(value = "/user/create", method = RequestMethod.POST)
+  @RequestMapping(value = "/user/top", method = RequestMethod.POST)
     public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<String>();
