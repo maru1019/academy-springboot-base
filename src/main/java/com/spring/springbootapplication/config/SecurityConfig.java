@@ -25,12 +25,17 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/user/login")
-                .loginProcessingUrl("/user/top")
+                .loginPage("/user/login")  // ログインページのURL
+                .loginProcessingUrl("/process-login") // ログインフォームの送信先
                 .usernameParameter("email") //ログインページのユーザーID
                 .passwordParameter("password") //ログインページのパスワード
-                .defaultSuccessUrl("/user/top", true)
+                .defaultSuccessUrl("/user/top", true)  // ログイン成功後のリダイレクト先
                 .failureUrl("/user/login?error=true")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/user/login")
                 .permitAll()
             );
         return http.build();

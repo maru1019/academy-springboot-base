@@ -16,7 +16,7 @@
         <p class="text-danger">ログインに失敗しました。メールアドレスまたはパスワードをご確認ください。</p>
       </div>
       <h2 class="title">ログイン</h2>
-      <form th:action="@{/user/top}" th:object="${userLoginRequest}" th:method="post">
+      <form th:action="@{/process-login}" th:object="${userLoginRequest}" th:method="post">
         <div class="form-group-address">
           <label class="label-address">メールアドレス</label>
           <input type="email" th:field="*{email}" class="form-control">

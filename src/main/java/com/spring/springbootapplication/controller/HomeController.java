@@ -51,7 +51,7 @@ public class HomeController {
         return "user/add";
     }
 
-  @RequestMapping(value = "/user/top", method = RequestMethod.POST)
+  @RequestMapping(value = "/user/add", method = RequestMethod.POST)
     public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<String>();
