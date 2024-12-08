@@ -21,15 +21,15 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/user/top", "/user/login", "/user/add","/user/create", "/css/**", "/js/**").permitAll() 
+                .requestMatchers("/user/top", "/user/login", "/user/add", "/css/**", "/js/**").permitAll() 
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/user/login")
-                .loginProcessingUrl("/user/login")
-                .defaultSuccessUrl("/user/top", true)
+                .loginProcessingUrl("/user/top")
                 .usernameParameter("email") //ログインページのユーザーID
                 .passwordParameter("password") //ログインページのパスワード
+                .defaultSuccessUrl("/user/top", true)
                 .failureUrl("/user/login?error=true")
                 .permitAll()
             );

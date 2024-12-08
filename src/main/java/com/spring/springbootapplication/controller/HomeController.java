@@ -34,7 +34,7 @@ public class HomeController {
 
   @GetMapping(value = "/user/top")
     public String displayTop() {
-      return "top";
+      return "/user/top";
   }
 
   // -----ログイン機能------
