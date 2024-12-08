@@ -11,6 +11,10 @@ import com.spring.springbootapplication.entity.UserEntity;
 @Mapper
 public interface UserMapper {
 
+  // -----ログイン機能-----
+  UserEntity findByEmail(String email);
+
+  // -----新規登録機能-----
   void save(UserNewAddRequest userNewAddRequest);
 
 }
