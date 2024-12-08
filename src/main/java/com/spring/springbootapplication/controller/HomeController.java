@@ -34,14 +34,14 @@ public class HomeController {
 
   @GetMapping(value = "/user/top")
     public String displayTop() {
-      return "/user/top";
+      return "user/top";
   }
 
   // -----ログイン機能------
   @GetMapping(value = "/user/login")
     public String displayLogin(Model model) {
       model.addAttribute("userLoginRequest", new UserLoginRequest());
-      return "/user/login";
+      return "user/login";
     }
 
   // -----新規登録機能------
