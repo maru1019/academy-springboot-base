@@ -6,6 +6,19 @@
   <link rel="stylesheet" href="/css/top.css" >
 </head>
 <body>
-  <h1>Hello page</h1>
+  <div class="container">
+    <header class="header">
+      <div class="logo">My Portfolio</div>
+      <form th:action="@{/logout}" th:method="post">
+        <input type="submit" value="ログアウト" class="logout">
+      </form>
+    </header>
+    <main>
+      <h1>Hello page</h1>
+    </main>
+    <footer>
+      <p>portfolio site</p>
+    </footer>
+  <div class="container">
 </body>
 </html>
