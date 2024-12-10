@@ -34,9 +34,9 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/user/login")
-                .permitAll()
+                .logoutUrl("/logout") // ユーザーがログアウトするためのURLを定義
+                .logoutSuccessUrl("/user/login") // ログアウト成功後のリダイレクト先
+                .permitAll()// ログアウトURLへのアクセスを認証なしで許可
             );
         return http.build();
     }

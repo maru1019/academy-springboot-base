@@ -33,27 +33,6 @@
   color: #FFFFFF;
 }
 
-.login-button {
-  width: 152px;
-  height: 53px;
-  border-radius: 4px;
-  padding: 16px 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-}
-
-.login-text {
-  width: 72px;
-  height: 21px;
-  font-family: Roboto;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 21.09px;
-  color: #000000;
-}
-
 .login {
   width: 152px;
   height: 53px;
