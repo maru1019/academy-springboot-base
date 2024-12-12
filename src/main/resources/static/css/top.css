@@ -6,7 +6,6 @@
 
 .container {
   width: 1440px; 
-  height: 1024px;
   display: flex;
   flex-direction: column; 
   gap: 0; 
@@ -41,6 +40,75 @@
   background-color: #ffffff;
   cursor: pointer;
   border:none;
+}
+
+main {
+  width: 1440px;
+  height: 742px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px;
+}
+
+.wrapper {
+  width: 960px;
+  height: 582px;
+  
+}
+
+.profile {
+  width: 960px;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.circle {
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background-color: lightgray;
+  border: dotted 1px black;
+}
+
+.content {
+  width: 520px;
+  height: 256px;
+}
+
+.title {
+  width: 240px;
+  height: 58px;
+  border-bottom: solid 2px lightgray;
+}
+
+h2 {
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42.19px;
+}
+
+.text-area {
+  width: 520px;
+  height: 81px;
+  margin: 20px 0 ;
+}
+
+.btn-blue {
+  width: 242px;
+  height: 53px;
+  font-weight: 400;
+  font-size: 18px;
+  border-radius: 4px;
+  line-height: 21.09px;
+  padding: 16px 40px 16px 40px;
+  background-color: #1B5678;
+  color: #ffffff;
+  cursor: pointer;
+  border:none;
+  bottom: 0;
 }
 
 footer {
