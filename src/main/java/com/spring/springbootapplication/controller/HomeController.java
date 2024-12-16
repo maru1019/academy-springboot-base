@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -20,8 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.spring.springbootapplication.dto.UserLoginRequest;
 import com.spring.springbootapplication.dto.UserNewAddRequest;
+import com.spring.springbootapplication.dto.UserResponse;
+import com.spring.springbootapplication.dto.UserEditRequest;
 import com.spring.springbootapplication.entity.UserEntity;
 import com.spring.springbootapplication.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class HomeController {
@@ -32,9 +34,12 @@ public class HomeController {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  @GetMapping(value = "/user/top")
-    public String displayTop() {
-      return "user/top";
+  // -----Top画面表示------
+  @GetMapping("/user/{id}/top")
+    public String displayUserTop(@PathVariable Integer id, Model model) {
+    UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
+    model.addAttribute("user", user); // ユーザー情報をViewに渡す
+    return "user/top";
   }
 
   // -----ログイン機能------
@@ -51,7 +56,7 @@ public class HomeController {
         return "user/add";
     }
 
-  @RequestMapping(value = "/user/add", method = RequestMethod.POST)
+  @PostMapping(value = "/user/add")
     public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
         if (result.hasErrors()) {
             List<String> errorList = new ArrayList<String>();
@@ -65,4 +70,17 @@ public class HomeController {
         userService.save(userNewAddRequest);
         return "user/top";
     }
+
+  // -----編集機能------
+  @GetMapping("/user/{id}/edit")
+    public String displayEdit(@PathVariable Integer id, Model model) {
+    UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
+    UserEditRequest userEditRequest = new UserEditRequest(); // 編集用DTOを作成
+    userEditRequest.setId(user.getId());
+    userEditRequest.setBiography(user.getBiography());
+    userEditRequest.setImageUrl(user.getImageUrl());
+    model.addAttribute("userEditRequest", userEditRequest); // 編集データを渡す
+    return "user/edit"; // 編集画面を表示
+  }
+  
 }

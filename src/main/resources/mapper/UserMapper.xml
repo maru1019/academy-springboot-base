@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springbootapplication.dao.UserMapper">
 
+<!--top画面-->
+    <select id="findById" resultType="com.spring.springbootapplication.dto.UserResponse">
+      SELECT id, image_url AS imageUrl, biography
+      FROM users
+      WHERE id = #{id}
+    </select>
+
 <!--ログイン機能--> 
     <select id = "findByEmail" resultType = "com.spring.springbootapplication.entity.UserEntity">
       SELECT * FROM users WHERE email = #{email}
@@ -16,4 +23,11 @@
       VALUES
         (#{name}, #{password}, #{email}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP)
     </insert>
+
+<!--編集機能-->
+    <!-- <select id="findById" resultType="com.spring.springbootapplication.dto.UserResponse">
+      SELECT id, image_url AS imageUrl, biography
+      FROM users
+      WHERE id = #{id}
+    </select> -->
 </mapper>
