@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 1440px;
+  height: 1024px;
+  display: flex;
+  flex-direction: column; 
+  gap: 0; 
+  background-color: white;
+}
+
+.header {
+  width: 1440px;
+  height: 120px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1B5678;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font: Roboto;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 42.19px;
+  color: #FFFFFF;
+}
+
+.logout {
+  width: 152px;
+  height: 53px;
+  border-radius: 4px;
+  font-size: 18px;
+  background-color: #ffffff;
+  cursor: pointer;
+  border:none;
+}
+
+main {
+  width: 1440px;
+  height: 864px;
+}
+
+h2 {
+  text-align: center;
+  margin: 80px 558px 0 558px;
+  font: Roboto;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48.02px;
+}
+
+.selfsheet {
+  width: 960px;
+  height: 342px;
+  margin: 72px 240px 0 240px;
+  gap: 48px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.label-name {
+  width: 61px;
+  height: 12px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  color: #0000008A;
+}
+
+.textbox {
+  width: 480px;
+  height: 145px;
+}
+
+.avater {
+  width: 480px;
+  height: 48px;
+  display: flex;
+  flex-flow: column;
+  text-align: left;
+}
+
+.label-avater {
+  width: 73px;
+  height: 12px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: #0000008A;
+}
+
+.form-control {
+  width: 480px;
+  height: 95px;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 19px;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+.file-control-label {
+  width: 202px;
+  height: 32px;
+  border-radius: 4px;
+  margin-top: 8px;
+  background-color: lightgray;
+  text-align: center;
+  padding: 8px 24px 8px 24px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16.41px;
+  color: #000000BF;
+  cursor: pointer;
+}
+
+.file-control {
+  width: 202px;
+  height: 32px;
+  padding: 8px 24px 8px 24px;
+  color: #000000;
+  display: none;
+}
+
+
+.btn-blue {
+  width: 322px;
+  height: 53px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 21.09px;
+  border-radius: 4px;
+  padding: 16px 80px 16px 80px;
+  background-color: #1B5678;
+  color: #ffffff;
+  cursor: pointer;
+  border:none;
+}
+
+footer {
+  width: 1440px;
+  height: 40px;
+  background-color: #1B5678;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FFFFFF;
+}

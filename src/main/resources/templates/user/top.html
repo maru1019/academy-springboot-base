@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>top page</title>
+  <title>Top page</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <link rel="stylesheet" href="/css/top.css" >
 </head>
@@ -13,20 +13,20 @@
         <input type="submit" value="ログアウト" class="logout">
       </form>
     </header>
-
     <main>
       <div class="wrapper">
         <div class="profile">
           <div class="circle">
+            <img th:src="${user.imageUrl != null ? user.imageUrl : '/images/default.png'}" alt="User Icon" />
           </div>
           <div class="content">
             <div class="title">
               <h2>自己紹介</h2>
             </div>
             <div class="text-area">
-              自己紹介文
+              <p th:text="${user.biography}"></p>
             </div>
-              <input type="submit" value="自己紹介を編集する" class="btn-blue">
+            <a th:href="@{/user/{id}/top(id=${userResponse.id})}" class="btn-blue">自己紹介を編集する</a>
           </div>
         </div>
       </div>
@@ -35,6 +35,6 @@
     <footer>
       <p>portfolio site</p>
     </footer>
-  <div class="container">
+  </div>
 </body>
 </html>

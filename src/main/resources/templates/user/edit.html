@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>編集</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" href="/css/edit.css" >
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">My Portfolio</div>
+      <form th:action="@{/logout}" th:method="post">
+        <input type="submit" value="ログアウト" class="logout">
+      </form>
+    </header>
+    <main>
+      <h2>自己紹介を編集する</h2>
+      <form class="selfsheet" th:action="@{/user/edit}" th:object="${userEditRequest}" th:method="post">
+        <div class="textbox">
+          <label class="label-name">自己紹介文</label>
+          <textarea class="form-control" id="biography" name="biography" th:text="${userEditRequest.biography}"></textarea>
+          <label class="label-name">50文字以上、200文字以下で入力してください</label>
+        </div>
+        <div class="avater">
+          <input type="hidden" th:value="${userEditRequest.id}" name="id">
+          <label class="label-avater">アバター画像</label>
+          <label for="form-image" class="file-control-label">画像ファイルを添付する</label>
+          <input type="file" class="file-control" id="form-image" name="image_url" accept="image/*">
+        </div>
+        <input type="submit" value="自己紹介を確定する" class="btn-blue">
+      </form>
+    </main>
+    <footer>
+      <p>portfolio site</p>
+    </footer>
+  </div>
+</body>
+</html>
