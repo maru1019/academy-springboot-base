@@ -36,9 +36,9 @@ public class HomeController {
 
   // -----Top画面表示------
   @GetMapping("/user/{id}/top")
-    public String displayUserTop(@PathVariable Integer id, Model model) {
+    public String displayUserTop(@PathVariable("id") Integer id, Model model) {
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
-    model.addAttribute("user", user); // ユーザー情報をViewに渡す
+    model.addAttribute("userResponse", new UserResponse()); // ユーザー情報をViewに渡す
     return "user/top";
   }
 

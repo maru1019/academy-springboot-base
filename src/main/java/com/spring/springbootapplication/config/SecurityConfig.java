@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/process-login") // ログインフォームの送信先
                 .usernameParameter("email") //ログインページのユーザーID
                 .passwordParameter("password") //ログインページのパスワード
-                .defaultSuccessUrl("/user/top", true)  // ログイン成功後のリダイレクト先
+                .defaultSuccessUrl("/user/{id}/top", true)  // ログイン成功後のリダイレクト先
                 .failureUrl("/user/login?error=true")
                 .permitAll()
             )
