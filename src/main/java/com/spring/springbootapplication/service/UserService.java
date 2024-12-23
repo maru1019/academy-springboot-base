@@ -1,8 +1,10 @@
 package com.spring.springbootapplication.service;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.springbootapplication.dao.UserMapper;
 import com.spring.springbootapplication.dto.UserNewAddRequest;
@@ -12,6 +14,9 @@ import com.spring.springbootapplication.dto.UserEditRequest;
 import com.spring.springbootapplication.entity.UserEntity;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.*;
 
 
 @Service
@@ -23,23 +28,11 @@ public class UserService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  // Top画面表示
+  // ユーザー取得
   public UserResponse getUserById(Integer id) {
-    UserResponse userResponse = userMapper.findById(id);
-    if (userResponse == null) {
-      throw new IllegalArgumentException("User not found for id: " + id);
-    }
-    return userResponse;
+    UserResponse user = userMapper.findById(id);
+    return user;
   }
-
-  // public String getUserIdByEmail(String email) {
-  //   UserResponse userResponse = userMapper.findByEmail(email);
-  //   if (userResponse != null) {
-  //       return userResponse.getId();
-  //   } else {
-  //       return null; // ユーザーが存在しない場合、nullを返す
-  //   }
-  
 
   // ログイン機能
   public UserEntity getUserByEmail(String email) {
@@ -53,5 +46,35 @@ public class UserService {
     userNewAddRequest.setPassword(encodedPassword);
 
     userMapper.save(userNewAddRequest);
+  }
+  
+  // 編集機能
+  public void update(UserEditRequest userEditRequest) {
+    userMapper.update(userEditRequest);
+  }
+
+  // 画像保存ディレクトリの指定
+  private final String IMAGE_DIR = "src/main/resources/static/images/";
+
+  public String saveUserImage(MultipartFile imageFile) {
+      // if (imageFile == null || imageFile.isEmpty()) {
+      //     return "/images/default-avatar.png"; // 画像が未設定の場合のデフォルト
+      // }
+
+      try {
+          // ファイル名を一意にする
+          String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+          Path filePath = Paths.get(IMAGE_DIR, fileName);
+
+          // ファイルを保存
+          Files.createDirectories(filePath.getParent());
+          Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+          // Webからアクセス可能なパスを返す
+          return "/images/" + fileName;
+      } catch (Exception e) {
+          e.printStackTrace();
+          throw new RuntimeException("画像の保存に失敗しました");
+      }
   }
 }

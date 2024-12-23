@@ -3,6 +3,7 @@
 <head>
   <title>編集</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/edit.css" >
 </head>
 <body>
@@ -15,7 +16,10 @@
     </header>
     <main>
       <h2>自己紹介を編集する</h2>
-      <form class="selfsheet" th:action="@{/user/edit}" th:object="${userEditRequest}" th:method="post">
+      <form class="selfsheet" th:action="@{/user/{id}/edit(id=${userEditRequest.id})}" th:object="${userEditRequest}" th:method="post" enctype="multipart/form-data">
+        <div th:if="${validationError}" th:each="error : ${validationError}">
+          <label class="text-danger" th:text="${error}"></label>
+        </div>
         <div class="textbox">
           <label class="label-name">自己紹介文</label>
           <textarea class="form-control" id="biography" name="biography" th:text="${userEditRequest.biography}"></textarea>
@@ -24,8 +28,11 @@
         <div class="avater">
           <input type="hidden" th:value="${userEditRequest.id}" name="id">
           <label class="label-avater">アバター画像</label>
-          <label for="form-image" class="file-control-label">画像ファイルを添付する</label>
-          <input type="file" class="file-control" id="form-image" name="image_url" accept="image/*">
+          <div class="file-container">
+            <label for="form-image" class="file-control-label">画像ファイルを添付する</label>
+            <input type="file" class="file-control" id="form-image" name="imageFile" accept="image/*" onchange="updateFileName()">
+            <span id="file-name" class="file-name"></span>
+          </div>
         </div>
         <input type="submit" value="自己紹介を確定する" class="btn-blue">
       </form>
@@ -34,5 +41,6 @@
       <p>portfolio site</p>
     </footer>
   </div>
+  <script src="/js/script.js"></script>
 </body>
 </html>
