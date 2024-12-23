@@ -7,8 +7,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
 
 import com.spring.springbootapplication.dao.UserMapper;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 public class SecurityConfig {
@@ -29,7 +35,7 @@ public class SecurityConfig {
                 .loginProcessingUrl("/process-login") // ログインフォームの送信先
                 .usernameParameter("email") //ログインページのユーザーID
                 .passwordParameter("password") //ログインページのパスワード
-                .defaultSuccessUrl("/user/{id}/top", true)  // ログイン成功後のリダイレクト先
+                .successHandler(customAuthenticationSuccessHandler())  // ログイン成功後のリダイレクト先
                 .failureUrl("/user/login?error=true")
                 .permitAll()
             )
@@ -43,6 +49,28 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new AuthenticationSuccessHandler() {
+            @Override
+            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.Authentication authentication) throws IOException, ServletException {
+                // 認証されたユーザー名を取得
+                String email = authentication.getName();
+
+                // UserMapper を使ってユーザーIDを取得
+                Integer userId = userMapper.findIdByEmail(email);
+                if (userId == null) {
+                    throw new ServletException("ユーザーIDが見つかりません");
+                }
+
+                // 動的リダイレクトURLを生成
+                String redirectUrl = "/user/" + userId + "/top";
+
+                // リダイレクト
+                response.sendRedirect(redirectUrl);
+            }
+        };
     }
   
 }

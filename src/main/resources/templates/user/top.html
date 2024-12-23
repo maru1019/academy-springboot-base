@@ -17,7 +17,7 @@
       <div class="wrapper">
         <div class="profile">
           <div class="circle">
-            <img th:src="${user.imageUrl != null ? user.imageUrl : '/images/default.png'}" alt="User Icon" />
+            <img th:src="${user != null && user.imageUrl != null ? user.imageUrl : '/images/default-avatar.png'}" alt="User Avatar">
           </div>
           <div class="content">
             <div class="title">
@@ -26,12 +26,11 @@
             <div class="text-area">
               <p th:text="${user.biography}"></p>
             </div>
-            <a th:href="@{/user/{id}/top(id=${userResponse.id})}" class="btn-blue">自己紹介を編集する</a>
+            <a th:href="@{/user/{id}/edit(id=${user.id})}" class="btn-blue">自己紹介を編集する</a>
           </div>
         </div>
       </div>
     </main>
-
     <footer>
       <p>portfolio site</p>
     </footer>

@@ -57,6 +57,10 @@ h2 {
   line-height: 48.02px;
 }
 
+.text-danger {
+  color: red;
+}
+
 .selfsheet {
   width: 960px;
   height: 342px;
@@ -110,6 +114,11 @@ h2 {
   color: #000000;
 }
 
+.file-container {
+  margin-top: 8px;
+}
+
+
 .file-control-label {
   width: 202px;
   height: 32px;
@@ -133,6 +142,10 @@ h2 {
   display: none;
 }
 
+.file-name {
+  font-size: 14px;
+  color: #0000008A;
+}
 
 .btn-blue {
   width: 322px;
@@ -158,3 +171,6 @@ footer {
   align-items: center;
   color: #FFFFFF;
 }
+
+
+

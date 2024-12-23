@@ -71,7 +71,18 @@ main {
   border-radius: 50%;
   background-color: lightgray;
   border: dotted 1px black;
+  overflow: hidden; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
+
+  .circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* アスペクト比を維持しつつ枠にぴったり収める */
+    display: block; /* 余計な隙間を防ぐ */
+  }
 
 .content {
   width: 520px;

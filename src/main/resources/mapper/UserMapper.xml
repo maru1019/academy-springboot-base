@@ -25,9 +25,12 @@
     </insert>
 
 <!--編集機能-->
-    <!-- <select id="findById" resultType="com.spring.springbootapplication.dto.UserResponse">
-      SELECT id, image_url AS imageUrl, biography
-      FROM users
-      WHERE id = #{id}
-    </select> -->
+    <update id="update">
+      UPDATE users
+      SET
+        image_url = #{imageUrl},
+        biography = #{biography}
+      WHERE
+        id = #{id}
+    </update>
 </mapper>

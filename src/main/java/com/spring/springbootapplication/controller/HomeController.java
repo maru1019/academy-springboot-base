@@ -35,52 +35,71 @@ public class HomeController {
   private PasswordEncoder passwordEncoder;
 
   // -----Top画面表示------
-  @GetMapping("/user/{id}/top")
-    public String displayUserTop(@PathVariable("id") Integer id, Model model) {
+  @GetMapping(value = "/user/{id}/top")
+  public String displayUserTop(@PathVariable("id") Integer id, Model model) {
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
-    model.addAttribute("userResponse", new UserResponse()); // ユーザー情報をViewに渡す
+    model.addAttribute("user", user); // ユーザー情報をViewに渡す
     return "user/top";
   }
 
   // -----ログイン機能------
   @GetMapping(value = "/user/login")
-    public String displayLogin(Model model) {
-      model.addAttribute("userLoginRequest", new UserLoginRequest());
-      return "user/login";
-    }
+  public String displayLogin(Model model) {
+    model.addAttribute("userLoginRequest", new UserLoginRequest());
+    return "user/login";
+  }
 
   // -----新規登録機能------
   @GetMapping(value = "/user/add")
-    public String displayAdd(Model model) {
-        model.addAttribute("userNewAddRequest", new UserNewAddRequest());
-        return "user/add";
-    }
+  public String displayAdd(Model model) {
+      model.addAttribute("userNewAddRequest", new UserNewAddRequest());
+      return "user/add";
+  }
 
   @PostMapping(value = "/user/add")
-    public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            List<String> errorList = new ArrayList<String>();
-            for (ObjectError error : result.getAllErrors()) {
-                errorList.add(error.getDefaultMessage());
-            }
-            model.addAttribute("validationError", errorList);
-            return "user/add";
-        }
-       
-        userService.save(userNewAddRequest);
-        return "user/top";
+  public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
+    if (result.hasErrors()) {
+      List<String> errorList = new ArrayList<String>();
+      for (ObjectError error : result.getAllErrors()) {
+          errorList.add(error.getDefaultMessage());
+      }
+      model.addAttribute("validationError", errorList);
+      return "user/add";
     }
+    userService.save(userNewAddRequest);
+    return "user/top";
+  }
 
   // -----編集機能------
-  @GetMapping("/user/{id}/edit")
-    public String displayEdit(@PathVariable Integer id, Model model) {
+  @GetMapping(value = "/user/{id}/edit")
+  public String displayEdit(@PathVariable Integer id, Model model) {
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
     UserEditRequest userEditRequest = new UserEditRequest(); // 編集用DTOを作成
     userEditRequest.setId(user.getId());
     userEditRequest.setBiography(user.getBiography());
     userEditRequest.setImageUrl(user.getImageUrl());
     model.addAttribute("userEditRequest", userEditRequest); // 編集データを渡す
-    return "user/edit"; // 編集画面を表示
+    return "user/edit"; 
   }
-  
+
+  @PostMapping(value = "/user/{id}/edit")
+  public String update(@Validated @ModelAttribute UserEditRequest userEditRequest, BindingResult result, Model model) {
+    if (result.hasErrors()) {
+      List<String> errorList = new ArrayList<String>();
+      for (ObjectError error : result.getAllErrors()) {
+        errorList.add(error.getDefaultMessage());
+      }
+      model.addAttribute("validationError", errorList);
+      return "user/edit";
+    }
+    
+    // アップロードされた画像ファイルを処理（サービスで実装）
+    String imageUrl = userService.saveUserImage(userEditRequest.getImageFile());
+    userEditRequest.setImageUrl(imageUrl);
+
+    // ユーザー情報を更新
+    userService.update(userEditRequest);
+
+    return "redirect:/user/" + userEditRequest.getId() + "/top";
+  }
 }
