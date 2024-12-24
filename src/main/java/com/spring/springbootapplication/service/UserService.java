@@ -57,24 +57,24 @@ public class UserService {
   private final String IMAGE_DIR = "src/main/resources/static/images/";
 
   public String saveUserImage(MultipartFile imageFile) {
-      // if (imageFile == null || imageFile.isEmpty()) {
-      //     return "/images/default-avatar.png"; // 画像が未設定の場合のデフォルト
-      // }
+    // if (imageFile == null || imageFile.isEmpty()) {
+    //     return "/images/default-avatar.png"; // 画像が未設定の場合のデフォルト
+    // }
 
-      try {
-          // ファイル名を一意にする
-          String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-          Path filePath = Paths.get(IMAGE_DIR, fileName);
+    try {
+        // ファイル名を一意にする
+        String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+        Path filePath = Paths.get(IMAGE_DIR, fileName);
 
-          // ファイルを保存
-          Files.createDirectories(filePath.getParent());
-          Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        // ファイルを保存
+        Files.createDirectories(filePath.getParent());
+        Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-          // Webからアクセス可能なパスを返す
-          return "/images/" + fileName;
-      } catch (Exception e) {
-          e.printStackTrace();
-          throw new RuntimeException("画像の保存に失敗しました");
-      }
+        // Webからアクセス可能なパスを返す
+        return "/images/" + fileName;
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new RuntimeException("画像の保存に失敗しました");
+    }
   }
 }
