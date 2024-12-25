@@ -19,16 +19,9 @@ public class UserEditRequest implements Serializable {
 
   private String imageUrl;
 
+  private byte[] data;
+
   // アップロードされた画像ファイルを受け取る
   private MultipartFile imageFile;
-
-  // Getter and Setter
-  public MultipartFile getImageFile() {
-      return imageFile;
-  }
-
-  public void setImageFile(MultipartFile imageFile) {
-      this.imageFile = imageFile;
-  }
   
 }

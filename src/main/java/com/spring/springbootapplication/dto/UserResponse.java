@@ -9,6 +9,7 @@ public class UserResponse implements Serializable {
   private Integer id;
   private String biography;
   private String imageUrl;
+  private byte[] data;
 
 }
 

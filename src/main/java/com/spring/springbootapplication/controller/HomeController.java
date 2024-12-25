@@ -79,7 +79,7 @@ public class HomeController {
     UserEditRequest userEditRequest = new UserEditRequest(); // 編集用DTOを作成
     userEditRequest.setId(user.getId());
     userEditRequest.setBiography(user.getBiography());
-    userEditRequest.setImageUrl(user.getImageUrl());
+    userEditRequest.setData(user.getData());
     model.addAttribute("userEditRequest", userEditRequest); // 編集データを渡す
     return "user/edit"; 
   }
@@ -96,8 +96,8 @@ public class HomeController {
     }
     
     // アップロードされた画像ファイルを処理（サービスで実装）
-    String imageUrl = userService.saveUserImage(userEditRequest.getImageFile());
-    userEditRequest.setImageUrl(imageUrl);
+    byte[] imageData = userService.convertFileToByteArray(userEditRequest.getImageFile());
+    userEditRequest.setData(imageData);
 
     // ユーザー情報を更新
     userService.update(userEditRequest);

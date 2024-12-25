@@ -6,7 +6,7 @@
 
 <!--top画面-->
     <select id="findById" resultType="com.spring.springbootapplication.dto.UserResponse">
-      SELECT id, image_url AS imageUrl, biography
+      SELECT id, image_url AS imageUrl, biography, data
       FROM users
       WHERE id = #{id}
     </select>
@@ -29,7 +29,8 @@
       UPDATE users
       SET
         image_url = #{imageUrl},
-        biography = #{biography}
+        biography = #{biography},
+        data = #{data}
       WHERE
         id = #{id}
     </update>
