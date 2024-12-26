@@ -5,8 +5,8 @@
 <mapper namespace="com.spring.springbootapplication.dao.UserMapper">
 
 <!--top画面-->
-    <select id="findById" resultType="com.spring.springbootapplication.dto.UserResponse">
-      SELECT id, image_url AS imageUrl, biography, data
+    <select id="findById" resultType="com.spring.springbootapplication.entity.UserEntity">
+      SELECT id, biography, data
       FROM users
       WHERE id = #{id}
     </select>

@@ -15,7 +15,7 @@ import com.spring.springbootapplication.entity.UserEntity;
 public interface UserMapper {
 
   // -----ユーザー取得------
-  UserResponse findById(Integer id);
+  UserEntity findById(Integer id);
 
   // -----ユーザーID取得機能-----
   @Select("SELECT id FROM users WHERE email = #{email}")

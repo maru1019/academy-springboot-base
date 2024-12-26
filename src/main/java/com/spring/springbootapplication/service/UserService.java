@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.springbootapplication.dao.UserMapper;
 import com.spring.springbootapplication.dto.UserNewAddRequest;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.*;
+import java.util.Base64;
 
 
 @Service
@@ -29,10 +29,10 @@ public class UserService {
   private PasswordEncoder passwordEncoder;
 
   // ユーザー取得
-  public UserResponse getUserById(Integer id) {
-    UserResponse user = userMapper.findById(id);
-    return user;
-  }
+  // public UserResponse getUserById(Integer id) {
+  //   UserResponse user = userMapper.findById(id);
+  //   return user;
+  // }
 
   // ログイン機能
   public UserEntity getUserByEmail(String email) {
@@ -64,5 +64,21 @@ public class UserService {
         throw new RuntimeException("ファイル変換に失敗しました");
     }
     return null; // 画像がアップロードされなかった場合
+  }
+
+  // -----Base64エンコードされた画像を取得-----
+  public UserResponse getUserById(Integer id) {
+    UserEntity userEntity = userMapper.findById(id); // DBからユーザー情報を取得
+    UserResponse response = new UserResponse();
+    response.setId(userEntity.getId());
+    response.setBiography(userEntity.getBiography());
+
+    // バイナリデータをBase64エンコード
+    if (userEntity.getData() != null) {
+        String base64Data = Base64.getEncoder().encodeToString(userEntity.getData());
+        response.setBase64ImageData("data:image/png;base64," + base64Data); 
+    }
+
+    return response;
   }
 }

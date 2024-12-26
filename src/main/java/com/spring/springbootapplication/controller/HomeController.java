@@ -85,7 +85,7 @@ public class HomeController {
   }
 
   @PostMapping(value = "/user/{id}/edit")
-  public String update(@Validated @ModelAttribute UserEditRequest userEditRequest, BindingResult result, Model model) {
+  public String update(@PathVariable Integer id, @Validated @ModelAttribute UserEditRequest userEditRequest, BindingResult result, Model model) {
     if (result.hasErrors()) {
       List<String> errorList = new ArrayList<String>();
       for (ObjectError error : result.getAllErrors()) {
@@ -95,9 +95,11 @@ public class HomeController {
       return "user/edit";
     }
     
-    // アップロードされた画像ファイルを処理（サービスで実装）
-    byte[] imageData = userService.convertFileToByteArray(userEditRequest.getImageFile());
-    userEditRequest.setData(imageData);
+    MultipartFile imageFile = userEditRequest.getImageFile();
+    if (imageFile != null && !imageFile.isEmpty()) {
+        byte[] imageData = userService.convertFileToByteArray(imageFile);
+        userEditRequest.setData(imageData);
+    }
 
     // ユーザー情報を更新
     userService.update(userEditRequest);
