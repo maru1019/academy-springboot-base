@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.springbootapplication.dao.UserMapper;
 import com.spring.springbootapplication.dto.UserNewAddRequest;
@@ -17,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.*;
+import java.util.Base64;
 
 
 @Service
@@ -29,10 +29,10 @@ public class UserService {
   private PasswordEncoder passwordEncoder;
 
   // ユーザー取得
-  public UserResponse getUserById(Integer id) {
-    UserResponse user = userMapper.findById(id);
-    return user;
-  }
+  // public UserResponse getUserById(Integer id) {
+  //   UserResponse user = userMapper.findById(id);
+  //   return user;
+  // }
 
   // ログイン機能
   public UserEntity getUserByEmail(String email) {
@@ -53,28 +53,32 @@ public class UserService {
     userMapper.update(userEditRequest);
   }
 
-  // 画像保存ディレクトリの指定
-  private final String IMAGE_DIR = "src/main/resources/static/images/";
-
-  public String saveUserImage(MultipartFile imageFile) {
-    // if (imageFile == null || imageFile.isEmpty()) {
-    //     return "/images/default-avatar.png"; // 画像が未設定の場合のデフォルト
-    // }
-
+  // ファイルをバイト配列に変換
+  public byte[] convertFileToByteArray(MultipartFile imageFile) {
     try {
-        // ファイル名を一意にする
-        String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-        Path filePath = Paths.get(IMAGE_DIR, fileName);
-
-        // ファイルを保存
-        Files.createDirectories(filePath.getParent());
-        Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        // Webからアクセス可能なパスを返す
-        return "/images/" + fileName;
+        if (imageFile != null && !imageFile.isEmpty()) {
+            return imageFile.getBytes(); // ファイルをバイト配列に変換
+        }
     } catch (Exception e) {
         e.printStackTrace();
-        throw new RuntimeException("画像の保存に失敗しました");
+        throw new RuntimeException("ファイル変換に失敗しました");
     }
+    return null; // 画像がアップロードされなかった場合
+  }
+
+  // -----Base64エンコードされた画像を取得-----
+  public UserResponse getUserById(Integer id) {
+    UserEntity userEntity = userMapper.findById(id); // DBからユーザー情報を取得
+    UserResponse response = new UserResponse();
+    response.setId(userEntity.getId());
+    response.setBiography(userEntity.getBiography());
+
+    // バイナリデータをBase64エンコード
+    if (userEntity.getData() != null) {
+        String base64Data = Base64.getEncoder().encodeToString(userEntity.getData());
+        response.setBase64ImageData("data:image/png;base64," + base64Data); 
+    }
+
+    return response;
   }
 }

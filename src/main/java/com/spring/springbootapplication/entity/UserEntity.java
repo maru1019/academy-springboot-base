@@ -3,6 +3,7 @@ package com.spring.springbootapplication.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import jakarta.persistence.Lob;
 import lombok.Data;
 
 @Data
@@ -23,5 +24,8 @@ public class UserEntity implements Serializable {
   private Date createdAt;
 
   private Date updatedAt;
+
+  @Lob
+  private byte[] data;
 
 }

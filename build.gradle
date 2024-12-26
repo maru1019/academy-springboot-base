@@ -6,6 +6,13 @@ plugins {
 
 }
 
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/Level2DB'
+    user = 'maru'
+    password = ''
+    locations = ['classpath:db/migration']
+}
+
 group = 'com.spring'
 version = '0.0.1-SNAPSHOT'
 

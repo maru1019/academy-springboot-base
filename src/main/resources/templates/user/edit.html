@@ -3,7 +3,6 @@
 <head>
   <title>編集</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/edit.css" >
 </head>
 <body>
@@ -17,13 +16,13 @@
     <main>
       <h2>自己紹介を編集する</h2>
       <form class="selfsheet" th:action="@{/user/{id}/edit(id=${userEditRequest.id})}" th:object="${userEditRequest}" th:method="post" enctype="multipart/form-data">
-        <div th:if="${validationError}" th:each="error : ${validationError}">
-          <label class="text-danger" th:text="${error}"></label>
-        </div>
         <div class="textbox">
           <label class="label-name">自己紹介文</label>
           <textarea class="form-control" id="biography" name="biography" th:text="${userEditRequest.biography}"></textarea>
           <label class="label-name">50文字以上、200文字以下で入力してください</label>
+        </div>
+        <div th:if="${validationError}" th:each="error : ${validationError}">
+          <label class="text-danger" th:text="${error}"></label>
         </div>
         <div class="avater">
           <input type="hidden" th:value="${userEditRequest.id}" name="id">
