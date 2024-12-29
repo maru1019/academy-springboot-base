@@ -3,14 +3,15 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
+    env_file: 
+      - .env
     environment:
-      - DATABASE_URL=postgresql://springboot_database_4imk_user:h0Oy0LhcDCR07MYHzM8aR69xMzYVVhTE@dpg-csnn7823esus73efe1k0-a/springboot_database_4imk
-      - DATABASE_USER=springboot_database_4imk_user
-      - DATABASE_PASSWORD=h0Oy0LhcDCR07MYHzM8aR69xMzYVVhTE
+      - DATABASE_URL
+      - DATABASE_USER
+      - DATABASE_PASSWORD
     working_dir: /app
     ports:
       - 8080:8080
-      - 5050:5050
     tty: true
     volumes:
       - ./:/app
@@ -20,8 +21,8 @@ services:
     image: postgres:13.1
     container_name: db
     environment:
-      POSTGRES_USER: springboot_database_4imk_user
-      POSTGRES_PASSWORD: h0Oy0LhcDCR07MYHzM8aR69xMzYVVhTE
-      POSTGRES_DB: "dev"
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: Level2DB
     ports:
       - "5432:5432"
