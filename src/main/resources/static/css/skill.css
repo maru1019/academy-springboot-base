@@ -46,13 +46,152 @@
 main {
   width: 1440px;
   height: 1599px;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wrapper {
   width: 960px;
   height: 1512px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.category {
+  width: 960px;
+  height: 436px;
+  border-radius: 8px; 
+  border: 1px solid #00000080;
   padding: 40px;
+}
+
+.month {
+  width: 102px;
+  height: 44px;
+  padding: 8px 16px 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #DDDDDD;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+
+.content {
+  width: 880px;
+  height: 356px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.title {
+  width: 880px;
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+}
+
+h2 {
+  width: 240px;
+  height: 44px;
+  border-bottom: 2px solid #00000080;
+}
+
+.btn {
+  width: 178px;
+  height: 48px;
+  border-radius: 4px;
+  padding: 16px 40px 16px 40px;
+  color: #FFFFFF;
+  background-color: #1B5678;
+  border:none;
+}
+
+table {
+  width: 880px;
+  height: 57px;
+  border: 1px solid #0000001F;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  border-collapse: collapse;
+  margin: 30px 0;
+}
+
+th {
+  width: 880px;
+  height: 57px;
+  border: 1px solid #0000001F;
+  text-align: center;
+  border-right: none;
+  border-left: none;
+}
+
+td {
+  width: 880px;
+  height: 73px;
+  border: 1px solid #0000001F;
+  text-align: center;
+  border-right: none;
+  border-left: none;
+}
+
+.selectbox-6 {
+    position: relative;
+}
+
+.selectbox-6::before,
+.selectbox-6::after {
+    position: absolute;
+    right: 15px;
+    width: 9px;
+    height: 6px;
+    background-color: #535353;
+    content: '';
+    pointer-events: none;
+}
+
+.selectbox-6::before {
+    top: calc(50% - 9px);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.selectbox-6::after {
+    bottom: calc(50% - 9px);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+
+.selectbox-6 select {
+    appearance: none;
+    min-width: 230px;
+    height: 2.8em;
+    padding: .4em calc(.8em + 30px) .4em .8em;
+    border: 1px solid #d0d0d0;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.save {
+  width: 158px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  border: 1px solid #1B5678;
+  color: #1B5678;
+}
+
+.delete {
+  width: 88px;
+  height: 32px;
+  border-radius: 4px;
+  background-color: #EE6969;;
+  color: #FFFFFF;
+  border: none;
 }
 
 

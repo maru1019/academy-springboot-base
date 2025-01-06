@@ -103,7 +103,6 @@ public class HomeController {
 
     // ユーザー情報を更新
     userService.update(userEditRequest);
-
     return "redirect:/user/" + userEditRequest.getId() + "/top";
   }
 }
