@@ -7,26 +7,32 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.service.SkillService;
 import com.spring.springbootapplication.entity.SkillEntity;
 
+
 @Controller
 public class SkillController {
 
-  @Autowired
-  private SkillService skillService;
+    @Autowired
+    private SkillService skillService;
 
-  // スキル画面表示
-  // @GetMapping(value = "/learningData/{id}/skill")
-  @GetMapping(value = "/learningData/skill")
-  public String displaySkill() {
-  // public String displaySkill(@PathVariable Integer id, Model model) {
-    // SkillEntity skillEntity = skillService.getSkillById(id);
-    // SkillRequest skill = skillService.converToSkillRequest(skillEntity);
-    // model.addAttribute("skill", skill);
-    return "learningData/skill";
-  }
-  
+    // 選択した月のデータを表示するメソッド
+    @GetMapping(value = "/learningData/skill")
+    public String displaySkill(
+            @RequestParam(value = "month", required = false) Integer month,
+            @RequestParam(value = "userId", required = true) Integer userId,
+            Model model) {
+        // サービスからデータ取得（データがない場合はダミーデータを生成）
+        var skills = skillService.getSkillsByMonthAndUser(month, userId);
+
+        // モデルにデータを設定
+        model.addAttribute("skills", skills);
+        model.addAttribute("selectedMonth", month);
+
+        return "learningData/skill";
+    }
 }

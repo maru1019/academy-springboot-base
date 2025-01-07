@@ -7,32 +7,47 @@ import com.spring.springbootapplication.dao.SkillMapper;
 import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.entity.SkillEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class SkillService {
 
-  @Autowired
-  private SkillMapper skillMapper;
+    @Autowired
+    private SkillMapper skillMapper;
 
-  public SkillEntity getSkillById(Integer id) {
-    return skillMapper.findById(id);
-  }
+    // 指定した月とユーザーIDのデータを取得
+    public List<SkillEntity> getSkillsByMonthAndUser(Integer month, Integer userId) {
+        // データベースからデータ取得
+        List<SkillEntity> skills = skillMapper.findByMonthAndUser(month, userId);
 
-  // SkillService に変換メソッドを追加
-  public SkillRequest converToSkillRequest(SkillEntity entity) {
-    SkillRequest request = new SkillRequest();
-    request.setId(entity.getId());
-    request.setCreate_month(entity.getCreateMonth());
-    request.setName(entity.getName());
-    request.setStudy_time(entity.getStudyTime());
-    request.setUser_id(entity.getUserId());
-    request.setCategory_id(entity.getCategoryId());
-    return request;
-  }
+        // データが空の場合、ダミーデータを生成
+        if (skills.isEmpty()) {
+            skills = createDummySkills(month, userId);
+        }
 
-  public void save(SkillRequest skillRequest) {
-    skillMapper.save(skillRequest);
-  }
+        return skills;
+    }
+
+    // 修正: ダミーデータを生成するメソッド
+    private List<SkillEntity> createDummySkills(Integer month, Integer userId) {
+        List<SkillEntity> dummySkills = new ArrayList<>();
+        for (int i = 1; i <= 3; i++) {
+            SkillEntity skill = new SkillEntity();
+            skill.setId(i); // 仮のID
+            skill.setCreateMonth(month);
+            skill.setName("Dummy Skill " + i);
+            skill.setStudyTime(0); // ダミーデータなので初期値0
+            skill.setUserId(userId);
+            skill.setCategoryId(1); // 仮のカテゴリID
+            dummySkills.add(skill);
+        }
+        return dummySkills;
+    }
+
+  // public void save(SkillRequest skillRequest) {
+  //   skillMapper.save(skillRequest);
+  // }
   
 }
 
