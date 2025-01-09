@@ -18,12 +18,12 @@
         <result property="categoryId" column="category_id" />
     <!-- 外部キー関連のマッピング -->
         <association property="user" javaType="com.spring.springbootapplication.entity.UserEntity">
-            <result property="id" column="id" />
+            <result property="id" column="user_id" />
             <result property="name" column="user_name" />
         </association>
         <association property="category" javaType="com.spring.springbootapplication.entity.CategoryEntity">
-            <result property="id" column="id" />
-            <result property="name" column="name" />
+            <result property="id" column="category_id" />
+            <result property="name" column="category_name" />
         </association>
     </resultMap>
 
@@ -40,14 +40,15 @@
         LEFT JOIN 
             categories c ON ld.category_id = c.id
         WHERE 
-        ld.create_month = #{month}
+        ld.create_month = #{createMonth}
         AND ld.user_id = #{userId}
     </select>
 
-    <!-- <insert id="save">
-        INSERT INTO learning_data
-            (create_month, name, study_time, created_at, updated_at, deleted_at, user_id, category_id)
-        VALUES
-            (#{create_month}, #{name}, #{study_time}, CURRENT_TIMESTAMP,  CURRENT_TIMESTAMP, DELETE_TIMESTAMP, #{user_id}, #{category_id})
+    <!-- <insert id="save" parameterType="com.spring.springbootapplication.dto.SkillRequest">
+        INSERT INTO learning_data 
+            (create_month, name, study_time, user_id, category_id, created_at, updated_at)
+        VALUES 
+            (#{createMonth}, #{name}, #{studyTime}, #{userId}, #{categoryId}, NOW(), NOW())
     </insert> -->
+
 </mapper>

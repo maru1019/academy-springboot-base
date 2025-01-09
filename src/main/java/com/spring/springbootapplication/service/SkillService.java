@@ -17,25 +17,25 @@ public class SkillService {
     private SkillMapper skillMapper;
 
     // 指定した月とユーザーIDのデータを取得
-    public List<SkillEntity> getSkillsByMonthAndUser(Integer month, Integer userId) {
+    public List<SkillEntity> getSkillsByMonthAndUser(Integer createMonth, Integer userId) {
         // データベースからデータ取得
-        List<SkillEntity> skills = skillMapper.findByMonthAndUser(month, userId);
+        List<SkillEntity> skills = skillMapper.findByMonthAndUser(createMonth, userId);
 
         // データが空の場合、ダミーデータを生成
         if (skills.isEmpty()) {
-            skills = createDummySkills(month, userId);
+            skills = createDummySkills(createMonth, userId);
         }
 
         return skills;
     }
 
     // 修正: ダミーデータを生成するメソッド
-    private List<SkillEntity> createDummySkills(Integer month, Integer userId) {
+    private List<SkillEntity> createDummySkills(Integer createMonth, Integer userId) {
         List<SkillEntity> dummySkills = new ArrayList<>();
         for (int i = 1; i <= 3; i++) {
             SkillEntity skill = new SkillEntity();
             skill.setId(i); // 仮のID
-            skill.setCreateMonth(month);
+            skill.setCreateMonth(createMonth);
             skill.setName("Dummy Skill " + i);
             skill.setStudyTime(0); // ダミーデータなので初期値0
             skill.setUserId(userId);

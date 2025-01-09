@@ -13,6 +13,7 @@ import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.service.SkillService;
 import com.spring.springbootapplication.entity.SkillEntity;
 
+import java.util.List;
 
 @Controller
 public class SkillController {
@@ -21,17 +22,17 @@ public class SkillController {
     private SkillService skillService;
 
     // 選択した月のデータを表示するメソッド
-    @GetMapping(value = "/learningData/skill")
+    @GetMapping(value = "/learningData/{userId}/skill")
     public String displaySkill(
-            @RequestParam(value = "month", required = false) Integer month,
-            @RequestParam(value = "userId", required = true) Integer userId,
+            @PathVariable("userId") Integer userId,
+            @RequestParam(value = "createMonth", required = false) Integer createMonth,
             Model model) {
-        // サービスからデータ取得（データがない場合はダミーデータを生成）
-        var skills = skillService.getSkillsByMonthAndUser(month, userId);
+        // サービスからデータ取得
+        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
 
         // モデルにデータを設定
         model.addAttribute("skills", skills);
-        model.addAttribute("selectedMonth", month);
+        model.addAttribute("selectedMonth", createMonth);
 
         return "learningData/skill";
     }
