@@ -1,26 +1,32 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // 現在の月 (0が1月なので+1)
-    const currentMonth = new Date().getMonth() + 1;
+document.addEventListener("DOMContentLoaded", function() {
+    // 当月のデータを取得
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // JavaScriptの月は0始まりなので+1
 
-    // 過去3ヶ月分を計算
-    const monthsToShow = [];
+    // 過去3ヶ月分のリストを作成
+    const months = [];
     for (let i = 0; i < 3; i++) {
-        const month = currentMonth - i <= 0 ? currentMonth - i + 12 : currentMonth - i;
-        monthsToShow.push(month);
+        const month = currentMonth - i > 0 ? currentMonth - i : currentMonth - i + 12;
+        months.push(month);
     }
 
-    // select要素を取得
-    const monthSelect = document.getElementById("month");
-
-    // 過去3ヶ月分のoptionタグを動的に生成
-    monthsToShow.forEach((month) => {
+    // プルダウンメニューを動的に生成
+    const monthSelect = document.getElementById("createMonth");
+    months.forEach(month => {
         const option = document.createElement("option");
-        option.value = month; // value属性に数値の月を設定
-        option.textContent = `${month}月`; // 表示用テキスト
+        option.value = month;
+        option.textContent = `${month}月`;
         if (month === currentMonth) {
-            option.selected = true; // 現在の月をデフォルトで選択
+            option.selected = true; // 初期選択
         }
         monthSelect.appendChild(option);
     });
-});
 
+    // プルダウン選択時の処理
+    createMonthSelect.addEventListener("change", () => {
+        const selectedMonth = createMonthSelect.value;
+        const userId = document.querySelector('input[name="userId"]').value;
+        // サーバーにリクエストを送信
+        window.location.href = `/learningData/${userId}/skill?createMonth=${selectedMonth}`;
+    });
+});

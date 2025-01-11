@@ -8,10 +8,9 @@ import lombok.Data;
 public class SkillRequest implements Serializable {
 
   private Integer id;
-  private Integer create_month;
-  private String name;
-  private Integer study_time;
-  private Integer user_id;
-  private Integer category_id;
-  
+    private Integer createMonth;
+    private String name;
+    private Integer studyTime;
+    private Integer userId;
+    private Integer categoryId;
 }

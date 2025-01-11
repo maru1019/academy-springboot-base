@@ -13,7 +13,7 @@ import java.util.List;
 public interface SkillMapper {
 
     // 指定した月とユーザーIDでデータを検索
-    List<SkillEntity> findByMonthAndUser(@Param("month") Integer month, @Param("userId") Integer userId);
+    List<SkillEntity> findByMonthAndUser(@Param("createMonth") Integer createMonth, @Param("userId") Integer userId);
 
     // void save(SkillRequest skillRequest);
     
