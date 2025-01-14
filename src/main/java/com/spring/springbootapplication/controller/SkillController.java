@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -32,14 +33,18 @@ public class SkillController {
     public String displayInitialSkill(
             @PathVariable("userId") Integer userId, 
             @RequestParam(value = "createMonth", required = false) Integer createMonth,
-            Model model) {
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
         if (createMonth == null) {
-            createMonth = LocalDate.now().getMonthValue();
+            createMonth = LocalDate.now().getMonthValue(); // 当月の値を設定
+            redirectAttributes.addAttribute("createMonth", createMonth);
+            return "redirect:/learningData/" + userId + "/skill";
         }
 
         // サービスから当月データを取得
         List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
+
         int currentMonth = createMonth;
 
         // 過去3ヶ月分の月を計算
@@ -56,27 +61,6 @@ public class SkillController {
         model.addAttribute("skills", skills);
         model.addAttribute("selectedMonth", createMonth);
         model.addAttribute("availableMonths", availableMonths);
-        model.addAttribute("userId", userId);
-
-        return "learningData/skill";
-    }
-
-    /**
-     * プルダウン選択後のデータ取得
-     */
-    @PostMapping(value = "/learningData/{userId}/skill")
-    public String displaySkill(
-            @PathVariable("userId") Integer userId,
-            @RequestParam("createMonth") Integer createMonth,
-            Model model) {
-        // サービスから選択した月のデータを取得
-        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
-
-
-    
-        // モデルにデータを設定
-        model.addAttribute("skills", skills);
-        model.addAttribute("selectedMonth", createMonth);
         model.addAttribute("userId", userId);
 
         return "learningData/skill";

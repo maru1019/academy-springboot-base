@@ -15,7 +15,7 @@
     </header>
     <main>
       <div class="wrapper">
-        <form id="monthForm" th:action="@{/learningData/{userId}/skill(userId=${userId}, createMonth=${selectedMonth})}" method="post">
+        <form id="monthForm" th:action="@{/learningData/{userId}/skill(userId=${userId})}" method="get">
           <select class="month" id="createMonth" name="createMonth">
             <option th:each="month : ${availableMonths}"
                     th:value="${month}"
