@@ -31,7 +31,7 @@
         </div>
       </div>
       <div>
-        <a th:href="@{/learningData/{id}/skill(id=${user.id})}" class="btn-blue">編集する</a>
+        <a th:href="@{/learningData/{userId}/skill(userId=${user.id}, createMonth=${selectedMonth})}" class="btn-blue">編集する</a>
       </div>
     </main>
     <footer>
