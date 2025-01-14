@@ -15,22 +15,20 @@
     </header>
     <main>
       <div class="wrapper">
-        <form th:action="@{/learningData/{userId}/skill(userId=${userId})}" method="get">
-          <select class="month" id="createMonth" name="createMonth" onchange="this.form.submit()">
-            <!-- <option th:each="month : ${#numbers.sequence(1, 12)}"
-                th:value="${month}"
-                th:text="${month + '月'}"
-                th:selected="${month == selectedMonth}">
-            </option> -->
+        <form id="monthForm" th:action="@{/learningData/{userId}/skill(userId=${userId}, createMonth=${selectedMonth})}" method="post">
+          <select class="month" id="createMonth" name="createMonth">
+            <option th:each="month : ${availableMonths}"
+                    th:value="${month}"
+                    th:text="${month} + '月'"
+                    th:selected="${month == selectedMonth}">
+            </option>
           </select>
-        </form>
+        </form>        
         <div class="category">
           <div class="content">
             <div class="title">
               <h2>バックエンド</h2>
-              <!-- <form th:action="@{}" th:method="post"> -->
                 <input type="submit" value="項目を追加する" class="btn">
-              <!-- </form> -->
             </div>
             <table class="table">
                 <tr class="table-header">
@@ -51,8 +49,8 @@
                       </select>
                     </label>
                   </td>
-                  <td ><input type="submit" value="学習時間を保存する" class="save"></td>
-                  <td ><input type="submit" value="削除する" class="delete"></td>
+                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
+                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
                 </tr>
             </table>
           </div>

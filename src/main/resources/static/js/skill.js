@@ -12,21 +12,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // プルダウンメニューを動的に生成
     const monthSelect = document.getElementById("createMonth");
-    months.forEach(month => {
-        const option = document.createElement("option");
-        option.value = month;
-        option.textContent = `${month}月`;
-        if (month === currentMonth) {
-            option.selected = true; // 初期選択
-        }
-        monthSelect.appendChild(option);
-    });
+    // months.forEach(month => {
+    //     const option = document.createElement("option");
+    //     option.value = month;
+    //     option.textContent = `${month}月`;
+    //     if (month === currentMonth) {
+    //         option.selected = true; // 初期選択
+    //     }
+    //     monthSelect.appendChild(option);
+    // });
 
-    // プルダウン選択時の処理
-    createMonthSelect.addEventListener("change", () => {
-        const selectedMonth = createMonthSelect.value;
-        const userId = document.querySelector('input[name="userId"]').value;
-        // サーバーにリクエストを送信
-        window.location.href = `/learningData/${userId}/skill?createMonth=${selectedMonth}`;
+        // 選択時にフォームを送信
+        monthSelect.addEventListener("change", function() {
+            this.form.submit(); // 再送信
     });
 });
