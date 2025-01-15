@@ -16,13 +16,14 @@
     <main>
       <div class="wrapper">
         <form id="monthForm" th:action="@{/learningData/{userId}/skill(userId=${userId})}" method="get">
-          <select class="month" id="createMonth" name="createMonth">
-            <option th:each="month : ${availableMonths}"
-                    th:value="${month}"
-                    th:text="${month} + '月'"
-                    th:selected="${month == selectedMonth}">
-            </option>
+          <select class="month" id="createMonth" name="createMonth" th:data-current-month="${currentMonth}" th:value="${selectedMonth}">
+            <option th:each="month : ${dropdownMonths}" 
+            th:value="${month}" 
+            th:text="${month} + '月'" 
+            th:selected="${month == selectedMonth}">
+    </option>
           </select>
+          
         </form>        
         <div class="category">
           <div class="content">

@@ -4,21 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.service.SkillService;
 import com.spring.springbootapplication.entity.SkillEntity;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 @Controller
 public class SkillController {
@@ -26,44 +19,37 @@ public class SkillController {
     @Autowired
     private SkillService skillService;
 
-    /**
-     * 初期表示用（当月のデータを取得）
-     */
     @GetMapping(value = "/learningData/{userId}/skill")
-    public String displayInitialSkill(
-            @PathVariable("userId") Integer userId, 
-            @RequestParam(value = "createMonth", required = false) Integer createMonth,
-            Model model,
-            RedirectAttributes redirectAttributes) {
+    public String displaySkills(
+        @PathVariable("userId") Integer userId,
+        @RequestParam(value = "createMonth", required = false) Integer selectedMonth,
+        Model model) {
 
-        if (createMonth == null) {
-            createMonth = LocalDate.now().getMonthValue(); // 当月の値を設定
-            redirectAttributes.addAttribute("createMonth", createMonth);
-            return "redirect:/learningData/" + userId + "/skill";
+        // 当月を取得
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        // 選択された月がnullの場合、当月を選択
+        if (selectedMonth == null) {
+            selectedMonth = currentMonth;
         }
 
-        // サービスから当月データを取得
-        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
+        // サービスから選択された月のデータを取得
+        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(selectedMonth, userId);
 
-        int currentMonth = createMonth;
+        // 常に固定のプルダウン選択肢（当月と過去2ヶ月分）を生成
+        List<Integer> dropdownMonths = List.of(
+            currentMonth,
+            (currentMonth - 1 + 12) % 12 == 0 ? 12 : (currentMonth - 1 + 12) % 12,
+            (currentMonth - 2 + 12) % 12 == 0 ? 12 : (currentMonth - 2 + 12) % 12
+        );
 
-        // 過去3ヶ月分の月を計算
-        List<Integer> availableMonths = IntStream.rangeClosed(0, 2)
-        .mapToObj(i -> {
-            // (createMonth - i + 12) % 12 == 0 ? 12 : (createMonth - i + 12) % 12 の計算を行う
-            int month = (currentMonth - i + 12) % 12;
-            return month == 0 ? 12 : month;
-        })
-        .collect(Collectors.toList());
+        // モデルに必要なデータを追加
+        model.addAttribute("skills", skills); // 選択した月のデータ
+        model.addAttribute("currentMonth", currentMonth); // 現在の月
+        model.addAttribute("selectedMonth", selectedMonth); // 選択された月
+        model.addAttribute("dropdownMonths", dropdownMonths); // プルダウンリスト用の月
+        model.addAttribute("userId", userId); // ユーザーID
 
-
-        // モデルにデータを設定
-        model.addAttribute("skills", skills);
-        model.addAttribute("selectedMonth", createMonth);
-        model.addAttribute("availableMonths", availableMonths);
-        model.addAttribute("userId", userId);
-
-        return "learningData/skill";
+        return "learningData/skill"; // 対応するThymeleafテンプレート名
     }
 }
-
