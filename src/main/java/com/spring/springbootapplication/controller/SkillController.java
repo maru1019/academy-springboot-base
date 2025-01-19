@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.springbootapplication.service.SkillService;
 import com.spring.springbootapplication.entity.SkillEntity;
+import com.spring.springbootapplication.enums.Category;
+
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,9 +36,9 @@ public class SkillController {
         }
 
         // サービス層でカテゴリごとのデータを取得
-        List<SkillEntity> backendSkills = skillService.getSkillsByCategoryAndMonth(1, selectedMonth, userId);
-        List<SkillEntity> frontendSkills = skillService.getSkillsByCategoryAndMonth(2, selectedMonth, userId);
-        List<SkillEntity> infraSkills = skillService.getSkillsByCategoryAndMonth(3, selectedMonth, userId);
+        List<SkillEntity> backendSkills = skillService.getSkillsByCategoryAndMonth(Category.BACKEND.getId(), selectedMonth, userId);
+        List<SkillEntity> frontendSkills = skillService.getSkillsByCategoryAndMonth(Category.FRONTEND.getId(), selectedMonth, userId);
+        List<SkillEntity> infraSkills = skillService.getSkillsByCategoryAndMonth(Category.INFRA.getId(), selectedMonth, userId);
 
         // 過去3ヶ月のプルダウン選択肢を生成
         List<Integer> dropdownMonths = List.of(
