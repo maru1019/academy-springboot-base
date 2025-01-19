@@ -25,31 +25,35 @@ public class SkillController {
         @RequestParam(value = "createMonth", required = false) Integer selectedMonth,
         Model model) {
 
-        // 当月を取得
+        // 現在の月を取得
         int currentMonth = LocalDate.now().getMonthValue();
 
-        // 選択された月がnullの場合、当月を選択
+        // 選択された月が null の場合、現在の月を代入
         if (selectedMonth == null) {
             selectedMonth = currentMonth;
         }
 
-        // サービスから選択された月のデータを取得
-        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(selectedMonth, userId);
+        // サービス層でカテゴリごとのデータを取得
+        List<SkillEntity> backendSkills = skillService.getSkillsByCategoryAndMonth(1, selectedMonth, userId);
+        List<SkillEntity> frontendSkills = skillService.getSkillsByCategoryAndMonth(2, selectedMonth, userId);
+        List<SkillEntity> infraSkills = skillService.getSkillsByCategoryAndMonth(3, selectedMonth, userId);
 
-        // 常に固定のプルダウン選択肢（当月と過去2ヶ月分）を生成
+        // 過去3ヶ月のプルダウン選択肢を生成
         List<Integer> dropdownMonths = List.of(
             currentMonth,
             (currentMonth - 1 + 12) % 12 == 0 ? 12 : (currentMonth - 1 + 12) % 12,
             (currentMonth - 2 + 12) % 12 == 0 ? 12 : (currentMonth - 2 + 12) % 12
         );
 
-        // モデルに必要なデータを追加
-        model.addAttribute("skills", skills); // 選択した月のデータ
+        // モデルにデータを追加
+        model.addAttribute("backendSkills", backendSkills); // バックエンドのデータ
+        model.addAttribute("frontendSkills", frontendSkills); // フロントエンドのデータ
+        model.addAttribute("infraSkills", infraSkills); // インフラのデータ
         model.addAttribute("currentMonth", currentMonth); // 現在の月
         model.addAttribute("selectedMonth", selectedMonth); // 選択された月
-        model.addAttribute("dropdownMonths", dropdownMonths); // プルダウンリスト用の月
+        model.addAttribute("dropdownMonths", dropdownMonths); // プルダウンリスト用
         model.addAttribute("userId", userId); // ユーザーID
 
-        return "learningData/skill"; // 対応するThymeleafテンプレート名
+        return "learningData/skill"; // 対応するThymeleafテンプレート
     }
 }

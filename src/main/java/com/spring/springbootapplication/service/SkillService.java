@@ -4,13 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.springbootapplication.dao.SkillMapper;
-import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.entity.SkillEntity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
-
 
 @Service
 public class SkillService {
@@ -19,27 +15,30 @@ public class SkillService {
     private SkillMapper skillMapper;
 
     /**
-     * 指定した月とユーザーIDでデータを取得（共通メソッド）
+     * 指定した月とユーザーIDでデータを取得（既存メソッド）
      * @param userId ユーザーID
      * @param createMonth 月
      * @return スキルのリスト
      */
     public List<SkillEntity> getSkillsByMonthAndUser(Integer createMonth, Integer userId) {
         // データベースからデータ取得
-        List<SkillEntity> skills = skillMapper.findByMonthAndUser(createMonth, userId);
-        return skills;
+        return skillMapper.findByMonthAndUser(createMonth, userId);
     }
 
     /**
-     * 当月データを取得する共通メソッド
+     * 指定したカテゴリ、月、ユーザーIDでデータを取得（新しいメソッド）
+     * @param category カテゴリ（backend, frontend, infra）
+     * @param createMonth 月
      * @param userId ユーザーID
-     * @return スキルのリスト
+     * @return 指定されたカテゴリのスキルリスト
      */
-    public List<SkillEntity> getCurrentMonthSkills(Integer userId) {
-        int currentMonth = LocalDate.now().getMonthValue(); // 当月
-        return getSkillsByMonthAndUser(currentMonth, userId);
+    public List<SkillEntity> getSkillsByCategoryAndMonth(Integer categoryId, Integer createMonth, Integer userId) {
+        // 既存メソッドを利用してすべてのスキルを取得
+        List<SkillEntity> allSkills = getSkillsByMonthAndUser(createMonth, userId);
+
+        // カテゴリでフィルタリング
+        return allSkills.stream()
+                .filter(skill -> categoryId.equals(skill.getCategoryId())) // カテゴリに一致するデータを抽出
+                .toList(); // フィルタリング結果をリスト化
     }
 }
-
-
-

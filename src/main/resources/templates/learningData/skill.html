@@ -18,25 +18,26 @@
         <form id="monthForm" th:action="@{/learningData/{userId}/skill(userId=${userId})}" method="get">
           <select class="month" id="createMonth" name="createMonth" th:data-current-month="${currentMonth}" th:value="${selectedMonth}">
             <option th:each="month : ${dropdownMonths}" 
-            th:value="${month}" 
-            th:text="${month} + '月'" 
-            th:selected="${month == selectedMonth}">
-    </option>
+              th:value="${month}" 
+              th:text="${month} + '月'" 
+              th:selected="${month == selectedMonth}">
+            </option>
           </select>
-          
         </form>        
+
+        <!-- バックエンド -->
         <div class="category">
           <div class="content">
             <div class="title">
               <h2>バックエンド</h2>
-                <input type="submit" value="項目を追加する" class="btn">
+              <input type="submit" value="項目を追加する" class="btn">
             </div>
             <table class="table">
                 <tr class="table-header">
                   <td class="subject">項目名</td>
                   <td class="learning">学習時間</td>
                 </tr>
-                <tr class="table-row" th:each="skill : ${skills}">
+                <tr class="table-row" th:each="skill : ${backendSkills}">
                   <td class="subject-item" th:text="${skill.name}"></td>
                   <td class="learning-time">
                     <label class="selectbox-6">
@@ -56,6 +57,73 @@
             </table>
           </div>
         </div>
+
+        <!-- フロントエンド -->
+        <div class="category-center">
+          <div class="content">
+            <div class="title">
+              <h2>フロントエンド</h2>
+              <input type="submit" value="項目を追加する" class="btn">
+            </div>
+            <table class="table">
+                <tr class="table-header">
+                  <td class="subject">項目名</td>
+                  <td class="learning">学習時間</td>
+                </tr>
+                <tr class="table-row" th:each="skill : ${frontendSkills}">
+                  <td class="subject-item" th:text="${skill.name}"></td>
+                  <td class="learning-time">
+                    <label class="selectbox-6">
+                      <select>
+                        <!-- 修正: 動的に 0～100 の選択肢を生成 -->
+                        <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
+                                th:value="${i}" 
+                                th:text="${i}"
+                                th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
+                        </option>
+                      </select>
+                    </label>
+                  </td>
+                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
+                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
+                </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- インフラ -->
+        <div class="category">
+          <div class="content">
+            <div class="title">
+              <h2>インフラ</h2>
+              <input type="submit" value="項目を追加する" class="btn">
+            </div>
+            <table class="table">
+                <tr class="table-header">
+                  <td class="subject">項目名</td>
+                  <td class="learning">学習時間</td>
+                </tr>
+                <tr class="table-row" th:each="skill : ${infraSkills}">
+                  <td class="subject-item" th:text="${skill.name}"></td>
+                  <td class="learning-time">
+                    <label class="selectbox-6">
+                      <select>
+                        <!-- 修正: 動的に 0～100 の選択肢を生成 -->
+                        <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
+                                th:value="${i}" 
+                                th:text="${i}"
+                                th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
+                        </option>
+                      </select>
+                    </label>
+                  </td>
+                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
+                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
+                </tr>
+            </table>
+          </div>
+        </div>
+
       </div>
     </main>
   
