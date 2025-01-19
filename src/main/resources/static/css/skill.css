@@ -67,6 +67,15 @@ main {
   padding: 40px;
 }
 
+.category-center {
+  width: 960px;
+  height: 436px;
+  border-radius: 8px; 
+  border: 1px solid #00000080;
+  padding: 40px;
+  margin: 30px 0;
+}
+
 .month {
   width: 102px;
   height: 44px;
