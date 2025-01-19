@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.springbootapplication.dao.SkillMapper;
 import com.spring.springbootapplication.entity.SkillEntity;
+import com.spring.springbootapplication.enums.Category;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class SkillService {
 
     /**
      * 指定したカテゴリ、月、ユーザーIDでデータを取得（新しいメソッド）
-     * @param category カテゴリ（backend, frontend, infra）
+     * @param categoryId カテゴリ（backend, frontend, infra）
      * @param createMonth 月
      * @param userId ユーザーID
      * @return 指定されたカテゴリのスキルリスト
