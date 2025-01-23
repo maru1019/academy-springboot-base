@@ -20,9 +20,9 @@ import java.io.IOException;
 public class SecurityConfig {
 
     @Autowired
-  private UserMapper userMapper;
+    private UserMapper userMapper;
 
-  @Bean
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable()) 
