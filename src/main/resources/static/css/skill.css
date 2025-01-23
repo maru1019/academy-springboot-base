@@ -26,7 +26,6 @@
 .logo {
   display: flex;
   align-items: center;
-  font: Roboto;
   font-weight: 700;
   font-size: 36px;
   line-height: 42.19px;
@@ -34,7 +33,7 @@
 }
 
 .logout {
-  width: 152px;
+  width: 170px;
   height: 53px;
   border-radius: 4px;
   font-size: 18px;

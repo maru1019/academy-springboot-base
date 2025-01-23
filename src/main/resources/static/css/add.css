@@ -26,7 +26,6 @@
 .logo {
   display: flex;
   align-items: center;
-  font: Roboto;
   font-weight: 700;
   font-size: 36px;
   line-height: 42.19px;
@@ -59,7 +58,6 @@ main {
 h2 {
   text-align: center;
   margin: 80px 648px 0 648px;
-  font: Roboto;
   font-weight: 400;
   font-size: 36px;
   line-height: 48.02px;
@@ -114,7 +112,6 @@ label {
   width: 25px;
   height: 12px;
   gap: 10px;
-  font: Roboto;
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
@@ -126,7 +123,6 @@ label {
   width: 85px;
   height: 12px;
   gap: 10px;
-  font: Roboto;
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
@@ -137,7 +133,6 @@ label {
 .label-password {
   width: 61px;
   height: 12px;
-  font: Roboto;
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
