@@ -1,0 +1,7 @@
+<mapper namespace="com.spring.springbootapplication.dao.CategoryMapper">
+    <select id="findByUserId" parameterType="int" resultType="com.spring.springbootapplication.entity.CategoryEntity">
+        SELECT id, name
+        FROM category
+        WHERE user_id = #{userId}
+    </select>
+</mapper>

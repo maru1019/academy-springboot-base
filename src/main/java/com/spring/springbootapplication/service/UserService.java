@@ -28,12 +28,6 @@ public class UserService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  // ユーザー取得
-  // public UserResponse getUserById(Integer id) {
-  //   UserResponse user = userMapper.findById(id);
-  //   return user;
-  // }
-
   // ログイン機能
   public UserEntity getUserByEmail(String email) {
       return userMapper.findByEmail(email);

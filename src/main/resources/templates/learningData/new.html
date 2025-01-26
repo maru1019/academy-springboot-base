@@ -14,30 +14,32 @@
       </form>
     </header>
     <main>
-      <h2 class="title">{カテゴリー名}に項目を追加</h2>
-      <form class="study-form" th:action="@{}" th:object="${}" th:method="get">
-        <div class="form-group-subject">
-          <label class="label-subject">項目名</label>
-          <input type="text" th:field="*{}" class="form-control">
-        </div>
-        <div class="form-group-study-time">
-          <label class="label-study-time">学習時間</label>
-          <label class="section-6">
-            <section>
-              <!-- 修正: 動的に 0～100 の選択肢を生成 -->
-              <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
-                      th:value="${i}" 
-                      th:text="${i}"
-                      th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
-              </option>
-            </section>
-          </label>
-          <label class="label-study-time-minutes">分単位で入力してください</label>
-        </div>
-        <div class="btn">
-          <input type="submit" value="追加する" class="btn-blue">
-        </div>
-      </form>
+      <h2 class="title" th:text="${categoryName} + 'に項目を追加'">カテゴリー</h2>
+        <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+          <div class="form-group-subject">
+            <label class="label-subject">項目名</label>
+            <input type="text" th:field="*{name}" class="form-control">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
+          </div>
+          <div class="form-group-study-time">
+            <label class="label-study-time">学習時間</label>
+            <label class="custom-select">
+              <select th:field="*{studyTime}" >
+                <!-- 0〜100 まで10分単位で表示 -->
+                <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
+                        th:value="${i}" 
+                        th:text="${i}" 
+                        th:selected="${skillRequest.studyTime == i}">
+                </option>
+              </select>
+            </label>
+            <label class="label-study-time-minutes">分単位で入力してください</label>
+            <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
+          <div class="btn">
+            <input type="submit" value="追加する" class="btn-blue">
+          </div>
+        </form>
+      </div>
     </main>
     <footer>
       <p>portfolio site</p>

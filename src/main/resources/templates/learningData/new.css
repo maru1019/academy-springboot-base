@@ -51,7 +51,9 @@ main {
   background-color: #ffffff;
 }
 
-h2 {
+.title {
+  width: 466px;
+  height: 48;
   text-align: center;
   margin: 80px 487px 0 487px;
   font-weight: 400;
@@ -65,7 +67,6 @@ h2 {
   margin: 80px 480px 0 480px;
   display: flex;
   flex-flow: column;
-  justify-content:space-around;
   gap: 48px;
 }
 
@@ -118,13 +119,20 @@ label {
   color: gray;
 }
 
-.section-6 {
-  position: relative;
+select {
+  appearance: none;
+  width: 480px;
+  /* height: 48px; */
+  border: none;
   border-bottom: 1px solid #ddd;
 }
 
-.section-6::before,
-.section-6::after {
+.custom-select {
+  position: relative;
+}
+
+.custom-select::before,
+.custom-select::after {
   position: absolute;
   right: 15px;
   width: 9px;
@@ -132,33 +140,20 @@ label {
   background-color: gray;
   content: '';
   pointer-events: none;
-  transform: translateY(-6px);
 }
 
-.section-6::before {
-  top: calc(50% - 9px);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+.custom-select::before {
+    top: calc(50% - 13px);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.section-6::after {
-  bottom: calc(50% - 9px);
-  clip-path: polygon(0 0, 50% 100%, 100% 0);
-}
-
-.section-6 select {
-  appearance: none;
-  min-width: 480px;
-  height: 36px;
-  padding: .4em calc(.8em + 30px) .4em .8em;
-  border: 1px solid #d0d0d0;
-  background-color: #fff;
-  color: #333333;
-  font-size: 1em;
-  cursor: pointer;
+.custom-select::after {
+    bottom: calc(50% - 3px);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
 
 .label-study-time-minutes {
-  width: 480px;
+  width: 148px;
   height: 20px;
   font-weight: 400;
   font-size: 12px;
@@ -172,6 +167,7 @@ label {
   justify-content: center;
   align-items: center;
   text-align: center;
+  margin-top: 30px;
 }
 
 .btn-blue {

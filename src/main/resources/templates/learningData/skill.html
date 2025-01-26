@@ -30,7 +30,7 @@
           <div class="content">
             <div class="title">
               <h2>バックエンド</h2>
-              <input type="submit" value="項目を追加する" class="btn">
+              <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth})}">項目を追加する</a>
             </div>
             <table class="table">
                 <tr class="table-header">
@@ -63,7 +63,7 @@
           <div class="content">
             <div class="title">
               <h2>フロントエンド</h2>
-              <input type="submit" value="項目を追加する" class="btn">
+              <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth})}">項目を追加する</a>
             </div>
             <table class="table">
                 <tr class="table-header">
@@ -90,13 +90,12 @@
             </table>
           </div>
         </div>
-
         <!-- インフラ -->
         <div class="category">
           <div class="content">
             <div class="title">
               <h2>インフラ</h2>
-              <input type="submit" value="項目を追加する" class="btn">
+              <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth})}">項目を追加する</a>
             </div>
             <table class="table">
                 <tr class="table-header">
