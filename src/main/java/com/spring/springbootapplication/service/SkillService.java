@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.springbootapplication.dao.SkillMapper;
+import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.entity.SkillEntity;
 import com.spring.springbootapplication.enums.Category;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,5 +43,14 @@ public class SkillService {
         return allSkills.stream()
                 .filter(skill -> categoryId.equals(skill.getCategoryId())) // カテゴリに一致するデータを抽出
                 .toList(); // フィルタリング結果をリスト化
+    }
+
+    /**
+     * 新規スキル登録
+     * @param skillRequest 登録データ
+     */
+    public void save(SkillRequest skillRequest) {
+
+        skillMapper.save(skillRequest);
     }
 }

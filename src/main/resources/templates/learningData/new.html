@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>スキル編集</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link rel="stylesheet" href="new.css" >
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">My Portfolio</div>
+      <form th:action="@{/logout}" th:method="post">
+        <input type="submit" value="ログアウト" class="logout">
+      </form>
+    </header>
+    <main>
+      <h2 class="title" th:text="${categoryName} + 'に項目を追加'">カテゴリー</h2>
+        <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+          <div class="form-group-subject">
+            <label class="label-subject">項目名</label>
+            <input type="text" th:field="*{name}" class="form-control">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
+          </div>
+          <div class="form-group-study-time">
+            <label class="label-study-time">学習時間</label>
+            <label class="custom-select">
+              <select th:field="*{studyTime}" >
+                <!-- 0〜100 まで10分単位で表示 -->
+                <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
+                        th:value="${i}" 
+                        th:text="${i}" 
+                        th:selected="${skillRequest.studyTime == i}">
+                </option>
+              </select>
+            </label>
+            <label class="label-study-time-minutes">分単位で入力してください</label>
+            <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
+          <div class="btn">
+            <input type="submit" value="追加する" class="btn-blue">
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer>
+      <p>portfolio site</p>
+    </footer>
+  </div>
+  <script src="/js/new.js"></script>
+</body>
+</html>

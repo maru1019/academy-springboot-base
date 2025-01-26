@@ -5,7 +5,7 @@
 }
 
 .container {
-  width: 1440px; 
+  width: 1440px;
   height: 1024px;
   display: flex;
   flex-direction: column; 
@@ -19,7 +19,7 @@
   padding: 0 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   background-color: #1B5678;
 }
 
@@ -32,34 +32,41 @@
   color: #FFFFFF;
 }
 
+.logout {
+  width: 170px;
+  height: 53px;
+  border-radius: 4px;
+  font-size: 18px;
+  background-color: #ffffff;
+  cursor: pointer;
+  border:none;
+}
+
 main {
-  flex-grow: 1;
+  width: 1440px;
+  height: 864px;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
   background-color: #ffffff;
 }
 
-.text-danger {
-  color: red;
-}
-
-h2 {
+.title {
+  width: 466px;
+  height: 48;
   text-align: center;
-  margin: 80px 648px 0 648px;
+  margin: 80px 487px 0 487px;
   font-weight: 400;
   font-size: 36px;
   line-height: 48.02px;
 }
 
-form {
+.study-form {
   width: 480px;
-  height: 346px;
-  margin: 88px 480px 0 480px;
+  height: 268px;
+  margin: 80px 480px 0 480px;
   display: flex;
   flex-flow: column;
-  justify-content:space-around;
   gap: 48px;
 }
 
@@ -71,11 +78,11 @@ label {
   width: 480px;
   border: none;
   border-bottom: 1px solid #ddd;
-  line-height: 19px;
   outline: none;
+  line-height: 19px;
 }
 
-.form-group-address {
+.form-group-subject {
   width: 480px;
   height: 48px;
   display: flex;
@@ -83,15 +90,7 @@ label {
   gap: 10px;
 }
 
-.form-group-password {
-  width: 480px;
-  height: 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.label-address {
+.label-subject {
   width: 85px;
   height: 12px;
   gap: 10px;
@@ -99,25 +98,76 @@ label {
   font-size: 12px;
   line-height: 12px;
   letter-spacing: 0.15px;
-  color: #000000;
+  color: gray;
 }
 
-.label-password {
+.form-group-study-time {
+  width: 480px;
+  height: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label-study-time {
   width: 61px;
   height: 12px;
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
   letter-spacing: 0.15px;
-  color: #000000;
+  color: gray;
+}
+
+select {
+  appearance: none;
+  width: 480px;
+  /* height: 48px; */
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+.custom-select {
+  position: relative;
+}
+
+.custom-select::before,
+.custom-select::after {
+  position: absolute;
+  right: 15px;
+  width: 9px;
+  height: 6px;
+  background-color: gray;
+  content: '';
+  pointer-events: none;
+}
+
+.custom-select::before {
+    top: calc(50% - 13px);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.custom-select::after {
+    bottom: calc(50% - 3px);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
+}
+
+.label-study-time-minutes {
+  width: 148px;
+  height: 20px;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  letter-spacing: 0.15px;
+  color: gray;
 }
 
 .btn {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
   text-align: center;
+  margin-top: 30px;
 }
 
 .btn-blue {
@@ -133,9 +183,6 @@ label {
   border:none;
 }
 
-a {
-  text-decoration: none;
-}
 
 footer {
   width: 1440px;

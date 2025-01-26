@@ -26,7 +26,6 @@
 .logo {
   display: flex;
   align-items: center;
-  font: Roboto;
   font-weight: 700;
   font-size: 36px;
   line-height: 42.19px;
@@ -34,7 +33,7 @@
 }
 
 .logout {
-  width: 152px;
+  width: 170px;
   height: 53px;
   border-radius: 4px;
   font-size: 18px;
@@ -118,6 +117,7 @@ h2 {
   color: #FFFFFF;
   background-color: #1B5678;
   border:none;
+  font-size: 14px;
 }
 
 table {
@@ -148,18 +148,18 @@ td {
 }
 
 .selectbox-6 {
-    position: relative;
+  position: relative;
 }
 
 .selectbox-6::before,
 .selectbox-6::after {
-    position: absolute;
-    right: 15px;
-    width: 9px;
-    height: 6px;
-    background-color: #535353;
-    content: '';
-    pointer-events: none;
+  position: absolute;
+  right: 15px;
+  width: 9px;
+  height: 6px;
+  background-color: #535353;
+  content: '';
+  pointer-events: none;
 }
 
 .selectbox-6::before {
@@ -173,16 +173,16 @@ td {
 }
 
 .selectbox-6 select {
-    appearance: none;
-    min-width: 230px;
-    height: 2.8em;
-    padding: .4em calc(.8em + 30px) .4em .8em;
-    border: 1px solid #d0d0d0;
-    border-radius: 3px;
-    background-color: #fff;
-    color: #333333;
-    font-size: 1em;
-    cursor: pointer;
+  appearance: none;
+  min-width: 230px;
+  height: 2.8em;
+  padding: .4em calc(.8em + 30px) .4em .8em;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  background-color: #fff;
+  color: #333333;
+  font-size: 1em;
+  cursor: pointer;
 }
 
 .save {
