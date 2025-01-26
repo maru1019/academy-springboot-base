@@ -3,7 +3,7 @@
 <head>
   <title>スキル編集</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <link rel="stylesheet" href="new.css" >
+  <link rel="stylesheet" href="/css/new.css" >
 </head>
 <body>
   <div class="container">
@@ -14,8 +14,9 @@
       </form>
     </header>
     <main>
-      <h2 class="title" th:text="${categoryName} + 'に項目を追加'">カテゴリー</h2>
+      <h2 class="title" th:text="${categories[0].name} + 'に項目を追加'"></h2>
         <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+          <input type="hidden" th:field="*{createMonth}" />
           <div class="form-group-subject">
             <label class="label-subject">項目名</label>
             <input type="text" th:field="*{name}" class="form-control">
@@ -29,12 +30,13 @@
                 <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
                         th:value="${i}" 
                         th:text="${i}" 
-                        th:selected="${skillRequest.studyTime == i}">
+                        th:selected="${studyTime == i}">
                 </option>
               </select>
             </label>
             <label class="label-study-time-minutes">分単位で入力してください</label>
             <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
+          </div>  
           <div class="btn">
             <input type="submit" value="追加する" class="btn-blue">
           </div>

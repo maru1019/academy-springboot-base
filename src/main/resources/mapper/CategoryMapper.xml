@@ -1,7 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springbootapplication.dao.CategoryMapper">
-    <select id="findByUserId" parameterType="int" resultType="com.spring.springbootapplication.entity.CategoryEntity">
-        SELECT id, name
-        FROM category
-        WHERE user_id = #{userId}
+    <select id="findByUserId" parameterType="Integer" resultType="com.spring.springbootapplication.entity.CategoryEntity">
+        SELECT c.id, c.name
+        FROM categories c
+        JOIN learning_data ld ON c.id = ld.category_id
+        WHERE ld.user_id = #{userId}
+        GROUP BY c.id, c.name
     </select>
 </mapper>

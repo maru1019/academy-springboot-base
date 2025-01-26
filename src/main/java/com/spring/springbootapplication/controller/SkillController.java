@@ -72,9 +72,11 @@ public class SkillController {
                              Model model) {
 
     // カテゴリ情報を取得
-    CategoryEntity category = categoryService.getCategoryByUserId(userId);
-    if (category == null) {
-        throw new IllegalArgumentException("指定されたユーザーに対応するカテゴリが見つかりません。");
+    List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
+    
+    if (categories.isEmpty()) {
+        model.addAttribute("errorMessage", "指定されたユーザーに対応するカテゴリが見つかりません。");
+        return "errorPage"; // エラーページにリダイレクト
     }
 
     // 選択された月が null の場合は現在の月を設定
@@ -82,41 +84,43 @@ public class SkillController {
         createMonth = LocalDate.now().getMonthValue();
     }
 
+    SkillRequest skillRequest =  new SkillRequest();
+    skillRequest.setCreateMonth(createMonth);
+
     // サービスから学習項目を取得
     List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
 
     // モデルに必要なデータを渡す
-    model.addAttribute("categoryName", category.getName());
-    model.addAttribute("skillRequest", new SkillRequest());
+    model.addAttribute("categories", categories);
+    model.addAttribute("skillRequest", skillRequest);
     model.addAttribute("skills", skills); // 学習項目
-    model.addAttribute("createMonth", createMonth); // 選択された月
     model.addAttribute("userId", userId); // ユーザーID
 
     return "learningData/new";
     }
 
 
-    @PostMapping(value = "/learningData/{userId}/new")
-    public String createSkill(
-        @PathVariable("userId") Integer userId,
-        @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
-        BindingResult bindingResult,
-        Model model) {
+    // @PostMapping(value = "/learningData/{userId}/new")
+    // public String createSkill(
+    //     @PathVariable("userId") Integer userId,
+    //     @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
+    //     BindingResult bindingResult,
+    //     Model model) {
 
-        // バリデーションエラーがある場合は入力画面に戻す
-        if (bindingResult.hasErrors()) {
-            CategoryEntity category = categoryService.getCategoryByUserId(userId);
-            model.addAttribute("categoryName", category.getName());
-            return "learningData/new";
-        }
+    //     // バリデーションエラーがある場合は入力画面に戻す
+    //     if (bindingResult.hasErrors()) {
+    //         CategoryEntity category = categoryService.getCategoryByUserId(userId);
+    //         model.addAttribute("categoryName", category.getName());
+    //         return "learningData/new";
+    //     }
 
-        // ユーザーIDをセット
-        skillRequest.setUserId(userId);
+    //     // ユーザーIDをセット
+    //     skillRequest.setUserId(userId);
 
-        // サービス層でスキルを登録
-        skillService.save(skillRequest);
-        return "redirect:/learningData/{userId}/skill";
-    }
+    //     // サービス層でスキルを登録
+    //     skillService.save(skillRequest);
+    //     return "redirect:/learningData/{userId}/skill";
+    // }
 
     
 }
