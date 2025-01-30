@@ -19,6 +19,9 @@ import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class SkillController {
 
@@ -68,59 +71,83 @@ public class SkillController {
 
     @GetMapping(value = "/learningData/{userId}/new")
     public String displayAdd(@PathVariable("userId") Integer userId, 
-                             @RequestParam(value = "createMonth", required = false) Integer createMonth, 
+                             @RequestParam(value = "createMonth", required = false) Integer createMonth,
+                             @RequestParam(value = "categoryId", required = false) Integer categoryId,
                              Model model) {
 
-    // カテゴリ情報を取得
-    List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
-    
-    if (categories.isEmpty()) {
-        model.addAttribute("errorMessage", "指定されたユーザーに対応するカテゴリが見つかりません。");
-        return "errorPage"; // エラーページにリダイレクト
+        // カテゴリ情報を取得
+        List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
+        
+        if (categories == null || categories.isEmpty()) {
+            model.addAttribute("errorMessage", "指定されたユーザーに対応するカテゴリが見つかりません。");
+            return "errorPage";
+        }
+
+        // 選択されたカテゴリを取得
+        CategoryEntity selectedCategory = null;
+        if (categoryId != null) {
+        selectedCategory = categories.stream()
+                .filter(category -> category.getId().equals(categoryId))
+                .findFirst()
+                .orElse(null);
+        }
+
+        // デフォルトカテゴリを設定
+        if (selectedCategory == null) {
+            selectedCategory = categories.get(0); // 最初のカテゴリをデフォルトに設定
+        }
+
+        // 選択された月が null の場合は現在の月を設定
+        if (createMonth == null) {
+            createMonth = LocalDate.now().getMonthValue();
+        }
+
+        SkillRequest skillRequest = new SkillRequest();
+        skillRequest.setCreateMonth(createMonth);
+        skillRequest.setCategoryId(selectedCategory.getId());
+
+        // サービスから学習項目を取得
+        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
+
+        // モデルに必要なデータを渡す
+        model.addAttribute("categories", categories);
+        model.addAttribute("skillRequest", skillRequest);
+        model.addAttribute("skills", skills); // 学習項目
+        model.addAttribute("userId", userId); // ユーザーID
+        model.addAttribute("selectedCategory", selectedCategory);
+
+        return "learningData/new";
     }
 
-    // 選択された月が null の場合は現在の月を設定
-    if (createMonth == null) {
-        createMonth = LocalDate.now().getMonthValue();
+
+    @PostMapping(value = "/learningData/{userId}/new")
+    public String createSkill(
+        @PathVariable("userId") Integer userId,
+        @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
+        BindingResult bindingResult,
+        Model model) {
+
+        // バリデーションエラーがある場合は入力画面に戻す
+        if (bindingResult.hasErrors()) {
+            List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
+            model.addAttribute("categories", categories);
+            // selectedCategory を追加する
+            String categoryName = skillRequest.getCategoryName();
+            CategoryEntity selectedCategory = categoryService.getSelectedCategory(categoryName);
+            model.addAttribute("selectedCategory", selectedCategory);
+            return "learningData/new";
+        }
+
+        // サービス層でスキルを登録（カテゴリと学習データの保存をまとめて行う）
+        try {
+            skillService.save(skillRequest);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "データの保存に失敗しました: " + e.getMessage());
+            return "learningData/new";
+        }
+
+        model.addAttribute("isSaved", true);
+        return "learningData/new";
     }
 
-    SkillRequest skillRequest =  new SkillRequest();
-    skillRequest.setCreateMonth(createMonth);
-
-    // サービスから学習項目を取得
-    List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
-
-    // モデルに必要なデータを渡す
-    model.addAttribute("categories", categories);
-    model.addAttribute("skillRequest", skillRequest);
-    model.addAttribute("skills", skills); // 学習項目
-    model.addAttribute("userId", userId); // ユーザーID
-
-    return "learningData/new";
-    }
-
-
-    // @PostMapping(value = "/learningData/{userId}/new")
-    // public String createSkill(
-    //     @PathVariable("userId") Integer userId,
-    //     @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
-    //     BindingResult bindingResult,
-    //     Model model) {
-
-    //     // バリデーションエラーがある場合は入力画面に戻す
-    //     if (bindingResult.hasErrors()) {
-    //         CategoryEntity category = categoryService.getCategoryByUserId(userId);
-    //         model.addAttribute("categoryName", category.getName());
-    //         return "learningData/new";
-    //     }
-
-    //     // ユーザーIDをセット
-    //     skillRequest.setUserId(userId);
-
-    //     // サービス層でスキルを登録
-    //     skillService.save(skillRequest);
-    //     return "redirect:/learningData/{userId}/skill";
-    // }
-
-    
 }

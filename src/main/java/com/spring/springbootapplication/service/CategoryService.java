@@ -16,4 +16,13 @@ public class CategoryService {
     public List<CategoryEntity> getCategoriesByUserId(Integer userId) {
         return categoryMapper.findByUserId(userId);
     }
+
+    /**
+     * 指定された月のカテゴリ情報を取得
+     * @param createMonth 月
+     * @return カテゴリ情報
+     */
+    public CategoryEntity getSelectedCategory(String name) {
+        return categoryMapper.findByMonth(name);
+    }
 }
