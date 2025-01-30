@@ -46,9 +46,9 @@
 
     <insert id="save" parameterType="com.spring.springbootapplication.dto.SkillRequest">
         INSERT INTO learning_data 
-            (create_month, name, study_time, user_id, category_id, created_at, updated_at)
+            (create_month, name, study_time, user_id, category_id)
         VALUES 
-            (#{createMonth}, #{name}, #{studyTime}, #{userId}, #{categoryId}, #{createdAt}, #{updatedAt})
+            (#{createMonth}, #{name}, #{studyTime}, #{userId}, #{categoryId})
     </insert>
 
 </mapper>

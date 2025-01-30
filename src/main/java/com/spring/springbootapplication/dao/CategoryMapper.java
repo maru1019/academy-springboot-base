@@ -3,8 +3,15 @@ package com.spring.springbootapplication.dao;
 import com.spring.springbootapplication.entity.CategoryEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
-    CategoryEntity findByUserId(@Param("userId") Integer userId);
+    List<CategoryEntity> findByUserId(@Param("userId") Integer userId);
+
+    CategoryEntity findById(@Param("id") Integer id);
+
+    CategoryEntity findByMonth(@Param("name") String name);
 }

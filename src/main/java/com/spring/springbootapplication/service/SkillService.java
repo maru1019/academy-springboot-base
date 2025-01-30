@@ -4,9 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.springbootapplication.dao.SkillMapper;
+import com.spring.springbootapplication.dao.CategoryMapper;
 import com.spring.springbootapplication.dto.SkillRequest;
+import com.spring.springbootapplication.entity.CategoryEntity;
 import com.spring.springbootapplication.entity.SkillEntity;
 import com.spring.springbootapplication.enums.Category;
+import com.spring.springbootapplication.service.CategoryService;
+
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +21,12 @@ public class SkillService {
 
     @Autowired
     private SkillMapper skillMapper;
+    
+    @Autowired
+    private CategoryMapper categoryMapper;
 
+    @Autowired
+    private CategoryService categoryService;
     /**
      * 指定した月とユーザーIDでデータを取得（既存メソッド）
      * @param userId ユーザーID
@@ -51,6 +61,14 @@ public class SkillService {
      */
     public void save(SkillRequest skillRequest) {
 
+        // カテゴリIDが有効かを確認
+        Integer categoryId = skillRequest.getCategoryId();
+        CategoryEntity category = categoryMapper.findById(categoryId);
+        if (category == null) {
+            throw new IllegalArgumentException("指定されたカテゴリが見つかりません");
+        }
+
+        // データベースに保存
         skillMapper.save(skillRequest);
     }
 }

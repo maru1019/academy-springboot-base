@@ -29,5 +29,8 @@ public class SkillRequest implements Serializable {
 
   private LocalDate createdAt;
   private LocalDate updatedAt;
+
+  private String categoryName;
+
 }
 
