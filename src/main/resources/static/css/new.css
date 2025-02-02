@@ -53,7 +53,7 @@ main {
 
 .title {
   width: 480px;
-  height: 48;
+  height: 48px;
   text-align: center;
   margin: 80px 487px 0 487px;
   font-weight: 400;
@@ -67,7 +67,7 @@ main {
   margin: 80px 480px 0 480px;
   display: flex;
   flex-flow: column;
-  gap: 48px;
+  /* gap: 48px; */
 }
 
 label {
@@ -82,18 +82,18 @@ label {
   line-height: 19px;
 }
 
-.form-group-subject {
+/* .form-group-subject {
   width: 480px;
   height: 48px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
+} */
 
 .label-subject {
-  width: 85px;
+  width: 37px;
   height: 12px;
-  gap: 10px;
+  /* gap: 10px; */
   font-weight: 400;
   font-size: 12px;
   line-height: 12px;
@@ -103,14 +103,15 @@ label {
 
 .form-group-study-time {
   width: 480px;
-  height: 48px;
+  height: 71px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  margin: 48px 0 48px 0;
+  /* gap: 10px; */
 }
 
 .label-study-time {
-  width: 61px;
+  width: 49px;
   height: 12px;
   font-weight: 400;
   font-size: 12px;
@@ -154,7 +155,7 @@ select {
 }
 
 .label-study-time-minutes {
-  width: 148px;
+  width: 480px;
   height: 20px;
   font-weight: 400;
   font-size: 12px;
@@ -168,7 +169,7 @@ select {
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin-top: 30px;
+  /* margin-top: 30px; */
 }
 
 .btn-blue {
