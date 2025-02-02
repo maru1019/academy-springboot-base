@@ -74,11 +74,7 @@ public class SkillController {
                              @RequestParam(value = "createMonth", required = false) Integer createMonth,
                              @RequestParam(value = "categoryId", required = false) Integer categoryId,
                              Model model) {
-        
-        if (categoryId == null) {
-            model.addAttribute("errorMessage", "カテゴリが選択されていません。");
-            return "errorPage";
-        }
+
         // `categoryId` が null または無効な ID の場合、エラーページへ
         CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
         if (categoryId == null || (selectedCategory = categoryService.getCategoryById(categoryId)) == null) {
@@ -95,10 +91,6 @@ public class SkillController {
         SkillRequest skillRequest = new SkillRequest();
         skillRequest.setCreateMonth(createMonth);
         skillRequest.setCategoryId(selectedCategory.getId());
-
-        if (skillRequest.getStudyTime() == null) {
-            skillRequest.setStudyTime(0);
-        }
 
         // モデルにデータを渡す
         model.addAttribute("skillRequest", skillRequest);

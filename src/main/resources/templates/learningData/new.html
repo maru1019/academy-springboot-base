@@ -24,11 +24,9 @@
           <label class="label-study-time">学習時間</label>
           <label class="custom-select">
             <select th:field="*{studyTime}">
-              <option value="0" th:selected="${skillRequest.studyTime == null or skillRequest.studyTime == 0}">0</option>
               <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
                       th:value="${i}" 
-                      th:text="${i}"
-                      th:selected="${i == 0}">
+                      th:text="${i}">
               </option>
             </select>            
           </label>
