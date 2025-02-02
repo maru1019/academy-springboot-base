@@ -59,7 +59,7 @@ public class SkillService {
      * 新規スキル登録
      * @param skillRequest 登録データ
      */
-    public void save(SkillRequest skillRequest) {
+    public void save(Integer userId, SkillRequest skillRequest) {
 
         // カテゴリIDが有効かを確認
         Integer categoryId = skillRequest.getCategoryId();
@@ -68,7 +68,15 @@ public class SkillService {
             throw new IllegalArgumentException("指定されたカテゴリが見つかりません");
         }
 
-        // データベースに保存
-        skillMapper.save(skillRequest);
+        // SkillRequest から SkillEntity を作成
+        SkillEntity skillEntity = new SkillEntity();
+        skillEntity.setUserId(userId); // userId をセット
+        skillEntity.setCategoryId(categoryId);
+        skillEntity.setName(skillRequest.getName());
+        skillEntity.setStudyTime(skillRequest.getStudyTime());
+        skillEntity.setCreateMonth(skillRequest.getCreateMonth());
+
+        // SkillEntity を MyBatis に渡して保存
+        skillMapper.save(skillEntity);
     }
 }

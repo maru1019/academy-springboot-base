@@ -44,7 +44,7 @@
         AND ld.user_id = #{userId}
     </select>
 
-    <insert id="save" parameterType="com.spring.springbootapplication.dto.SkillRequest">
+    <insert id="save" parameterType="com.spring.springbootapplication.entity.SkillEntity">
         INSERT INTO learning_data 
             (create_month, name, study_time, user_id, category_id)
         VALUES 

@@ -13,8 +13,8 @@ public class CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-    public List<CategoryEntity> getCategoriesByUserId(Integer userId) {
-        return categoryMapper.findByUserId(userId);
+    public CategoryEntity getCategoryById(Integer categoryId) {
+        return categoryMapper.findById(categoryId);
     }
 
     /**
@@ -23,6 +23,6 @@ public class CategoryService {
      * @return カテゴリ情報
      */
     public CategoryEntity getSelectedCategory(String name) {
-        return categoryMapper.findByMonth(name);
+        return categoryMapper.findByName(name);
     }
 }

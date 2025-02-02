@@ -11,16 +11,13 @@ import com.spring.springbootapplication.enums.Category;
 import com.spring.springbootapplication.entity.CategoryEntity;
 import com.spring.springbootapplication.service.CategoryService;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class SkillController {
@@ -74,80 +71,68 @@ public class SkillController {
                              @RequestParam(value = "createMonth", required = false) Integer createMonth,
                              @RequestParam(value = "categoryId", required = false) Integer categoryId,
                              Model model) {
-
-        // カテゴリ情報を取得
-        List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
         
-        if (categories == null || categories.isEmpty()) {
-            model.addAttribute("errorMessage", "指定されたユーザーに対応するカテゴリが見つかりません。");
+        // ✅ `categoryId` が null または無効な ID の場合、エラーページへ
+        CategoryEntity selectedCategory;
+        if (categoryId == null || (selectedCategory = categoryService.getCategoryById(categoryId)) == null) {
+            model.addAttribute("errorMessage", "カテゴリが選択されていないか、見つかりません。");
             return "errorPage";
         }
 
-        // 選択されたカテゴリを取得
-        CategoryEntity selectedCategory = null;
-        if (categoryId != null) {
-        selectedCategory = categories.stream()
-                .filter(category -> category.getId().equals(categoryId))
-                .findFirst()
-                .orElse(null);
-        }
-
-        // デフォルトカテゴリを設定
-        if (selectedCategory == null) {
-            selectedCategory = categories.get(0); // 最初のカテゴリをデフォルトに設定
-        }
-
-        // 選択された月が null の場合は現在の月を設定
+        // ✅ `createMonth` のデフォルト値を現在の月に設定
         if (createMonth == null) {
             createMonth = LocalDate.now().getMonthValue();
         }
 
+        // ✅ `SkillRequest` にデフォルト値を設定
         SkillRequest skillRequest = new SkillRequest();
         skillRequest.setCreateMonth(createMonth);
         skillRequest.setCategoryId(selectedCategory.getId());
+        skillRequest.setStudyTime(0); // ✅ studyTime のデフォルト値を設定
 
         // サービスから学習項目を取得
         List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
 
-        // モデルに必要なデータを渡す
-        model.addAttribute("categories", categories);
+        // モデルにデータを渡す
         model.addAttribute("skillRequest", skillRequest);
-        model.addAttribute("skills", skills); // 学習項目
-        model.addAttribute("userId", userId); // ユーザーID
+        model.addAttribute("skills", skills);
+        model.addAttribute("userId", userId);
         model.addAttribute("selectedCategory", selectedCategory);
 
         return "learningData/new";
     }
-
 
     @PostMapping(value = "/learningData/{userId}/new")
     public String createSkill(
         @PathVariable("userId") Integer userId,
         @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
         BindingResult bindingResult,
-        Model model) {
+        Model model,
+        RedirectAttributes redirectAttributes) {
 
-        // バリデーションエラーがある場合は入力画面に戻す
-        if (bindingResult.hasErrors()) {
-            List<CategoryEntity> categories = categoryService.getCategoriesByUserId(userId);
-            model.addAttribute("categories", categories);
-            // selectedCategory を追加する
-            String categoryName = skillRequest.getCategoryName();
-            CategoryEntity selectedCategory = categoryService.getSelectedCategory(categoryName);
+        Integer categoryId = skillRequest.getCategoryId();
+        CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
+
+        // ✅ バリデーションエラーまたは `selectedCategory` が `null` の場合
+        if (bindingResult.hasErrors() || selectedCategory == null) {
+            if (selectedCategory == null) {
+                model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
+            }
             model.addAttribute("selectedCategory", selectedCategory);
+            model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
         }
 
-        // サービス層でスキルを登録（カテゴリと学習データの保存をまとめて行う）
         try {
-            skillService.save(skillRequest);
+            skillService.save(userId, skillRequest);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "データの保存に失敗しました: " + e.getMessage());
+            model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
         }
 
-        model.addAttribute("isSaved", true);
-        return "learningData/new";
+        redirectAttributes.addFlashAttribute("isSaved", true);
+        return "redirect:/learningData/" + userId + "/new";
     }
 
 }
