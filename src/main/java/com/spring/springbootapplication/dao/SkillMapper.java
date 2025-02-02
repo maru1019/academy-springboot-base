@@ -13,9 +13,16 @@ import java.util.List;
 public interface SkillMapper {
 
     // 指定した月とユーザーIDでデータを検索
-    List<SkillEntity> findByMonthAndUser(@Param("createMonth") Integer createMonth, @Param("userId") Integer userId);
+    List<SkillEntity> findByCategoryAndMonth(@Param("categoryId") Integer categoryId, 
+    @Param("createMonth") Integer createMonth, 
+    @Param("userId") Integer userId);
+
+    // 同じ名前のスキルが存在するかチェック
+    int countByNameAndUser(@Param("name") String name, 
+    @Param("userId") Integer userId, 
+    @Param("categoryId") Integer categoryId);
 
     // 新規スキル登録
     void save(SkillEntity skillEntity);
-    
+        
 }

@@ -3,7 +3,11 @@ package com.spring.springbootapplication.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 
 import lombok.Data;
 
@@ -12,7 +16,6 @@ public class SkillRequest implements Serializable {
 
   private Integer id;
 
-  @NotNull(message = "月を選択してください")
   private Integer createMonth;
 
   @NotBlank(message = "項目名は必ず入力してください")
@@ -21,7 +24,7 @@ public class SkillRequest implements Serializable {
 
   @NotNull(message = "学習時間は必ず入力してください")
   @Min(value = 0, message = "学習時間は0以上の数字で入力してください")
-  private Integer studyTime;
+  private Integer studyTime = 0;
 
   private Integer userId;
 

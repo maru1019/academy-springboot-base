@@ -28,31 +28,25 @@ public class SkillService {
     @Autowired
     private CategoryService categoryService;
     /**
-     * 指定した月とユーザーIDでデータを取得（既存メソッド）
-     * @param userId ユーザーID
-     * @param createMonth 月
-     * @return スキルのリスト
-     */
-    public List<SkillEntity> getSkillsByMonthAndUser(Integer createMonth, Integer userId) {
-        // データベースからデータ取得
-        return skillMapper.findByMonthAndUser(createMonth, userId);
-    }
-
-    /**
-     * 指定したカテゴリ、月、ユーザーIDでデータを取得（新しいメソッド）
-     * @param categoryId カテゴリ（backend, frontend, infra）
+     * 指定したカテゴリ、月、ユーザーIDでデータを取得
+     * @param categoryId カテゴリID
      * @param createMonth 月
      * @param userId ユーザーID
      * @return 指定されたカテゴリのスキルリスト
      */
     public List<SkillEntity> getSkillsByCategoryAndMonth(Integer categoryId, Integer createMonth, Integer userId) {
-        // 既存メソッドを利用してすべてのスキルを取得
-        List<SkillEntity> allSkills = getSkillsByMonthAndUser(createMonth, userId);
+        return skillMapper.findByCategoryAndMonth(categoryId, createMonth, userId);
+    }
 
-        // カテゴリでフィルタリング
-        return allSkills.stream()
-                .filter(skill -> categoryId.equals(skill.getCategoryId())) // カテゴリに一致するデータを抽出
-                .toList(); // フィルタリング結果をリスト化
+    /**
+     * ユーザーIDとカテゴリごとに、同じ名前のスキルが存在するかチェック
+     * @param name スキル名
+     * @param userId ユーザーID
+     * @param categoryId カテゴリID
+     * @return 存在すれば `true`
+     */
+    public boolean existsByNameAndUser(String name, Integer userId, Integer categoryId) {
+        return skillMapper.countByNameAndUser(name, userId, categoryId) > 0;
     }
 
     /**
@@ -62,16 +56,14 @@ public class SkillService {
     public void save(Integer userId, SkillRequest skillRequest) {
 
         // カテゴリIDが有効かを確認
-        Integer categoryId = skillRequest.getCategoryId();
-        CategoryEntity category = categoryMapper.findById(categoryId);
-        if (category == null) {
-            throw new IllegalArgumentException("指定されたカテゴリが見つかりません");
+       if (existsByNameAndUser(skillRequest.getName(), userId, skillRequest.getCategoryId())) {
+            throw new IllegalArgumentException("この項目名は既に登録されています");
         }
 
         // SkillRequest から SkillEntity を作成
         SkillEntity skillEntity = new SkillEntity();
         skillEntity.setUserId(userId); // userId をセット
-        skillEntity.setCategoryId(categoryId);
+        skillEntity.setCategoryId(skillRequest.getCategoryId());
         skillEntity.setName(skillRequest.getName());
         skillEntity.setStudyTime(skillRequest.getStudyTime());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth());
