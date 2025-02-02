@@ -3,7 +3,7 @@
 <head>
   <title>スキル編集</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <link rel="stylesheet" href="new.css" >
+  <link rel="stylesheet" href="/css/new.css" >
 </head>
 <body>
   <div class="container">
@@ -18,24 +18,23 @@
         <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:method="post">
           <input type="hidden" name="categoryId" th:value="${selectedCategory.id}" />
           <label class="label-subject">項目名</label>
-            <input type="text" th:field="${skillRequest.name}" class="form-control">
-            <p th:if="${#fields.hasErrors('skillRequest.name')}" th:errors="${skillRequest.name}" class="error-message"></p>
+            <input type="text" th:field="*{name}" class="form-control">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
           </div>
           <div class="form-group-study-time">
             <label class="label-study-time">学習時間</label>
             <label class="custom-select">
-              <option value="0" th:selected="${skillRequest.studyTime == 0}">0</option>
-              <select th:field="${skillRequest.studyTime}" >
-                <!-- 0〜100 まで10分単位で表示 -->
+              <select th:field="*{studyTime}">
+                <option value="0" th:selected="${skillRequest.studyTime == null or skillRequest.studyTime == 0}">0</option>
                 <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
                         th:value="${i}" 
-                        th:text="${i}" 
-                        th:selected="${skillRequest.studyTime == i}"> <!-- デフォルト値を選択 -->
+                        th:text="${i}"
+                        th:selected="${i == 0}">
                 </option>
-              </select>
+            </select>            
             </label>
             <label class="label-study-time-minutes">分単位で入力してください</label>
-            <p th:if="${#fields.hasErrors('skillRequest.studyTime)}" th:errors="${skillRequest.studyTime}" class="error-message"></p>
+            <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
           </div>  
           <div class="btn">
             <input type="submit" value="追加する" id="modal-open" class="btn-blue">
@@ -51,10 +50,10 @@
   <div id="modal-bg"></div>
   <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
     <p class="modal-text" th:text="${selectedCategory.name} + 'に' + ${skillRequest.name} + 'を'">カテゴリー</p>
-    <p class="modal-text"th:text="${skillRequest.studyTime} + '分で追加しました！'">時間を追加</p>
+    <p class="modal-text" th:text="${skillRequest.studyTime} + '分で追加しました！'">時間を追加</p>
     <button type="button" id="modal-close">編集ページに戻る</button>
   </div>
   
-  <script src="new.js"></script>
+  <script src="/js/new.js"></script>
 </body>
 </html>

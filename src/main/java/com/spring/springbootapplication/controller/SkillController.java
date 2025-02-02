@@ -15,7 +15,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
-import jakarta.validation.Valid;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -72,30 +75,27 @@ public class SkillController {
                              @RequestParam(value = "categoryId", required = false) Integer categoryId,
                              Model model) {
         
-        // ✅ `categoryId` が null または無効な ID の場合、エラーページへ
-        CategoryEntity selectedCategory;
+        // `categoryId` が null または無効な ID の場合、エラーページへ
+        CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
         if (categoryId == null || (selectedCategory = categoryService.getCategoryById(categoryId)) == null) {
             model.addAttribute("errorMessage", "カテゴリが選択されていないか、見つかりません。");
             return "errorPage";
         }
 
-        // ✅ `createMonth` のデフォルト値を現在の月に設定
+        // `createMonth` のデフォルト値を現在の月に設定
         if (createMonth == null) {
             createMonth = LocalDate.now().getMonthValue();
         }
 
-        // ✅ `SkillRequest` にデフォルト値を設定
+        // `SkillRequest` にデフォルト値を設定
         SkillRequest skillRequest = new SkillRequest();
         skillRequest.setCreateMonth(createMonth);
         skillRequest.setCategoryId(selectedCategory.getId());
-        skillRequest.setStudyTime(0); // ✅ studyTime のデフォルト値を設定
+        skillRequest.setStudyTime(0);
 
-        // サービスから学習項目を取得
-        List<SkillEntity> skills = skillService.getSkillsByMonthAndUser(createMonth, userId);
 
         // モデルにデータを渡す
         model.addAttribute("skillRequest", skillRequest);
-        model.addAttribute("skills", skills);
         model.addAttribute("userId", userId);
         model.addAttribute("selectedCategory", selectedCategory);
 
@@ -105,7 +105,7 @@ public class SkillController {
     @PostMapping(value = "/learningData/{userId}/new")
     public String createSkill(
         @PathVariable("userId") Integer userId,
-        @ModelAttribute("skillRequest") @Valid SkillRequest skillRequest,
+        @Validated @ModelAttribute("skillRequest") SkillRequest skillRequest,
         BindingResult bindingResult,
         Model model,
         RedirectAttributes redirectAttributes) {
@@ -113,11 +113,21 @@ public class SkillController {
         Integer categoryId = skillRequest.getCategoryId();
         CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
 
-        // ✅ バリデーションエラーまたは `selectedCategory` が `null` の場合
+        // カテゴリが存在しない場合の処理
+        if (selectedCategory == null) {
+            model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
+            model.addAttribute("selectedCategory", selectedCategory);
+            model.addAttribute("skillRequest", skillRequest);
+            return "learningData/new";
+        }
+
+        // サービス層で重複チェック
+        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, categoryId)) {
+            bindingResult.rejectValue("name", "error.name", "この項目名は既に登録されています");
+        }
+
+        // バリデーションエラーまたは `selectedCategory` が `null` の場合
         if (bindingResult.hasErrors() || selectedCategory == null) {
-            if (selectedCategory == null) {
-                model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
-            }
             model.addAttribute("selectedCategory", selectedCategory);
             model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
@@ -127,6 +137,7 @@ public class SkillController {
             skillService.save(userId, skillRequest);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "データの保存に失敗しました: " + e.getMessage());
+            model.addAttribute("selectedCategory", selectedCategory);
             model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
         }
