@@ -16,6 +16,6 @@ public interface SkillMapper {
     List<SkillEntity> findByMonthAndUser(@Param("createMonth") Integer createMonth, @Param("userId") Integer userId);
 
     // 新規スキル登録
-    void save(SkillRequest skillRequest);
+    void save(SkillEntity skillEntity);
     
 }

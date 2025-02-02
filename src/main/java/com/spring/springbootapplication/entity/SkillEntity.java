@@ -13,7 +13,6 @@ public class SkillEntity implements Serializable {
   private Integer createMonth;
 
   private String name;
-
   private Integer studyTime;
 
   private Date createdAt;

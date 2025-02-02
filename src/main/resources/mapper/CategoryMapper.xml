@@ -3,19 +3,15 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.springbootapplication.dao.CategoryMapper">
-    <select id="findByUserId" parameterType="Integer" resultType="com.spring.springbootapplication.entity.CategoryEntity">
+    <!-- <select id="findById" parameterType="Integer" resultType="com.spring.springbootapplication.entity.CategoryEntity">
         SELECT c.id, c.name
         FROM categories c
         JOIN learning_data ld ON c.id = ld.category_id
         WHERE ld.user_id = #{userId}
         GROUP BY c.id, c.name
-    </select>
+    </select> -->
 
     <select id="findById" parameterType="int" resultType="com.spring.springbootapplication.entity.CategoryEntity">
         SELECT * FROM categories WHERE id = #{id};
-    </select>
-
-    <select id="findByMonth" parameterType="String" resultType="com.spring.springbootapplication.entity.CategoryEntity">
-        SELECT * FROM categories WHERE name = #{name} LIMIT 1;
     </select>
 </mapper>
