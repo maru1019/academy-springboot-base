@@ -15,7 +15,7 @@
     </header>
     <main>
       <h2 class="title" th:text="${selectedCategory.name} + 'に項目を追加'"></h2>
-      <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+      <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:attr="data-user-id=${userId}" th:method="post">
         <input type="hidden" name="categoryId" th:value="${selectedCategory.id}" />
         <label class="label-subject">項目名</label>
         <input type="text" th:field="*{name}" class="form-control">
@@ -34,22 +34,22 @@
           <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
         </div>  
         <div class="btn">
-            <input type="submit" value="追加する" id="modal-open" class="btn-blue">
+          <button type="button" id="modal-open" class="btn-blue">追加する</button>
         </div>
       </form>
     </main>
+
+    <div id="modal-bg"></div>
+    <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
+      <p class="modal-text" th:text="${selectedCategory.name} + 'に' + ${skillRequest.name} + 'を'"></p>
+      <p class="modal-text" th:text="${skillRequest.studyTime} + '分で追加しました！'"></p>
+      <button type="button" id="modal-close">編集ページに戻る</button>
+    </div>
+
     <footer>
       <p>portfolio site</p>
     </footer>
   </div>
-
-  <div id="modal-bg"></div>
-  <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
-    <p class="modal-text" th:text="${selectedCategory.name} + 'に' + ${skillRequest.name} + 'を'">カテゴリー</p>
-    <p class="modal-text" th:text="${skillRequest.studyTime} + '分で追加しました！'">時間を追加</p>
-    <button type="button" id="modal-close">編集ページに戻る</button>
-  </div>
-  
   <script src="/js/new.js"></script>
 </body>
 </html>
