@@ -11,8 +11,7 @@ import com.spring.springbootapplication.entity.SkillEntity;
 import com.spring.springbootapplication.enums.Category;
 import com.spring.springbootapplication.service.CategoryService;
 
-
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,6 +54,10 @@ public class SkillService {
      */
     public void save(Integer userId, SkillRequest skillRequest) {
 
+        if (skillRequest.getCategoryId() == null) {
+            throw new IllegalArgumentException("カテゴリ ID が設定されていません");
+        }
+
         // カテゴリIDが有効かを確認
        if (existsByNameAndUser(skillRequest.getName(), userId, skillRequest.getCategoryId())) {
             throw new IllegalArgumentException("この項目名は既に登録されています");
@@ -67,6 +70,7 @@ public class SkillService {
         skillEntity.setName(skillRequest.getName());
         skillEntity.setStudyTime(skillRequest.getStudyTime());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth());
+        skillEntity.setCreateMonth(skillRequest.getCreateMonth() != null ? skillRequest.getCreateMonth() : LocalDate.now().getMonthValue());
 
         // SkillEntity を MyBatis に渡して保存
         skillMapper.save(skillEntity);

@@ -105,8 +105,8 @@ public class SkillController {
         @PathVariable("userId") Integer userId,
         @Validated @ModelAttribute("skillRequest") SkillRequest skillRequest,
         BindingResult bindingResult,
-        Model model,
-        RedirectAttributes redirectAttributes) {
+        Model model
+        ) {
 
         Integer categoryId = skillRequest.getCategoryId();
         CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
@@ -125,7 +125,7 @@ public class SkillController {
         }
 
         // バリデーションエラーまたは `selectedCategory` が `null` の場合
-        if (bindingResult.hasErrors() || selectedCategory == null) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("selectedCategory", selectedCategory);
             model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
@@ -133,6 +133,7 @@ public class SkillController {
 
         try {
             skillService.save(userId, skillRequest);
+            model.addAttribute("isSaved", true);  // モーダルを表示するフラグ
         } catch (Exception e) {
             model.addAttribute("errorMessage", "データの保存に失敗しました: " + e.getMessage());
             model.addAttribute("selectedCategory", selectedCategory);
@@ -140,8 +141,7 @@ public class SkillController {
             return "learningData/new";
         }
 
-        redirectAttributes.addFlashAttribute("isSaved", true);
-        return "redirect:/learningData/" + userId + "/new";
+        return "learningData/new"; 
     }
 
 }
