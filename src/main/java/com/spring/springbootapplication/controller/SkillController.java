@@ -22,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 @Controller
 public class SkillController {
 
@@ -110,7 +111,6 @@ public class SkillController {
 
         Integer categoryId = skillRequest.getCategoryId();
         CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
-
         // カテゴリが存在しない場合の処理
         if (selectedCategory == null) {
             model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
@@ -119,12 +119,17 @@ public class SkillController {
             return "learningData/new";
         }
 
+        Integer createMonth = skillRequest.getCreateMonth();
+        if (createMonth == null) {
+            createMonth = LocalDate.now().getMonthValue();
+        }
+
         // サービス層で重複チェック
         if (skillService.existsByNameAndUser(skillRequest.getName(), userId, categoryId)) {
             bindingResult.rejectValue("name", "error.name", "この項目名は既に登録されています");
         }
 
-        // バリデーションエラーまたは `selectedCategory` が `null` の場合
+        // バリデーションエラー
         if (bindingResult.hasErrors()) {
             model.addAttribute("selectedCategory", selectedCategory);
             model.addAttribute("skillRequest", skillRequest);
@@ -132,6 +137,7 @@ public class SkillController {
         }
 
         try {
+            skillRequest.setCreateMonth(createMonth);
             skillService.save(userId, skillRequest);
             model.addAttribute("isSaved", true);  // モーダルを表示するフラグ
         } catch (Exception e) {

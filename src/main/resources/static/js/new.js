@@ -6,38 +6,24 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector(".study-form");
   const userId = form.getAttribute("data-user-id"); // フォームに userId を埋め込んでおく
 
+  // サーバーから返された isSaved フラグが true の場合、モーダルを表示
+  if (document.querySelector('[name="isSaved"]')) {
+      container.classList.add('active');
+      modalBg.classList.add('active');
+  }
+
   open.addEventListener("click", function(event) {
       event.preventDefault(); // デフォルトのフォーム送信を防ぐ
-
-      const formData = new FormData(form);
-
-      fetch(form.action, {
-          method: "POST",
-          body: formData
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error("登録に失敗しました");
-          }
-          return response.text(); // HTML を取得
-      })
-      .then(html => {
-          // フォーム送信成功後にモーダルを表示
-          container.classList.add('active');
-          modalBg.classList.add('active');
-      })
-      .catch(error => {
-          console.error("エラー:", error);
-      });
+      form.submit();  // 通常のフォーム送信を行う
   });
 
   close.addEventListener('click', () => {
       container.classList.remove('active');
       modalBg.classList.remove('active');
 
-      // **正しいパスに遷移**
+      // フォーム送信後、遷移先のページにリダイレクト
       if (userId) {
-          window.location.href = `/learningData/${userId}/skill`; 
+          window.location.href = `/learningData/${userId}/skill`;
       } else {
           window.location.href = "/learningData"; // userId 取得に失敗した場合のデフォルト
       }
