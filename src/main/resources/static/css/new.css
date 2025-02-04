@@ -111,20 +111,12 @@ label {
   color: gray;
 }
 
-select {
-  appearance: none;
-  width: 480px;
-  border: none;
-  outline: none;
-  border-bottom: 1px solid #ddd;
-}
-
-.custom-select {
+.form-control number-input {
   position: relative;
 }
 
-.custom-select::before,
-.custom-select::after {
+.form-control number-input::before,
+.form-control number-input::after {
   position: absolute;
   right: 15px;
   width: 9px;
@@ -134,15 +126,16 @@ select {
   pointer-events: none;
 }
 
-.custom-select::before {
+.form-control number-input::before {
     top: calc(50% - 13px);
     clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.custom-select::after {
+.form-control number-input::after {
     bottom: calc(50% - 3px);
     clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
+
 
 .label-study-time-minutes {
   width: 480px;
@@ -169,7 +162,6 @@ select {
   justify-content: center;
   align-items: center;
   text-align: center;
-  /* margin-top: 30px; */
 }
 
 .btn-blue {

@@ -22,27 +22,22 @@
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
         <div class="form-group-study-time">
           <label class="label-study-time">学習時間</label>
-          <label class="custom-select">
-            <select th:field="*{studyTime}">
-              <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
-                      th:value="${i}" 
-                      th:text="${i}">
-              </option>
-            </select>            
+          <label class="form-control number-input">
+            <input type="number" th:field="*{studyTime}"  min="0">
           </label>
           <label class="label-study-time-minutes">分単位で入力してください</label>
           <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
         </div>  
         <div class="btn">
-          <button type="button" id="modal-open" class="btn-blue">追加する</button>
+          <button type="submit" id="modal-open" class="btn-blue">追加する</button>
         </div>
       </form>
     </main>
 
     <div id="modal-bg"></div>
     <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
-      <p class="modal-text" th:text="${selectedCategory.name} + 'に' + ${skillRequest.name} + 'を'"></p>
-      <p class="modal-text" th:text="${skillRequest.studyTime} + '分で追加しました！'"></p>
+      <p id="modal-message-1" class="modal-text"></p>
+      <p id="modal-message-2" class="modal-text"></p>
       <button type="button" id="modal-close">編集ページに戻る</button>
     </div>
 
