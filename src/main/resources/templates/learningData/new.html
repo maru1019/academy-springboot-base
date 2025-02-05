@@ -22,9 +22,9 @@
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
         <div class="form-group-study-time">
           <label class="label-study-time">学習時間</label>
-          <label class="form-control number-input">
-            <input type="number" th:field="*{studyTime}"  min="0">
-          </label>
+          <div class="form-control">
+              <input type="number" th:field="*{studyTime}" min="0" class="number-input">
+          </div>
           <label class="label-study-time-minutes">分単位で入力してください</label>
           <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
         </div>  
