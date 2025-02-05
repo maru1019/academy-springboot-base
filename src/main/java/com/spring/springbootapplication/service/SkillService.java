@@ -65,7 +65,7 @@ public class SkillService {
 
         // SkillRequest から SkillEntity を作成
         SkillEntity skillEntity = new SkillEntity();
-        skillEntity.setUserId(userId); // userId をセット
+        skillEntity.setUserId(userId); 
         skillEntity.setCategoryId(skillRequest.getCategoryId());
         skillEntity.setName(skillRequest.getName());
         skillEntity.setStudyTime(skillRequest.getStudyTime());

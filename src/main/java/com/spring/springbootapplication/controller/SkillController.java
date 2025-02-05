@@ -72,25 +72,31 @@ public class SkillController {
 
     @GetMapping(value = "/learningData/{userId}/new")
     public String displayAdd(@PathVariable("userId") Integer userId, 
-                             @RequestParam(value = "createMonth", required = false) Integer createMonth,
-                             @RequestParam(value = "categoryId", required = false) Integer categoryId,
-                             Model model) {
+                         @RequestParam(value = "createMonth", required = false) Integer createMonth,
+                         @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                         Model model) {
 
-        // `categoryId` が null または無効な ID の場合、エラーページへ
-        CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
-        if (categoryId == null || (selectedCategory = categoryService.getCategoryById(categoryId)) == null) {
-            model.addAttribute("errorMessage", "カテゴリが選択されていないか、見つかりません。");
-            return "errorPage";
+        // `categoryId` が null の場合、エラーメッセージを表示して戻る
+        if (categoryId == null) {
+            model.addAttribute("errorMessage", "カテゴリが選択されていません。");
+            model.addAttribute("selectedCategory", new CategoryEntity());
+            model.addAttribute("skillRequest", new SkillRequest());
+            model.addAttribute("userId", userId);
+            return "learningData/new"; 
         }
 
-        // `createMonth` のデフォルト値を現在の月に設定
-        if (createMonth == null) {
-            createMonth = LocalDate.now().getMonthValue();
+        // カテゴリが存在しない場合の処理
+        CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
+        if (selectedCategory == null) {
+            model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
+            model.addAttribute("selectedCategory", new CategoryEntity());
+            model.addAttribute("skillRequest", new SkillRequest());
+            model.addAttribute("userId", userId);
+            return "learningData/new"; 
         }
 
         // `SkillRequest` にデフォルト値を設定
         SkillRequest skillRequest = new SkillRequest();
-        skillRequest.setCreateMonth(createMonth);
         skillRequest.setCategoryId(selectedCategory.getId());
 
         // モデルにデータを渡す
@@ -100,6 +106,7 @@ public class SkillController {
 
         return "learningData/new";
     }
+
 
     @PostMapping(value = "/learningData/{userId}/new")
     public String createSkill(
@@ -114,7 +121,7 @@ public class SkillController {
         // カテゴリが存在しない場合の処理
         if (selectedCategory == null) {
             model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
-            model.addAttribute("selectedCategory", selectedCategory);
+            model.addAttribute("selectedCategory", new CategoryEntity()); // 空のオブジェクトをセット
             model.addAttribute("skillRequest", skillRequest);
             return "learningData/new";
         }
@@ -124,15 +131,19 @@ public class SkillController {
             createMonth = LocalDate.now().getMonthValue();
         }
 
-        // サービス層で重複チェック
-        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, categoryId)) {
-            bindingResult.rejectValue("name", "error.name", "この項目名は既に登録されています");
-        }
-
         // バリデーションエラー
         if (bindingResult.hasErrors()) {
             model.addAttribute("selectedCategory", selectedCategory);
             model.addAttribute("skillRequest", skillRequest);
+            return "learningData/new";
+        }
+
+        // サービス層で重複チェック
+        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, categoryId)) {
+            bindingResult.rejectValue("name", "error.name", "この項目名は既に登録されています");
+            model.addAttribute("selectedCategory", selectedCategory);
+            model.addAttribute("skillRequest", skillRequest);
+            model.addAttribute("categoryId", categoryId);
             return "learningData/new";
         }
 
@@ -147,7 +158,7 @@ public class SkillController {
             return "learningData/new";
         }
 
-        return "learningData/new"; 
+        return "redirect:/learningData/" + userId + "/skill?isSaved=true";
     }
 
 }

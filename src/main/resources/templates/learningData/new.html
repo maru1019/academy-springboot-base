@@ -31,15 +31,20 @@
         <div class="btn">
           <button type="submit" id="modal-open" class="btn-blue">追加する</button>
         </div>
+      
+        <!-- モーダル表示 -->
+        <div id="modal-bg"></div>
+        <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''"
+            th:data-category-name="${selectedCategory?.name}"
+            th:data-item-name="${skillRequest?.name}"
+            th:data-study-time="${skillRequest?.studyTime}">
+          <p id="modal-message-1" class="modal-text"></p>
+          <p id="modal-message-2" class="modal-text"></p>
+          <button type="button" id="modal-close">編集ページに戻る</button>
+        </div>
+
       </form>
     </main>
-
-    <div id="modal-bg"></div>
-    <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
-      <p id="modal-message-1" class="modal-text"></p>
-      <p id="modal-message-2" class="modal-text"></p>
-      <button type="button" id="modal-close">編集ページに戻る</button>
-    </div>
 
     <footer>
       <p>portfolio site</p>
