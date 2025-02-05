@@ -74,14 +74,6 @@ label {
   display: block;
 }
 
-.form-control {
-  width: 480px;
-  border: none;
-  border-bottom: 1px solid #ddd;
-  outline: none;
-  line-height: 19px;
-}
-
 .label-subject {
   width: 37px;
   height: 12px;
@@ -111,14 +103,51 @@ label {
   color: gray;
 }
 
-.form-control number-input {
-  position: relative;
+/* 数値入力フィールドのデザイン調整 */
+/* Firefoxの矢印を消す */
+.number-input {
+  -moz-appearance: textfield;
+  border: none; /* 枠線を削除 */
+  outline: none; /* フォーカス時の枠も削除 */
+  background: transparent; /* 背景を透明に */
+  font-size: 16px; /* 見やすいサイズ */
+  width: 100px; /* 適切な幅 */
 }
 
-.form-control number-input::before,
-.form-control number-input::after {
+/* 数値入力の矢印を非表示 */
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+
+/* Firefox用の調整 */
+.number-input::-moz-number-spin-box {
+  opacity: 1;
+}
+
+/* 矢印アイコンをカスタムデザインで表示する */
+.form-control {
+  position: relative;
+  display: inline-block;
+  width: 480px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+  outline: none;
+  line-height: 19px;
+  margin: 10px 0 10px 0;
+}
+
+
+.form-control .number-input {
+  padding-right: 25px; /* 矢印用のスペース */
+}
+
+.form-control::before,
+.form-control::after {
   position: absolute;
-  right: 15px;
+  right: 5px;
   width: 9px;
   height: 6px;
   background-color: gray;
@@ -126,16 +155,15 @@ label {
   pointer-events: none;
 }
 
-.form-control number-input::before {
-    top: calc(50% - 13px);
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+.form-control::before {
+  top: calc(50% - 12px);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.form-control number-input::after {
-    bottom: calc(50% - 3px);
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
+.form-control::after {
+  bottom: calc(50% - 3px);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
-
 
 .label-study-time-minutes {
   width: 480px;
