@@ -16,6 +16,15 @@
         <result property="deletedAt" column="deleted_at" />
         <result property="userId" column="user_id" />
         <result property="categoryId" column="category_id" />
+     <!-- 外部キー関連のマッピング -->
+        <association property="user" javaType="com.spring.springbootapplication.entity.UserEntity">
+            <result property="id" column="user_id" />
+            <result property="name" column="user_name" />
+        </association>
+        <association property="category" javaType="com.spring.springbootapplication.entity.CategoryEntity">
+            <result property="id" column="category_id" />
+            <result property="name" column="category_name" />
+        </association>
     </resultMap>
 
     <!-- 指定したカテゴリと月、ユーザーIDでデータを取得 -->
