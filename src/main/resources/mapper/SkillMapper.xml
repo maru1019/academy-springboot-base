@@ -31,6 +31,13 @@
         SELECT COUNT(*) 
         FROM learning_data 
         WHERE name = #{name} 
+        AND user_id = #{userId}
+    </select>
+
+    <select id="countByNameAndUserWithCategory" parameterType="map" resultType="int">
+        SELECT COUNT(*) 
+        FROM learning_data 
+        WHERE name = #{name} 
         AND user_id = #{userId} 
         AND category_id = #{categoryId}
     </select>
