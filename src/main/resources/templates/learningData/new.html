@@ -15,18 +15,18 @@
     </header>
     <main>
       <h2 class="title" th:text="${selectedCategory.name} + 'に項目を追加'"></h2>
-      <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:attr="data-user-id=${userId}" th:method="post">
+      <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:attr="data-user-id=${userId}" th:method="post" novalidate>
         <input type="hidden" name="categoryId" th:value="${selectedCategory.id}" />
         <label class="label-subject">項目名</label>
         <input type="text" th:field="*{name}" class="form-control">
-        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></p>
+        <p class="error-message name-error" th:text="${#fields.hasErrors('name')} ? ${#fields.errors('name')} : ''"></p>
         <div class="form-group-study-time">
           <label class="label-study-time">学習時間</label>
           <div class="form-control">
               <input type="number" th:field="*{studyTime}" min="0" class="number-input">
           </div>
           <label class="label-study-time-minutes">分単位で入力してください</label>
-          <p th:if="${#fields.hasErrors('studyTime')}" th:errors="*{studyTime}" class="error-message"></p>
+          <p class="error-message studyTime-error" th:text="${#fields.hasErrors('studyTime')} ? ${#fields.errors('studyTime')} : ''"></p>
         </div>  
         <div class="btn">
           <button type="submit" id="modal-open" class="btn-blue">追加する</button>

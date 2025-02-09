@@ -42,10 +42,13 @@ public class SkillService {
      * @param name スキル名
      * @param userId ユーザーID
      * @param categoryId カテゴリID
-     * @return 存在すれば `true`
      */
     public boolean existsByNameAndUser(String name, Integer userId, Integer categoryId) {
-        return skillMapper.countByNameAndUser(name, userId, categoryId) > 0;
+        if (categoryId != null) {
+            return skillMapper.countByNameAndUserWithCategory(name, userId, categoryId) > 0;
+        } else {
+            return skillMapper.countByNameAndUser(name, userId) > 0;
+        }
     }
 
     /**
@@ -56,11 +59,6 @@ public class SkillService {
 
         if (skillRequest.getCategoryId() == null) {
             throw new IllegalArgumentException("カテゴリ ID が設定されていません");
-        }
-
-        // カテゴリIDが有効かを確認
-       if (existsByNameAndUser(skillRequest.getName(), userId, skillRequest.getCategoryId())) {
-            throw new IllegalArgumentException("この項目名は既に登録されています");
         }
 
         // SkillRequest から SkillEntity を作成

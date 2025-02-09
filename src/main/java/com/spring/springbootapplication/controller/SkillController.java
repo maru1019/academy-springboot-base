@@ -12,6 +12,7 @@ import com.spring.springbootapplication.entity.CategoryEntity;
 import com.spring.springbootapplication.service.CategoryService;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,8 @@ import org.springframework.validation.annotation.Validated;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Map;
+import java.util.HashMap;
 
 
 @Controller
@@ -108,57 +111,37 @@ public class SkillController {
     }
 
 
-    @PostMapping(value = "/learningData/{userId}/new")
-    public String createSkill(
+    @PostMapping(value = "/learningData/{userId}/new", produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> createSkill(
         @PathVariable("userId") Integer userId,
         @Validated @ModelAttribute("skillRequest") SkillRequest skillRequest,
-        BindingResult bindingResult,
-        Model model
-        ) {
-
-        Integer categoryId = skillRequest.getCategoryId();
-        CategoryEntity selectedCategory = categoryService.getCategoryById(categoryId);
-        // カテゴリが存在しない場合の処理
-        if (selectedCategory == null) {
-            model.addAttribute("errorMessage", "指定されたカテゴリが見つかりません。");
-            model.addAttribute("selectedCategory", new CategoryEntity()); // 空のオブジェクトをセット
-            model.addAttribute("skillRequest", skillRequest);
-            return "learningData/new";
-        }
-
-        Integer createMonth = skillRequest.getCreateMonth();
-        if (createMonth == null) {
-            createMonth = LocalDate.now().getMonthValue();
-        }
-
-        // バリデーションエラー
+        BindingResult bindingResult) {
+    
+        Map<String, Object> response = new HashMap<>();
+    
         if (bindingResult.hasErrors()) {
-            model.addAttribute("selectedCategory", selectedCategory);
-            model.addAttribute("skillRequest", skillRequest);
-            return "learningData/new";
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                errors.put(error.getField(), error.getDefaultMessage());
+            });
+            response.put("errors", errors);
+            return response;
         }
-
-        // サービス層で重複チェック
-        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, categoryId)) {
-            bindingResult.rejectValue("name", "error.name", "この項目名は既に登録されています");
-            model.addAttribute("selectedCategory", selectedCategory);
-            model.addAttribute("skillRequest", skillRequest);
-            model.addAttribute("categoryId", categoryId);
-            return "learningData/new";
+    
+        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, null)) {
+            String errorMessage = String.format("%s は既に登録されています", skillRequest.getName());
+            response.put("errors", Map.of("name", errorMessage));
+            return response;
         }
-
+    
         try {
-            skillRequest.setCreateMonth(createMonth);
             skillService.save(userId, skillRequest);
-            model.addAttribute("isSaved", true);  // モーダルを表示するフラグ
+            response.put("success", true);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "データの保存に失敗しました: " + e.getMessage());
-            model.addAttribute("selectedCategory", selectedCategory);
-            model.addAttribute("skillRequest", skillRequest);
-            return "learningData/new";
+            response.put("errors", Map.of("general", "データの保存に失敗しました: " + e.getMessage()));
         }
-
-        return "redirect:/learningData/" + userId + "/skill?isSaved=true";
+    
+        return response;
     }
-
 }
