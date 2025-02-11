@@ -106,7 +106,8 @@ public class SkillController {
         model.addAttribute("skillRequest", skillRequest);
         model.addAttribute("userId", userId);
         model.addAttribute("selectedCategory", selectedCategory);
-
+        model.addAttribute("selectedMonth", createMonth);
+        
         return "learningData/new";
     }
 
@@ -119,29 +120,36 @@ public class SkillController {
         BindingResult bindingResult) {
     
         Map<String, Object> response = new HashMap<>();
-    
+        Map<String, String> errors = new HashMap<>();
+
+        // 1. フォームバリデーションのエラーを収集
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error -> {
                 errors.put(error.getField(), error.getDefaultMessage());
             });
+        }
+        
+        // 2. 重複チェックも追加
+        if (skillService.existsByNameAndUserAndMonth(skillRequest.getName(), userId, skillRequest.getCreateMonth())) {
+            String duplicateErrorMessage = String.format("%s は既に登録されています", skillRequest.getName());
+            errors.put("name", duplicateErrorMessage);  // 項目名のエラーとして追加
+        }
+        
+        // 3. すべてのエラーを返す
+        if (!errors.isEmpty()) {
             response.put("errors", errors);
             return response;
         }
-    
-        if (skillService.existsByNameAndUser(skillRequest.getName(), userId, null)) {
-            String errorMessage = String.format("%s は既に登録されています", skillRequest.getName());
-            response.put("errors", Map.of("name", errorMessage));
-            return response;
-        }
-    
+        
+        // 4. エラーがなければ保存処理
         try {
             skillService.save(userId, skillRequest);
             response.put("success", true);
         } catch (Exception e) {
             response.put("errors", Map.of("general", "データの保存に失敗しました: " + e.getMessage()));
         }
-    
+        
         return response;
+        
     }
 }

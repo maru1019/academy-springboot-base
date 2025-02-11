@@ -41,16 +41,12 @@ public class SkillService {
      * ユーザーIDとカテゴリごとに、同じ名前のスキルが存在するかチェック
      * @param name スキル名
      * @param userId ユーザーID
-     * @param categoryId カテゴリID
+     * @param createMonth 月
      */
-    public boolean existsByNameAndUser(String name, Integer userId, Integer categoryId) {
-        if (categoryId != null) {
-            return skillMapper.countByNameAndUserWithCategory(name, userId, categoryId) > 0;
-        } else {
-            return skillMapper.countByNameAndUser(name, userId) > 0;
-        }
+    public boolean existsByNameAndUserAndMonth(String name, Integer userId, Integer createMonth) {
+        return skillMapper.countByNameUserAndMonth(name, userId, createMonth) > 0;
     }
-
+    
     /**
      * 新規スキル登録
      * @param skillRequest 登録データ
@@ -67,7 +63,6 @@ public class SkillService {
         skillEntity.setCategoryId(skillRequest.getCategoryId());
         skillEntity.setName(skillRequest.getName());
         skillEntity.setStudyTime(skillRequest.getStudyTime());
-        skillEntity.setCreateMonth(skillRequest.getCreateMonth());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth() != null ? skillRequest.getCreateMonth() : LocalDate.now().getMonthValue());
 
         // SkillEntity を MyBatis に渡して保存

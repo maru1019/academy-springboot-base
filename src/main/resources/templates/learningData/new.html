@@ -16,6 +16,7 @@
     <main>
       <h2 class="title" th:text="${selectedCategory.name} + 'に項目を追加'"></h2>
       <form class="study-form" th:action="@{/learningData/{userId}/new(userId=${userId})}" th:object="${skillRequest}" th:attr="data-user-id=${userId}" th:method="post" novalidate>
+        <input type="hidden" name="createMonth" th:value="${selectedMonth}" />
         <input type="hidden" name="categoryId" th:value="${selectedCategory.id}" />
         <label class="label-subject">項目名</label>
         <input type="text" th:field="*{name}" class="form-control">
