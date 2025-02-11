@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const modalBg = document.getElementById('modal-bg');
   const container = document.getElementById('modal-container');
   const close = document.getElementById('modal-close');
+  const selectedMonth = form.querySelector('input[name="createMonth"]').value;
+
 
   form.addEventListener("submit", function(event) {
     event.preventDefault();  // フォームのデフォルト送信を防止
@@ -46,10 +48,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // サーバーから返されたエラーを表示
     if (errors.name) {
-      document.querySelector('p.name-error').textContent = errors.name;  // クラス名で指定
+        document.querySelector('p.name-error').textContent = errors.name;
     }
     if (errors.studyTime) {
-      document.querySelector('p.studyTime-error').textContent = errors.studyTime;  // クラス名で指定
+      document.querySelector('p.studyTime-error').textContent = errors.studyTime;
     }
   }
 
@@ -72,6 +74,6 @@ document.addEventListener("DOMContentLoaded", function() {
     container.classList.remove('active');
 
     const userId = form.getAttribute("data-user-id");
-    window.location.href = `/learningData/${userId}/skill`;
+    window.location.href = `/learningData/${userId}/skill?createMonth=${selectedMonth}`;
   });
 });
