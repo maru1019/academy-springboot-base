@@ -68,4 +68,15 @@ public class SkillService {
         // SkillEntity を MyBatis に渡して保存
         skillMapper.save(skillEntity);
     }
+
+    public void update (Integer userId, SkillRequest skillRequest) {
+
+        SkillEntity skillEntity = new SkillEntity();
+        skillEntity.setUserId(userId);
+        skillEntity.setCategoryId(skillRequest.getCategoryId());
+        skillEntity.setStudyTime(skillRequest.getStudyTime());
+        skillEntity.setCreateMonth(skillRequest.getCreateMonth());
+
+        skillMapper.update(skillEntity);
+    }
 }

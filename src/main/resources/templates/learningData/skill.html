@@ -32,29 +32,28 @@
               <h2>バックエンド</h2>
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).BACKEND.id})}">項目を追加する</a>
             </div>
-            <table class="table">
+              <table class="table">
                 <tr class="table-header">
-                  <td class="subject">項目名</td>
-                  <td class="learning">学習時間</td>
+                  <th class="subject">項目名</th>
+                  <th class="learning">学習時間</th>
                 </tr>
                 <tr class="table-row" th:each="skill : ${backendSkills}">
                   <td class="subject-item" th:text="${skill.name}"></td>
                   <td class="learning-time">
-                    <label class="selectbox-6">
-                      <select>
-                        <!-- 修正: 動的に 0～100 の選択肢を生成 -->
-                        <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
-                                th:value="${i}" 
-                                th:text="${i}"
-                                th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
-                        </option>
-                      </select>
-                    </label>
+                    <form th:action="@{/learningData/{userId}/edit(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                      <input type="hidden" name="createMonth" th:value="${selectedMonth}" />
+                      <div class="form-control">
+                        <input type="number" th:field="*{studyTime}" min="0" class="number-input">
+                      </div>
+                      <td ><input type="submit" name="edit" value="学習時間を保存する" id="modal-open" class="save"></td>
+                    </form>
                   </td>
-                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
-                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
+                  <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                    <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
+                    <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
+                  <!-- </form> -->
                 </tr>
-            </table>
+              </table>
           </div>
         </div>
 
@@ -66,27 +65,26 @@
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).FRONTEND.id})}">項目を追加する</a>
             </div>
             <table class="table">
-                <tr class="table-header">
-                  <td class="subject">項目名</td>
-                  <td class="learning">学習時間</td>
-                </tr>
-                <tr class="table-row" th:each="skill : ${frontendSkills}">
-                  <td class="subject-item" th:text="${skill.name}"></td>
-                  <td class="learning-time">
-                    <label class="selectbox-6">
-                      <select>
-                        <!-- 修正: 動的に 0～100 の選択肢を生成 -->
-                        <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
-                                th:value="${i}" 
-                                th:text="${i}"
-                                th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
-                        </option>
-                      </select>
-                    </label>
-                  </td>
-                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
+              <tr class="table-header">
+                <th class="subject">項目名</th>
+                <th class="learning">学習時間</th>
+              </tr>
+              <tr class="table-row" th:each="skill : ${backendSkills}">
+                <td class="subject-item" th:text="${skill.name}"></td>
+                <td class="learning-time">
+                  <form th:action="@{/learningData/{userId}/edit(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                    <input type="hidden" name="createMonth" th:value="${selectedMonth}" />
+                    <div class="form-control">
+                      <input type="number" th:field="*{studyTime}" min="0" class="number-input">
+                    </div>
+                    <td ><input type="submit" name="edit" value="学習時間を保存する" id="modal-open" class="save"></td>
+                  </form>
+                </td>
+                <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                  <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
                   <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
-                </tr>
+                <!-- </form> -->
+              </tr>
             </table>
           </div>
         </div>
@@ -98,36 +96,44 @@
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).INFRA.id})}">項目を追加する</a>
             </div>
             <table class="table">
-                <tr class="table-header">
-                  <td class="subject">項目名</td>
-                  <td class="learning">学習時間</td>
-                </tr>
-                <tr class="table-row" th:each="skill : ${infraSkills}">
-                  <td class="subject-item" th:text="${skill.name}"></td>
-                  <td class="learning-time">
-                    <label class="selectbox-6">
-                      <select>
-                        <!-- 修正: 動的に 0～100 の選択肢を生成 -->
-                        <option th:each="i : ${#numbers.sequence(0, 100, 10)}"
-                                th:value="${i}" 
-                                th:text="${i}"
-                                th:selected="${skill.studyTime == i}"> <!-- デフォルト値を選択 -->
-                        </option>
-                      </select>
-                    </label>
-                  </td>
-                  <td ><input type="submit" name="save" value="学習時間を保存する" class="save"></td>
+              <tr class="table-header">
+                <th class="subject">項目名</th>
+                <th class="learning">学習時間</th>
+              </tr>
+              <tr class="table-row" th:each="skill : ${backendSkills}">
+                <td class="subject-item" th:text="${skill.name}"></td>
+                <td class="learning-time">
+                  <form th:action="@{/learningData/{userId}/edit(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                    <input type="hidden" name="createMonth" th:value="${selectedMonth}" />
+                    <div class="form-control">
+                      <input type="number" th:field="*{studyTime}" min="0" class="number-input">
+                    </div>
+                    <td ><input type="submit" name="edit" value="学習時間を保存する" id="modal-open" class="save"></td>
+                  </form>
+                </td>
+                <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
+                  <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
                   <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
-                </tr>
+                <!-- </form> -->
+              </tr>
             </table>
           </div>
         </div>
       </div>
+
+      <!-- モーダルの表示 -->
+      <div id="modal-bg"></div>
+      <div id="modal-container" th:classappend="${isSaved} ? 'active' : ''">
+        <p>学習時間を更新しました。</p>
+        <button type="button" id="modal-close">編集ページに戻る</button>
+      </div>
+
     </main>
     <footer>
       <p>portfolio site</p>
     </footer>
   </div>
   <script src="/js/skill.js"></script>
+  <script src="/js/skillEdit.js"></script>
 </body>
 </html>

@@ -61,6 +61,8 @@ public class SkillController {
             (currentMonth - 2 + 12) % 12 == 0 ? 12 : (currentMonth - 2 + 12) % 12
         );
 
+        SkillRequest skillRequest = new SkillRequest();
+
         // モデルにデータを追加
         model.addAttribute("backendSkills", backendSkills); // バックエンドのデータ
         model.addAttribute("frontendSkills", frontendSkills); // フロントエンドのデータ
@@ -69,9 +71,20 @@ public class SkillController {
         model.addAttribute("selectedMonth", selectedMonth); // 選択された月
         model.addAttribute("dropdownMonths", dropdownMonths); // プルダウンリスト用
         model.addAttribute("userId", userId); // ユーザーID
+        model.addAttribute("skillRequest", skillRequest);
 
         return "learningData/skill"; 
     }
+
+    @PostMapping(value = "/learningData/{userId}/edit")
+    public String updateSkill (@PathVariable("userId") Integer userId,
+                        @ModelAttribute("skillRequest") SkillRequest skillRequest,
+                        RedirectAttributes redirectAttributes){
+
+        skillService.update(userId, skillRequest);
+        return "redirect:/learningData/" + userId + "/skill";
+    }
+
 
     @GetMapping(value = "/learningData/{userId}/new")
     public String displayAdd(@PathVariable("userId") Integer userId, 
