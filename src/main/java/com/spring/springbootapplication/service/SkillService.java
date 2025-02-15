@@ -70,13 +70,15 @@ public class SkillService {
     }
 
     public void update (Integer userId, SkillRequest skillRequest) {
-
+        
         SkillEntity skillEntity = new SkillEntity();
+        skillEntity.setId(skillRequest.getId()); // 追加
         skillEntity.setUserId(userId);
         skillEntity.setCategoryId(skillRequest.getCategoryId());
         skillEntity.setStudyTime(skillRequest.getStudyTime());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth());
-
+    
         skillMapper.update(skillEntity);
     }
+    
 }

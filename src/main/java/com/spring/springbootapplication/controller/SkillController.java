@@ -35,6 +35,8 @@ public class SkillController {
     @Autowired
     private CategoryService categoryService;
 
+
+    // スキル一覧表示
     @GetMapping(value = "/learningData/{userId}/skill")
     public String displaySkills(
         @PathVariable("userId") Integer userId,
@@ -63,6 +65,14 @@ public class SkillController {
 
         SkillRequest skillRequest = new SkillRequest();
 
+        if (!backendSkills.isEmpty()) {
+            skillRequest.setStudyTime(backendSkills.get(0).getStudyTime());
+        } else if (!frontendSkills.isEmpty()) {
+            skillRequest.setStudyTime(frontendSkills.get(0).getStudyTime());
+        } else if (!infraSkills.isEmpty()) {
+            skillRequest.setStudyTime(infraSkills.get(0).getStudyTime());
+        }
+
         // モデルにデータを追加
         model.addAttribute("backendSkills", backendSkills); // バックエンドのデータ
         model.addAttribute("frontendSkills", frontendSkills); // フロントエンドのデータ
@@ -76,16 +86,27 @@ public class SkillController {
         return "learningData/skill"; 
     }
 
-    @PostMapping(value = "/learningData/{userId}/edit")
-    public String updateSkill (@PathVariable("userId") Integer userId,
-                        @ModelAttribute("skillRequest") SkillRequest skillRequest,
-                        RedirectAttributes redirectAttributes){
 
-        skillService.update(userId, skillRequest);
-        return "redirect:/learningData/" + userId + "/skill";
+    // 学習時間編集
+    @PostMapping(value = "/learningData/{userId}/edit", produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> updateSkill(@PathVariable("userId") Integer userId,
+                        @ModelAttribute SkillRequest skillRequest) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            skillService.update(userId, skillRequest);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
     }
 
-
+    // 新規追加画面表示
     @GetMapping(value = "/learningData/{userId}/new")
     public String displayAdd(@PathVariable("userId") Integer userId, 
                          @RequestParam(value = "createMonth", required = false) Integer createMonth,
@@ -125,6 +146,7 @@ public class SkillController {
     }
 
 
+    // 新規追加
     @PostMapping(value = "/learningData/{userId}/new", produces = "application/json")
     @ResponseBody
     public Map<String, Object> createSkill(
