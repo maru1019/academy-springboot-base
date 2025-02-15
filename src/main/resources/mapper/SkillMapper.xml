@@ -51,4 +51,16 @@
             (#{createMonth}, #{name}, #{studyTime}, #{userId}, #{categoryId})
     </insert>
 
+    <update id="update" parameterType="com.spring.springbootapplication.entity.SkillEntity">
+        UPDATE learning_data
+        SET
+          create_month = #{createMonth},
+          study_time = #{studyTime},
+          category_id = #{categoryId} 
+        WHERE
+          id = #{id}
+        AND
+          user_id = #{userId}
+    </update>
+
 </mapper>

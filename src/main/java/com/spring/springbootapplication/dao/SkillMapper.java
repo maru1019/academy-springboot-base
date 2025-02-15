@@ -23,5 +23,7 @@ public interface SkillMapper {
 
     // 新規スキル登録
     void save(SkillEntity skillEntity);
+
+    void update(SkillEntity skillEntity);
         
 }

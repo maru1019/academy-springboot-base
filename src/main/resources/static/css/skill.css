@@ -131,16 +131,18 @@ table {
 }
 
 th {
-  width: 880px;
-  height: 57px;
+  width: 240px;
+  height: 56px;
   border: 1px solid #0000001F;
-  text-align: center;
+  text-align: left;
   border-right: none;
   border-left: none;
+  font-weight: normal;
+
 }
 
 td {
-  width: 880px;
+  width: 240px;
   height: 73px;
   border: 1px solid #0000001F;
   text-align: center;
@@ -148,44 +150,89 @@ td {
   border-left: none;
 }
 
-.selectbox-6 {
-  position: relative;
+.subject {
+  width: 43px;
+  height: 24px;
+  size: 14px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  padding: 16px 16px 16px 40px;
 }
 
-.selectbox-6::before,
-.selectbox-6::after {
+.learning {
+  padding: 16px;
+}
+
+.learning-time {
+  text-align: left;
+  padding: 16px;
+}
+
+/* 数値入力フィールドのデザイン調整 */
+/* Firefoxの矢印を消す */
+.number-input {
+  -moz-appearance: textfield;
+  border: none; 
+  outline: none;
+  background: transparent; /* 背景を透明に */
+  font-size: 16px; /* 見やすいサイズ */
+  width: 160px; /* 適切な幅 */
+  height: 40px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #d0d0d0;
+}
+
+/* 数値入力の矢印を非表示 */
+.number-input::-webkit-inner-spin-button,
+.number-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    display: none;
+}
+
+/* Firefox用の調整 */
+.number-input::-moz-number-spin-box {
+  opacity: 1;
+}
+
+/* 矢印アイコンをカスタムデザインで表示する */
+.form-control {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  height: 40px;
+  outline: none;
+  line-height: 19px;
+  margin: 10px 0 10px 0;
+}
+
+
+.form-control .number-input {
+  padding-right: 25px; /* 矢印用のスペース */
+}
+
+.form-control::before,
+.form-control::after {
   position: absolute;
-  right: 15px;
+  right: 5px;
   width: 9px;
   height: 6px;
-  background-color: #535353;
+  background-color: gray;
   content: '';
   pointer-events: none;
 }
 
-.selectbox-6::before {
-    top: calc(50% - 9px);
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+.form-control::before {
+  top: calc(50% - 9px);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.selectbox-6::after {
-    bottom: calc(50% - 9px);
-    clip-path: polygon(0 0, 50% 100%, 100% 0);
+.form-control::after {
+  bottom: calc(50% - 8px);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
-
-.selectbox-6 select {
-  appearance: none;
-  min-width: 230px;
-  height: 2.8em;
-  padding: .4em calc(.8em + 30px) .4em .8em;
-  border: 1px solid #d0d0d0;
-  border-radius: 3px;
-  background-color: #fff;
-  color: #333333;
-  font-size: 1em;
-  cursor: pointer;
-}
-
+  
 .save {
   width: 158px;
   height: 32px;
@@ -202,6 +249,71 @@ td {
   background-color: #EE6969;;
   color: #FFFFFF;
   border: none;
+}
+
+#modal-bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right:0;
+  background-color: rgb(0, 0, 0, 0.6);
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
+#modal-bg.active {
+  opacity: 1;
+  pointer-events: auto;
+  display: block;
+}
+
+#modal-container {
+  width: 640px;
+  height: 240px;
+  text-align: center;
+  position: fixed;
+  display: none;
+  align-items: center;
+  flex-direction: column;
+  top: 330px;
+  left: 50%;
+  transform: translate(-50%);
+  background: white;
+  padding: 40px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+}
+
+#modal-container.active {
+  opacity: 1;
+  pointer-events: auto;
+  display: flex;
+
+}
+
+.modal-text {
+  width: 251px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 21,09px;
+  text-decoration-skip-ink: none;
+}
+
+#modal-close {
+  width: 192px;
+  height: 48px;
+  font-size: 14px;
+  line-height: 16.41px;
+  border-radius: 4px;
+  margin-top: 40px;
+  background-color: #1B5678;
+  color: #ffffff;
+  cursor: pointer;
+  border:none;
 }
 
 

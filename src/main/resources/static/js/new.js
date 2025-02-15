@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
   const container = document.getElementById('modal-container');
   const close = document.getElementById('modal-close');
   const selectedMonth = form.querySelector('input[name="createMonth"]').value;
+  const categoryId = form.querySelector('input[name="categoryId"]').value;
 
-
+  
   form.addEventListener("submit", function(event) {
     event.preventDefault();  // フォームのデフォルト送信を防止
 
@@ -74,6 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
     container.classList.remove('active');
 
     const userId = form.getAttribute("data-user-id");
-    window.location.href = `/learningData/${userId}/skill?createMonth=${selectedMonth}`;
+    window.location.href = `/learningData/${userId}/skill?createMonth=${selectedMonth}&categoryId=${categoryId}`;
   });
 });
