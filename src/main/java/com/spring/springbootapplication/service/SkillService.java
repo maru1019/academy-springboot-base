@@ -70,15 +70,32 @@ public class SkillService {
     }
 
     public void update (Integer userId, SkillRequest skillRequest) {
+
+        if (skillRequest.getId() == null) {
+            throw new IllegalArgumentException("スキル ID が設定されていません");
+        }
         
         SkillEntity skillEntity = new SkillEntity();
-        skillEntity.setId(skillRequest.getId()); // 追加
+        skillEntity.setId(skillRequest.getId());
         skillEntity.setUserId(userId);
         skillEntity.setCategoryId(skillRequest.getCategoryId());
-        skillEntity.setStudyTime(skillRequest.getStudyTime());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth());
     
         skillMapper.update(skillEntity);
+    }
+
+    public void delete (Integer userId, SkillRequest skillRequest) {
+
+        if (skillRequest.getId() == null) {
+            throw new IllegalArgumentException("スキル ID が設定されていません");
+        }
+        
+        SkillEntity skillEntity = new SkillEntity();
+        skillEntity.setId(skillRequest.getId());
+        skillEntity.setUserId(userId);
+
+        skillMapper.delete(skillEntity);
+    
     }
     
 }

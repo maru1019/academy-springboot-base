@@ -86,26 +86,6 @@ public class SkillController {
         return "learningData/skill"; 
     }
 
-
-    // 学習時間編集
-    @PostMapping(value = "/learningData/{userId}/edit", produces = "application/json")
-    @ResponseBody
-    public Map<String, Object> updateSkill(@PathVariable("userId") Integer userId,
-                        @ModelAttribute SkillRequest skillRequest) {
-
-        Map<String, Object> response = new HashMap<>();
-
-        try {
-            skillService.update(userId, skillRequest);
-            response.put("success", true);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("error", e.getMessage());
-        }
-
-        return response;
-    }
-
     // 新規追加画面表示
     @GetMapping(value = "/learningData/{userId}/new")
     public String displayAdd(@PathVariable("userId") Integer userId, 
@@ -187,4 +167,43 @@ public class SkillController {
         return response;
         
     }
+
+    // 学習時間編集
+    @PostMapping(value = "/learningData/{userId}/edit", produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> updateSkill(@PathVariable("userId") Integer userId,
+                        @ModelAttribute SkillRequest skillRequest) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            skillService.update(userId, skillRequest);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
+    // 項目名削除
+    @PostMapping(value = "/learningData/{userId}/delete", produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> deleteSkill(@PathVariable("userId") Integer userId,
+                        @ModelAttribute SkillRequest skillRequest) {
+
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            skillService.delete(userId, skillRequest);
+            response.put("success",true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+
+        return response;
+    }
+
 }
