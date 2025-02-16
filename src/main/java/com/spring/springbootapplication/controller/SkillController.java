@@ -178,7 +178,12 @@ public class SkillController {
 
         try {
             skillService.update(userId, skillRequest);
+
+            SkillEntity updatedSkill = skillService.getSkillById(skillRequest.getId());
+
             response.put("success", true);
+            response.put("updatedStudyTime", updatedSkill.getStudyTime()); //  更新後の学習時間を返す
+
         } catch (Exception e) {
             response.put("success", false);
             response.put("error", e.getMessage());

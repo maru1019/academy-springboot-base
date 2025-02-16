@@ -26,6 +26,12 @@ public class SkillService {
 
     @Autowired
     private CategoryService categoryService;
+
+
+    public SkillEntity getSkillById (Integer skillId) {
+        return skillMapper.findById(skillId);
+    }
+
     /**
      * 指定したカテゴリ、月、ユーザーIDでデータを取得
      * @param categoryId カテゴリID
@@ -80,6 +86,7 @@ public class SkillService {
         skillEntity.setUserId(userId);
         skillEntity.setCategoryId(skillRequest.getCategoryId());
         skillEntity.setCreateMonth(skillRequest.getCreateMonth());
+        skillEntity.setStudyTime(skillRequest.getStudyTime());
     
         skillMapper.update(skillEntity);
     }

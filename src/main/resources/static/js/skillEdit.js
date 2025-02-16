@@ -24,6 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
           modalMessage.textContent = `${skillName} の学習時間を保存しました！`;
 
+          // ✅ フォーム内の `studyTime` を更新
+          const studyTimeInput = form.querySelector("input[name='studyTime']");
+          if (studyTimeInput) {
+            studyTimeInput.value = data.updatedStudyTime; // ✅ 最新の値をセット
+          }
+
         } else {
           alert("更新に失敗しました");
         }

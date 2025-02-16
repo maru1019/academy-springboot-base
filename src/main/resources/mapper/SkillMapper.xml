@@ -27,6 +27,12 @@
         </association>
     </resultMap>
 
+    <select id="findById" resultMap="SkillResultMap">
+        SELECT *
+        FROM learning_data
+        WHERE id = #{id}
+    </select>
+
     <!-- 指定したカテゴリと月、ユーザーIDでデータを取得 -->
     <select id="findByCategoryAndMonth" resultMap="SkillResultMap">
         SELECT * 

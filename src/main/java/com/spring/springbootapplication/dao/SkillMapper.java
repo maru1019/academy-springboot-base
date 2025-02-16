@@ -12,6 +12,8 @@ import java.util.List;
 @Mapper
 public interface SkillMapper {
 
+    SkillEntity findById(@Param("id") Integer id);
+
     // 指定した月とユーザーIDでデータを検索
     List<SkillEntity> findByCategoryAndMonth(@Param("categoryId") Integer categoryId, 
     @Param("createMonth") Integer createMonth, 
