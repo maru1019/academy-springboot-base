@@ -61,5 +61,9 @@
         user_id = #{userId}
     </update>
 
+    <delete id="delete" parameterType="com.spring.springbootapplication.entity.SkillEntity">
+        DELETE FROM learning_data
+        WHERE id = #{id} AND user_id = #{userId}
+    </delete>
 
 </mapper>

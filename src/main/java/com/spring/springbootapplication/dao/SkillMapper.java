@@ -24,6 +24,10 @@ public interface SkillMapper {
     // 新規スキル登録
     void save(SkillEntity skillEntity);
 
+    //学習時間編集
     void update(SkillEntity skillEntity);
+
+    //削除
+    void delete(SkillEntity skillEntity);
         
 }

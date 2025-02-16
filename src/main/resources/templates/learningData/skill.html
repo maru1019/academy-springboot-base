@@ -49,10 +49,12 @@
                       <button type="button" class="save">学習時間を保存する</button>
                     </form>
                   </td>
-                  <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
-                    <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
-                    <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
-                  <!-- </form> -->
+                  <td>
+                    <form class="delete-form" th:attr="data-user-id=${userId}">
+                      <input type="hidden" name="id" th:value="${skill.id}">
+                      <button type="button" name="delete" class="delete">削除する</button>
+                    </form>
+                  </td>
                 </tr>
               </table>
           </div>
@@ -82,10 +84,12 @@
                     <button type="button" class="save">学習時間を保存する</button>
                   </form>
                 </td>
-                <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
-                  <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
-                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
-                <!-- </form> -->
+                <td>
+                  <form class="delete-form" th:attr="data-user-id=${userId}">
+                    <input type="hidden" name="id" th:value="${skill.id}">
+                    <button type="button" name="delete" class="delete">削除する</button>
+                  </form>
+                </td>
               </tr>
             </table>
           </div>
@@ -114,10 +118,12 @@
                     <button type="button" class="save">学習時間を保存する</button>
                   </form>
                 </td>
-                <!-- <form th:action="@{/learningData/{userId}/delete(userId=${userId})}" th:object="${skillRequest}" th:method="post">
-                  <input type="hidden" name="createMonth" th:value="${selectedMonth}" /> -->
-                  <td ><input type="submit" name="delete" value="削除する" class="delete"></td>
-                <!-- </form> -->
+                <td>
+                  <form class="delete-form" th:attr="data-user-id=${userId}">
+                    <input type="hidden" name="id" th:value="${skill.id}">
+                    <button type="button" name="delete" class="delete">削除する</button>
+                  </form>
+                </td>
               </tr>
             </table>
           </div>
@@ -138,5 +144,6 @@
   </div>
   <script src="/js/skill.js"></script>
   <script src="/js/skillEdit.js"></script>
+  <script src="/js/delete.js"></script>
 </body>
 </html>
