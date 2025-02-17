@@ -8,6 +8,14 @@ document.addEventListener("DOMContentLoaded", function() {
     button.addEventListener("click", function() {
 
       const form = this.closest(".edit-form");
+      const studyTimeInput = form.querySelector("input[name='studyTime']");
+      const studyTimeValue = parseInt(studyTimeInput.value, 10);
+
+      if (studyTimeValue < 0) {
+        alert("マイナスの学習時間は入力できません");
+        return;
+      }
+      
       const formData = new FormData(form);
       const userId = form.dataset.userId;
       const skillName = form.closest("tr").querySelector(".subject-item").textContent.trim();
@@ -24,10 +32,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
           modalMessage.textContent = `${skillName} の学習時間を保存しました！`;
 
-          // ✅ フォーム内の `studyTime` を更新
+          // フォーム内の `studyTime` を更新
           const studyTimeInput = form.querySelector("input[name='studyTime']");
           if (studyTimeInput) {
-            studyTimeInput.value = data.updatedStudyTime; // ✅ 最新の値をセット
+            studyTimeInput.value = data.updatedStudyTime; // 最新の値をセット
           }
 
         } else {

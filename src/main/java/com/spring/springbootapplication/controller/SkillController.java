@@ -172,9 +172,15 @@ public class SkillController {
     @PostMapping(value = "/learningData/{userId}/edit", produces = "application/json")
     @ResponseBody
     public Map<String, Object> updateSkill(@PathVariable("userId") Integer userId,
-                        @ModelAttribute SkillRequest skillRequest) {
+                        @ModelAttribute SkillRequest skillRequest,
+                        BindingResult bindingResult ) {
 
         Map<String, Object> response = new HashMap<>();
+
+        if(skillRequest.getStudyTime() < 0) {
+            response.put("succes", false);
+            return response;
+        }
 
         try {
             skillService.update(userId, skillRequest);
