@@ -81,6 +81,7 @@ public class HomeController {
     userEditRequest.setBiography(user.getBiography());
     userEditRequest.setData(user.getData());
     model.addAttribute("userEditRequest", userEditRequest); // 編集データを渡す
+    model.addAttribute("userId", id);
     return "user/edit"; 
   }
 

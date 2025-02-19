@@ -8,7 +8,7 @@
 <body>
   <div class="container">
     <header class="header">
-      <div class="logo">My Portfolio</div>
+      <a class="logo" th:href="@{/user/{id}/top(id=${userId})}">My Portfolio</a>
       <form th:action="@{/logout}" th:method="post">
         <input type="submit" value="ログアウト" class="logout">
       </form>
