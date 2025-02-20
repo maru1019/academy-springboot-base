@@ -6,15 +6,19 @@
   <link rel="stylesheet" href="/css/top.css" >
 </head>
 <body>
+
+  <header class="header">
+    <div class="logo">My Portfolio</div>
+    <form th:action="@{/logout}" th:method="post">
+      <input type="submit" value="ログアウト" class="logout">
+    </form>
+  </header>
+
   <div class="container">
-    <header class="header">
-      <div class="logo">My Portfolio</div>
-      <form th:action="@{/logout}" th:method="post">
-        <input type="submit" value="ログアウト" class="logout">
-      </form>
-    </header>
+
     <main>
       <div class="wrapper">
+      <!-- 自己紹介 -->
         <div class="profile">
           <div class="circle">
             <img th:src="${user.base64ImageData}" alt="User Avatar">
@@ -29,14 +33,27 @@
             <a th:href="@{/user/{id}/edit(id=${user.id})}" class="btn-blue">自己紹介を編集する</a>
           </div>
         </div>
+      
+
+      <!-- 学習チャート -->
+        <div class="chart">
+            <h2 class="second-title" >学習チャート</h2>
+            <a th:href="@{/learningData/{userId}/skill(userId=${user.id}, createMonth=${selectedMonth})}" class="btn-blue">編集する</a>
+        </div>
       </div>
-      <div>
-        <a th:href="@{/learningData/{userId}/skill(userId=${user.id}, createMonth=${selectedMonth})}" class="btn-blue">編集する</a>
-      </div>
+
     </main>
-    <footer>
-      <p>portfolio site</p>
-    </footer>
+
+    <!-- グラフエリア -->
+    <div class="graph">
+
+
+    </div>
   </div>
+
+  <footer>
+    <p>portfolio site</p>
+  </footer>
+
 </body>
 </html>
