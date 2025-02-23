@@ -72,4 +72,16 @@
         WHERE id = #{id} AND user_id = #{userId}
     </delete>
 
+    <select id="getTotalStudyTimeByCategory" resultType="java.util.Map">
+        SELECT create_month, COALESCE(SUM(study_time), 0) AS total_study_time
+        FROM learning_data
+        WHERE category_id = #{categoryId}
+        AND user_id = #{userId}
+        AND create_month IN
+        <foreach collection="months" item="month" open="(" separator="," close=")">
+            #{month}
+        </foreach>
+        GROUP BY create_month
+    </select>
+
 </mapper>

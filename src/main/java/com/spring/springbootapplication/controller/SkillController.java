@@ -217,4 +217,34 @@ public class SkillController {
         return response;
     }
 
+    @GetMapping(value = "/learningData/{userId}/chart", produces = "application/json")
+    @ResponseBody
+    public Map<String, Object> getChartData(@PathVariable("userId") Integer userId) {
+
+        System.out.println("userId: " + userId); //デバック
+
+        Map<String, Object> response = new HashMap<>();
+
+        // 現在の月を取得
+        int currentMonth = LocalDate.now().getMonthValue();
+        List<Integer> recentMonths = List.of(
+            currentMonth,
+            (currentMonth - 1 + 12) % 12 == 0 ? 12 : (currentMonth - 1 + 12) % 12,
+            (currentMonth - 2 + 12) % 12 == 0 ? 12 : (currentMonth - 2 + 12) % 12
+        );
+
+        List<Integer> months = skillService.getRecentMonths();
+        System.out.println("months: " + months); //デバック
+
+        // 各月ごとのカテゴリ別学習時間合計を取得
+        Map<String, Map<Integer, Integer>> categoryData = new HashMap<>();
+        categoryData.put("backend", skillService.getTotalStudyTimeByCategory(Category.BACKEND.getId(), userId, months));
+        categoryData.put("frontend", skillService.getTotalStudyTimeByCategory(Category.FRONTEND.getId(), userId, months));
+        categoryData.put("infra", skillService.getTotalStudyTimeByCategory(Category.INFRA.getId(), userId, months));
+
+        response.put("labels", months);
+        response.put("categoryData", categoryData);
+        
+        return response;
+    }
 }

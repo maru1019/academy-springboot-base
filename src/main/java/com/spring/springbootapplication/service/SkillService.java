@@ -13,7 +13,11 @@ import com.spring.springbootapplication.service.CategoryService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class SkillService {
@@ -103,6 +107,34 @@ public class SkillService {
 
         skillMapper.delete(skillEntity);
     
+    }
+
+    public Map<Integer, Integer> getTotalStudyTimeByCategory(Integer categoryId, Integer userId, List<Integer> months) {
+        List<Map<String, Object>> results = skillMapper.getTotalStudyTimeByCategory(categoryId, userId, months);
+    
+        Map<Integer, Integer> studyTimeByMonth = new HashMap<>();
+        for (Map<String, Object> result : results) {
+            Integer month = (Integer) result.get("create_month");
+            Number studyTimeNumber = (Number) result.get("total_study_time");
+            Integer studyTime = studyTimeNumber.intValue();
+            studyTimeByMonth.put(month, studyTime);
+        }
+        return studyTimeByMonth;
+    }
+    
+    
+
+    public List<Integer> getRecentMonths() {
+        LocalDate now = LocalDate.now();
+        List<Integer> months = new ArrayList<>();
+    
+        for (int i = 0; i < 3; i++) {
+            LocalDate target = now.minusMonths(i);
+            months.add(target.getMonthValue()); // MM を取得
+        }
+
+        System.out.println("Generated recent months: " + months); //デバック
+        return months;
     }
     
 }
