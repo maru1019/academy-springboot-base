@@ -1,29 +1,49 @@
 document.addEventListener("DOMContentLoaded", function() {
-  // ✅ 1. HTML の <canvas> を取得
-  const ctx = document.getElementById("studyChart").getContext("2d");
+    const ctx = document.getElementById("studyChart").getContext("2d");
 
-  // ✅ 2. 学習時間データ（サンプル）
-  const labels = ["先々月", "先月", "今月"]; 
-  const backendData = [30, 50, 80]; 
-  const frontendData = [20, 40, 60]; 
-  const infraData = [10, 30, 50]; 
+    if (!userId) {
+        console.error("userId が取得できませんでした。");
+        return;
+    }
+  
+    fetch(`/learningData/${userId}/chart`)
+      .then(response => response.json())
+      .then(data => {
+            const labels = data.labels;
+            const backendData = labels.map(month => data.categoryData.backend[month] || 0);
+            const frontendData = labels.map(month => data.categoryData.frontend[month] || 0);
+            const infraData = labels.map(month => data.categoryData.infra[month] || 0);
 
-  // ✅ 3. Chart.js で棒グラフを作成
-  new Chart(ctx, {
-      type: "bar",
-      data: {
-          labels: labels,
-          datasets: [
-              { label: "バックエンド", data: backendData, backgroundColor: "pink" },
-              { label: "フロントエンド", data: frontendData, backgroundColor: "yellow" },
-              { label: "インフラ", data: infraData, backgroundColor: "orange" }
-          ]
-      },
-      options: {
-          responsive: true, 
-          plugins: {
-              legend: { position: "top" } 
-          }
-      }
-  });
+            new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Backend",
+                        data: backendData,
+                        backgroundColor: "rgba(255, 99, 132, 0.5)",
+                    },
+                    {
+                        label: "Frontend",
+                        data: frontendData,
+                        backgroundColor: "rgba(54, 162, 235, 0.5)",
+                    },
+                    {
+                        label: "Infra",
+                        data: infraData,
+                        backgroundColor: "rgba(75, 192, 192, 0.5)",
+                    },
+                ],
+            },
+            options: {
+                responsive: true, 
+                plugins: {
+                    legend: { position: "top" } 
+                }
+            }
+        });
+    })
+    .catch(error => console.error("データ取得エラー:", error));
 });
+  
