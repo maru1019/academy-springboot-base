@@ -122,8 +122,6 @@ public class SkillService {
         return studyTimeByMonth;
     }
     
-    
-
     public List<Integer> getRecentMonths() {
         LocalDate now = LocalDate.now();
         List<Integer> months = new ArrayList<>();
@@ -133,7 +131,6 @@ public class SkillService {
             months.add(target.getMonthValue()); // MM を取得
         }
 
-        System.out.println("Generated recent months: " + months); //デバック
         return months;
     }
     
