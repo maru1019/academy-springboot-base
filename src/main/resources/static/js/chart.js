@@ -9,21 +9,15 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(`/learningData/${userId}/chart`)
       .then(response => response.json())
       .then(data => {
-            let rawLabels = data.labels.reverse(); // 月の順序を逆にする
-                
+            
+            let rawLabels = data.labels;
+            
             // 月のラベルを「今月・先月・先々月」に変換
-            let currentMonthIndex = 0; // 今月を0番目とする
-            let labels = rawLabels.map((_, index) => {
-                if (index === currentMonthIndex) return "今月";
-                if (index === currentMonthIndex + 1) return "先月";
-                if (index === currentMonthIndex + 2) return "先々月";
-                return "";
-            });
+            let labels = ["今月", "先月", "先々月"];
 
             let backendData = rawLabels.map(month => data.categoryData.backend[month] || 0);
             let frontendData = rawLabels.map(month => data.categoryData.frontend[month] || 0);
             let infraData = rawLabels.map(month => data.categoryData.infra[month] || 0);
-
 
             new Chart(ctx, {
             type: "bar",
@@ -55,6 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 scales: {
                     x: {
                         reverse: true, // X軸の順序を逆にする
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 10
+                        }
                     }
                 }
             }
