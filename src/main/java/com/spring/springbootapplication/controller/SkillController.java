@@ -221,8 +221,6 @@ public class SkillController {
     @ResponseBody
     public Map<String, Object> getChartData(@PathVariable("userId") Integer userId) {
 
-        System.out.println("userId: " + userId); //デバック
-
         Map<String, Object> response = new HashMap<>();
 
         // 現在の月を取得
@@ -234,7 +232,6 @@ public class SkillController {
         );
 
         List<Integer> months = skillService.getRecentMonths();
-        System.out.println("months: " + months); //デバック
 
         // 各月ごとのカテゴリ別学習時間合計を取得
         Map<String, Map<Integer, Integer>> categoryData = new HashMap<>();

@@ -9,10 +9,21 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(`/learningData/${userId}/chart`)
       .then(response => response.json())
       .then(data => {
-            const labels = data.labels;
-            const backendData = labels.map(month => data.categoryData.backend[month] || 0);
-            const frontendData = labels.map(month => data.categoryData.frontend[month] || 0);
-            const infraData = labels.map(month => data.categoryData.infra[month] || 0);
+            let rawLabels = data.labels.reverse(); // 月の順序を逆にする
+                
+            // 月のラベルを「今月・先月・先々月」に変換
+            let currentMonthIndex = 0; // 今月を0番目とする
+            let labels = rawLabels.map((_, index) => {
+                if (index === currentMonthIndex) return "今月";
+                if (index === currentMonthIndex + 1) return "先月";
+                if (index === currentMonthIndex + 2) return "先々月";
+                return "";
+            });
+
+            let backendData = rawLabels.map(month => data.categoryData.backend[month] || 0);
+            let frontendData = rawLabels.map(month => data.categoryData.frontend[month] || 0);
+            let infraData = rawLabels.map(month => data.categoryData.infra[month] || 0);
+
 
             new Chart(ctx, {
             type: "bar",
@@ -20,19 +31,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 labels: labels,
                 datasets: [
                     {
-                        label: "Backend",
+                        label: "バックエンド",
                         data: backendData,
-                        backgroundColor: "rgba(255, 99, 132, 0.5)",
+                        backgroundColor: "rgba(255, 105, 180, 0.5)",
                     },
                     {
-                        label: "Frontend",
+                        label: "フロントエンド",
                         data: frontendData,
-                        backgroundColor: "rgba(54, 162, 235, 0.5)",
+                        backgroundColor: "rgba(255, 165, 0, 0.5)",
                     },
                     {
-                        label: "Infra",
+                        label: "インフラ",
                         data: infraData,
-                        backgroundColor: "rgba(75, 192, 192, 0.5)",
+                        backgroundColor: "rgba(255, 215, 0, 0.5)",
                     },
                 ],
             },
@@ -40,6 +51,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 responsive: true, 
                 plugins: {
                     legend: { position: "top" } 
+                },
+                scales: {
+                    x: {
+                        reverse: true, // X軸の順序を逆にする
+                    }
                 }
             }
         });
