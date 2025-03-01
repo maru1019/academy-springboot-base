@@ -28,6 +28,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers( "/user/login", "/user/add", "/css/**", "/js/**").permitAll() 
+                .requestMatchers("/user/*/top").authenticated() // トップページは認証済みユーザーのみ許可
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
