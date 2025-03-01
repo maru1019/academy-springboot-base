@@ -9,7 +9,8 @@
   <div class="container">
     <header class="header">
       <div class="logo">My Portfolio</div>
-      <input type="submit" value="ログイン" class="login">
+      <!-- <input type="submit" value="ログイン" class="login"> -->
+      <a class="login" th:href="@{user/login}">ログイン</a>
     </header>
     <main>
       <div th:if="${validationError}" th:each="error : ${validationError}">

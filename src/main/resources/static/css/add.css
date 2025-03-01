@@ -33,12 +33,17 @@
 }
 
 .login {
-  width: 152px;
-  height: 53px;
+  /* width: 152px; */
+  /* height: 53px; */
   border-radius: 4px;
   font-size: 18px;
   background-color: #ffffff;
-  border:none;
+  color: #000000BF;
+  padding:16px 40px 16px 40px;
+  size: 18px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
 main {
