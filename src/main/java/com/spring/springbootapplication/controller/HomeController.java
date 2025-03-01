@@ -15,13 +15,22 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+
 
 import com.spring.springbootapplication.dto.UserLoginRequest;
 import com.spring.springbootapplication.dto.UserNewAddRequest;
 import com.spring.springbootapplication.dto.UserResponse;
+import com.spring.springbootapplication.dao.UserMapper;
 import com.spring.springbootapplication.dto.UserEditRequest;
 import com.spring.springbootapplication.entity.UserEntity;
 import com.spring.springbootapplication.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +41,12 @@ public class HomeController {
 
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private UserMapper userMapper;
+
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
@@ -58,19 +73,40 @@ public class HomeController {
       return "user/add";
   }
 
-  @PostMapping(value = "/user/add")
-  public String create(@Validated @ModelAttribute UserNewAddRequest userNewAddRequest, BindingResult result, Model model) {
-    if (result.hasErrors()) {
-      List<String> errorList = new ArrayList<String>();
-      for (ObjectError error : result.getAllErrors()) {
-          errorList.add(error.getDefaultMessage());
+  @PostMapping("/user/add")
+  public String create(@Valid @ModelAttribute("userNewAddRequest") UserNewAddRequest userNewAddRequest, 
+                      BindingResult result, 
+                      Model model, 
+                      HttpServletRequest request) {
+      // バリデーションエラーがある場合は登録画面に戻る
+      if (result.hasErrors()) {
+            List<String> errorList = new ArrayList<String>();
+             for (ObjectError error : result.getAllErrors()) {
+                 errorList.add(error.getDefaultMessage());
+             }
+             model.addAttribute("validationError", errorList);
+             return "user/add";
       }
-      model.addAttribute("validationError", errorList);
-      return "user/add";
-    }
-    userService.save(userNewAddRequest);
-    return "user/top";
+
+      // ユーザーをDBに保存（パスワードのハッシュ化も含む）
+      userService.save(userNewAddRequest);
+
+      // ユーザーIDを取得
+      Integer userId = userMapper.findIdByEmail(userNewAddRequest.getEmail());
+      if (userId == null) {
+          throw new RuntimeException("ユーザーIDが取得できませんでした。");
+      }
+
+      // Spring Securityの認証情報を設定（自動ログイン）
+      UserEntity userEntity = userMapper.findByEmail(userNewAddRequest.getEmail());
+      Authentication authentication = new UsernamePasswordAuthenticationToken(userEntity, null, new ArrayList<>());
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+
+      // トップページへリダイレクト
+      return "redirect:/user/" + userId + "/top";
+      
   }
+
 
   // -----編集機能------
   @GetMapping(value = "/user/{id}/edit")
