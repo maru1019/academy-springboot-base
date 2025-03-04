@@ -21,9 +21,12 @@
       <div class="wrapper">
       <!-- 自己紹介 -->
         <div class="profile">
-          <div class="circle">
-            <img th:src="${user.base64ImageData}" alt="User Avatar">
-          </div>
+            <div class="profile-header">
+              <div class="circle">
+                <img th:src="${user.base64ImageData}" alt="User Avatar">
+              </div>
+              <p th:text="${name}"></p>
+            </div>
           <div class="content">
             <div class="title">
               <h2>自己紹介</h2>

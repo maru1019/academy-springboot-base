@@ -65,6 +65,7 @@ public class UserService {
     UserEntity userEntity = userMapper.findById(id); // DBからユーザー情報を取得
     UserResponse response = new UserResponse();
     response.setId(userEntity.getId());
+    response.setName(userEntity.getName());
     response.setBiography(userEntity.getBiography());
 
     // バイナリデータをBase64エンコード

@@ -14,8 +14,8 @@ public class UserNewAddRequest implements Serializable {
 
   private static final long serialVersionUID = 1L;
   
-  @NotEmpty(message = "名前は必ず入力してください")
-  @Size(max = 255, message = "名前は255文字以内で入力してください")
+  @NotEmpty(message = "氏名は必ず入力してください")
+  @Size(max = 255, message = "氏名は255文字以内で入力してください")
   private String name;
 
   @NotEmpty(message = "メールアドレスは必ず入力してください")
