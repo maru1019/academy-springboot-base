@@ -65,6 +65,12 @@ main {
   justify-content: space-between;
 }
 
+.profile-header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .circle {
   width: 360px;
   height: 360px;
@@ -75,6 +81,7 @@ main {
   display: flex; 
   align-items: center; 
   justify-content: center;
+  margin-bottom: 20px;
 }
 
 .circle img {

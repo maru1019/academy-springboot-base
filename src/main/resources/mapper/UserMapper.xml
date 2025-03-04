@@ -6,7 +6,7 @@
 
 <!--top画面-->
     <select id="findById" resultType="com.spring.springbootapplication.entity.UserEntity">
-      SELECT id, biography, data
+      SELECT id, name, biography, data
       FROM users
       WHERE id = #{id}
     </select>

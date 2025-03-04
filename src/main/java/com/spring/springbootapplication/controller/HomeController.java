@@ -66,8 +66,10 @@ public class HomeController {
   public String displayUserTop(@PathVariable("id") Integer id, Model model) {
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
     model.addAttribute("user", user); // ユーザー情報をViewに渡す
+    model.addAttribute("name", user.getName());
     return "user/top";
   }
+
 
   // -----ログイン機能------
   @GetMapping(value = "/user/login")
@@ -76,78 +78,13 @@ public class HomeController {
     return "user/login";
   }
 
+
   // -----新規登録機能------
   @GetMapping(value = "/user/add")
   public String displayAdd(Model model) {
       model.addAttribute("userNewAddRequest", new UserNewAddRequest());
       return "user/add";
   }
-
-  // @PostMapping("/user/add")
-  // public String create(@Valid @ModelAttribute("userNewAddRequest") UserNewAddRequest userNewAddRequest, 
-  //                     BindingResult result, 
-  //                     Model model, 
-  //                     HttpServletRequest request) {
-  //     // バリデーションエラーがある場合は登録画面に戻る
-  //     if (result.hasErrors()) {
-  //           List<String> errorList = new ArrayList<String>();
-  //            for (ObjectError error : result.getAllErrors()) {
-  //                errorList.add(error.getDefaultMessage());
-  //            }
-  //            model.addAttribute("validationError", errorList);
-  //            return "user/add";
-  //     }
-
-  //     // ユーザーをDBに保存（パスワードのハッシュ化も含む）
-  //     userService.save(userNewAddRequest);
-
-  //     // ユーザーIDを取得
-  //     Integer userId = userMapper.findIdByEmail(userNewAddRequest.getEmail());
-  //     if (userId == null) {
-  //         throw new RuntimeException("ユーザーIDが取得できませんでした。");
-  //     }
-
-  //     // Spring Securityの認証情報を設定（自動ログイン）
-  //     UserEntity userEntity = userMapper.findByEmail(userNewAddRequest.getEmail());
-  //     Authentication authentication = new UsernamePasswordAuthenticationToken(userEntity, null, new ArrayList<>());
-  //     SecurityContextHolder.getContext().setAuthentication(authentication);
-
-  //     // トップページへリダイレクト
-  //     return "redirect:/user/" + userId + "/top";
-      
-  // }
-
-//   public String create(@Valid @ModelAttribute("userNewAddRequest") UserNewAddRequest userNewAddRequest, 
-//                       BindingResult result, 
-//                       Model model) {
-//     if (result.hasErrors()) {
-//         List<String> errorList = new ArrayList<>();
-//         for (ObjectError error : result.getAllErrors()) {
-//             errorList.add(error.getDefaultMessage());
-//         }
-//         model.addAttribute("validationError", errorList);
-//         return "user/add";
-//     }
-
-//     // ユーザーをDBに保存
-//     userService.save(userNewAddRequest);
-
-//     // Spring SecurityのUserDetailsを取得
-//     UserDetails userDetails = customUserDetailsService.loadUserByUsername(userNewAddRequest.getEmail());
-
-//     // 認証情報をセット
-//     Authentication authentication = 
-//         new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-//     SecurityContextHolder.getContext().setAuthentication(authentication);
-
-//     // ユーザーIDの取得
-//     Integer userId = userMapper.findIdByEmail(userNewAddRequest.getEmail());
-//     if (userId == null) {
-//         throw new RuntimeException("ユーザーIDが取得できませんでした。");
-//     }
-
-//     return "redirect:/user/" + userId + "/top";
-// }
 
   @PostMapping("/user/add")
   public String create(@Valid @ModelAttribute("userNewAddRequest") UserNewAddRequest userNewAddRequest, 
