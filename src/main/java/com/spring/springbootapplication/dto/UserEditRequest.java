@@ -14,7 +14,7 @@ public class UserEditRequest implements Serializable {
   private Integer id;
 
   @Size(min = 50, max = 200, message = "自己紹介は50文字以上200文字以下で入力してください")
-  @NotBlank(message = "")
+  // @NotBlank(message = "")
   private String biography;
 
   private String imageUrl;

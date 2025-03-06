@@ -63,7 +63,20 @@ public class HomeController {
 
   // -----Top画面表示------
   @GetMapping(value = "/user/{id}/top")
-  public String displayUserTop(@PathVariable("id") Integer id, Model model) {
+  public String displayUserTop(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+
+    // 認証されたユーザーのメールアドレスを取得
+    String email = authentication.getName();
+
+    // 現在ログイン中のユーザー情報を取得し、ユーザーIDを取得
+    UserEntity currentUser = userService.getUserByEmail(email);
+    Integer currentUserId = currentUser.getId();
+
+    // URLのIDとログインユーザーのIDが違う場合はログインページへリダイレクト
+    if (!id.equals(currentUserId)) {
+        return "redirect:/user/login";
+    }
+
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
     model.addAttribute("user", user); // ユーザー情報をViewに渡す
     model.addAttribute("name", user.getName());
@@ -130,7 +143,20 @@ public class HomeController {
 
   // -----編集機能------
   @GetMapping(value = "/user/{id}/edit")
-  public String displayEdit(@PathVariable Integer id, Model model) {
+  public String displayEdit(@PathVariable Integer id, Model model, Authentication authentication) {
+
+    // 認証されたユーザーのメールアドレスを取得
+    String email = authentication.getName();
+
+    // 現在ログイン中のユーザー情報を取得し、ユーザーIDを取得
+    UserEntity currentUser = userService.getUserByEmail(email);
+    Integer currentUserId = currentUser.getId();
+
+    // URLのIDとログインユーザーのIDが違う場合はログインページへリダイレクト
+    if (!id.equals(currentUserId)) {
+        return "redirect:/user/login";
+    }
+
     UserResponse user = userService.getUserById(id); // URLのidを使ってユーザー情報を取得
     UserEditRequest userEditRequest = new UserEditRequest(); // 編集用DTOを作成
     userEditRequest.setId(user.getId());
