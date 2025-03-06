@@ -2,10 +2,14 @@ package com.spring.springbootapplication.dto;
 
 import java.io.Serializable;
 
+import com.spring.springbootapplication.validation.ValidPassword;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import com.spring.springbootapplication.validation.ValidPassword;
+
 
 import lombok.Data;
 
@@ -25,7 +29,8 @@ public class UserNewAddRequest implements Serializable {
 
 
   @NotEmpty(message = "パスワードは必ず入力してください")
-  @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "英数字8文字以上で入力してください")
+  @ValidPassword
+  // @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "英数字8文字以上で入力してください")
   private String password;
 
 }

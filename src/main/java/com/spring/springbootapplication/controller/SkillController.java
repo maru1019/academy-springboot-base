@@ -1,15 +1,18 @@
 package com.spring.springbootapplication.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.spring.springbootapplication.service.SkillService;
+import com.spring.springbootapplication.service.CategoryService;
+import com.spring.springbootapplication.service.UserService;
 import com.spring.springbootapplication.dto.SkillRequest;
 import com.spring.springbootapplication.entity.SkillEntity;
+import com.spring.springbootapplication.entity.UserEntity;
 import com.spring.springbootapplication.enums.Category;
 import com.spring.springbootapplication.entity.CategoryEntity;
-import com.spring.springbootapplication.service.CategoryService;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -35,13 +38,30 @@ public class SkillController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private UserService userService;
+
 
     // スキル一覧表示
     @GetMapping(value = "/learningData/{userId}/skill")
     public String displaySkills(
         @PathVariable("userId") Integer userId,
         @RequestParam(value = "createMonth", required = false) Integer selectedMonth,
-        Model model) {
+        Model model,
+        Authentication authentication) {
+
+        // 認証されたユーザーのメールアドレスを取得
+        String email = authentication.getName();
+
+        // 現在ログイン中のユーザー情報を取得
+        UserEntity currentUser = userService.getUserByEmail(email);
+        Integer currentUserId = currentUser.getId();
+
+        // URLのuserIdと現在ログイン中のユーザーIDを比較
+        if (!userId.equals(currentUserId)) {
+            // 不正アクセスの場合はログイン画面にリダイレクト
+            return "redirect:/user/login";
+        }
 
         // 現在の月を取得
         int currentMonth = LocalDate.now().getMonthValue();
@@ -91,7 +111,21 @@ public class SkillController {
     public String displayAdd(@PathVariable("userId") Integer userId, 
                          @RequestParam(value = "createMonth", required = false) Integer createMonth,
                          @RequestParam(value = "categoryId", required = false) Integer categoryId,
-                         Model model) {
+                         Model model,
+                         Authentication authentication) {
+                            
+        // 認証されたユーザーのメールアドレスを取得
+        String email = authentication.getName();
+
+        // 現在ログイン中のユーザー情報を取得
+        UserEntity currentUser = userService.getUserByEmail(email);
+        Integer currentUserId = currentUser.getId();
+
+        // URLのuserIdと現在ログイン中のユーザーIDを比較
+        if (!userId.equals(currentUserId)) {
+            // 不正アクセスの場合はログイン画面にリダイレクト
+            return "redirect:/user/login";
+        }
 
         // `categoryId` が null の場合、エラーメッセージを表示して戻る
         if (categoryId == null) {

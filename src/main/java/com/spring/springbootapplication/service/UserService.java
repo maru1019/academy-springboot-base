@@ -68,12 +68,12 @@ public class UserService {
     response.setName(userEntity.getName());
     response.setBiography(userEntity.getBiography());
 
-    // バイナリデータをBase64エンコード
     if (userEntity.getData() != null) {
-        String base64Data = Base64.getEncoder().encodeToString(userEntity.getData());
-        response.setBase64ImageData("data:image/png;base64," + base64Data); 
+      String base64Data = Base64.getEncoder().encodeToString(userEntity.getData());
+      response.setBase64ImageData("data:image/png;base64," + base64Data); 
+    } else {
+        response.setBase64ImageData("/images/image.png"); // デフォルト画像のパス
     }
-
     return response;
   }
 }
