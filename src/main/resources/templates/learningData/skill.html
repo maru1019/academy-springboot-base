@@ -32,12 +32,13 @@
               <h2>バックエンド</h2>
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).BACKEND.id})}">項目を追加する</a>
             </div>
+            <div class="table">
               <table>
                 <tr>
                   <th class="subject">項目名</th>
                   <th class="learning">学習時間</th>
                 </tr>
-                <tr th:each="skill : ${backendSkills}">
+                <tr th:each="skill : ${backendSkills}" id="scllor">
                   <td class="subject-item" th:text="${skill.name}"></td>
                   <td class="learning-time">
                     <form class="edit-form" th:attr="data-user-id=${userId}">
@@ -57,6 +58,7 @@
                   </td>
                 </tr>
               </table>
+            </div>
           </div>
         </div>
 
@@ -67,31 +69,34 @@
               <h2>フロントエンド</h2>
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).FRONTEND.id})}">項目を追加する</a>
             </div>
-            <table class="table">
-              <tr class="table-header">
-                <th class="subject">項目名</th>
-                <th class="learning">学習時間</th>
-              </tr>
-              <tr class="table-row" th:each="skill : ${frontendSkills}">
-                <td class="subject-item" th:text="${skill.name}"></td>
-                <td class="learning-time">
-                  <form class="edit-form" th:attr="data-user-id=${userId}">
-                    <input type="hidden" name="id" th:value="${skill.id}">
-                    <input type="hidden" name="createMonth" th:value="${selectedMonth}">
-                    <div class="form-control">
-                      <input type="number" name="studyTime" th:value="${skill.studyTime}" min="0" class="number-input">
-                    </div>
-                    <button type="button" class="save">学習時間を保存する</button>
-                  </form>
-                </td>
-                <td>
-                  <form class="delete-form" th:attr="data-user-id=${userId}">
-                    <input type="hidden" name="id" th:value="${skill.id}">
-                    <button type="button" name="delete" class="delete">削除する</button>
-                  </form>
-                </td>
-              </tr>
-            </table>
+            <div class="table">
+
+              <table>
+                <tr class="table-header">
+                  <th class="subject">項目名</th>
+                  <th class="learning">学習時間</th>
+                </tr>
+                <tr class="table-row" th:each="skill : ${frontendSkills}">
+                  <td class="subject-item" th:text="${skill.name}"></td>
+                  <td class="learning-time">
+                    <form class="edit-form" th:attr="data-user-id=${userId}">
+                      <input type="hidden" name="id" th:value="${skill.id}">
+                      <input type="hidden" name="createMonth" th:value="${selectedMonth}">
+                      <div class="form-control">
+                        <input type="number" name="studyTime" th:value="${skill.studyTime}" min="0" class="number-input">
+                      </div>
+                      <button type="button" class="save">学習時間を保存する</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form class="delete-form" th:attr="data-user-id=${userId}">
+                      <input type="hidden" name="id" th:value="${skill.id}">
+                      <button type="button" name="delete" class="delete">削除する</button>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
         <!-- インフラ -->
@@ -101,31 +106,34 @@
               <h2>インフラ</h2>
               <a class="btn" th:href="@{/learningData/{userId}/new(userId=${userId}, createMonth=${selectedMonth}, categoryId=${T(com.spring.springbootapplication.enums.Category).INFRA.id})}">項目を追加する</a>
             </div>
-            <table class="table">
-              <tr class="table-header">
-                <th class="subject">項目名</th>
-                <th class="learning">学習時間</th>
-              </tr>
-              <tr class="table-row" th:each="skill : ${infraSkills}">
-                <td class="subject-item" th:text="${skill.name}"></td>
-                <td class="learning-time">
-                  <form class="edit-form" th:attr="data-user-id=${userId}">
-                    <input type="hidden" name="id" th:value="${skill.id}">
-                    <input type="hidden" name="createMonth" th:value="${selectedMonth}">
-                    <div class="form-control">
-                      <input type="number" name="studyTime" th:value="${skill.studyTime}" min="0" class="number-input">
-                    </div>
-                    <button type="button" class="save">学習時間を保存する</button>
-                  </form>
-                </td>
-                <td>
-                  <form class="delete-form" th:attr="data-user-id=${userId}">
-                    <input type="hidden" name="id" th:value="${skill.id}">
-                    <button type="button" name="delete" class="delete">削除する</button>
-                  </form>
-                </td>
-              </tr>
-            </table>
+            <div class="table">
+
+              <table>
+                <tr class="table-header">
+                  <th class="subject">項目名</th>
+                  <th class="learning">学習時間</th>
+                </tr>
+                <tr class="table-row" th:each="skill : ${infraSkills}">
+                  <td class="subject-item" th:text="${skill.name}"></td>
+                  <td class="learning-time">
+                    <form class="edit-form" th:attr="data-user-id=${userId}">
+                      <input type="hidden" name="id" th:value="${skill.id}">
+                      <input type="hidden" name="createMonth" th:value="${selectedMonth}">
+                      <div class="form-control">
+                        <input type="number" name="studyTime" th:value="${skill.studyTime}" min="0" class="number-input">
+                      </div>
+                      <button type="button" class="save">学習時間を保存する</button>
+                    </form>
+                  </td>
+                  <td>
+                    <form class="delete-form" th:attr="data-user-id=${userId}">
+                      <input type="hidden" name="id" th:value="${skill.id}">
+                      <button type="button" name="delete" class="delete">削除する</button>
+                    </form>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>

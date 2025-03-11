@@ -28,9 +28,16 @@
           <input type="hidden" th:value="${userEditRequest.id}" name="id">
           <label class="label-avater">アバター画像</label>
           <div class="file-container">
+
+            <!-- 画像データのURLを hidden input に保持 -->
+            <input type="hidden" name="existingImageUrl" th:value="${userEditRequest.imageUrl}">
+
+            <!-- 画像アップロードボタン -->
             <label for="form-image" class="file-control-label">画像ファイルを添付する</label>
             <input type="file" class="file-control" id="form-image" name="imageFile" accept="image/*" onchange="updateFileName()">
-            <span id="file-name" class="file-name"></span>
+            
+            <!-- 画像のURLを表示 -->
+            <span id="file-name" class="file-name" th:text="${userEditRequest.imageUrl}"></span>
           </div>
         </div>
         <input type="submit" value="自己紹介を確定する" class="btn-blue">

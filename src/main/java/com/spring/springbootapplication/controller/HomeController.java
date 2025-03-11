@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -38,6 +42,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.multipart.MultipartFile;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 
 @Controller
@@ -139,8 +146,6 @@ public class HomeController {
       return "redirect:/user/" + userId + "/top";
   }
 
-
-
   // -----編集機能------
   @GetMapping(value = "/user/{id}/edit")
   public String displayEdit(@PathVariable Integer id, Model model, Authentication authentication) {
@@ -162,30 +167,78 @@ public class HomeController {
     userEditRequest.setId(user.getId());
     userEditRequest.setBiography(user.getBiography());
     userEditRequest.setData(user.getData());
+
+    // 画像のURLを設定
+    if (user.getData() != null) {
+      userEditRequest.setImageUrl("/user/" + user.getId() + "/avatar"); // アップロードされた画像
+    } else if (user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
+        userEditRequest.setImageUrl(user.getImageUrl()); // 以前の画像を保持
+    } else {
+        userEditRequest.setImageUrl("/images/image.png"); // デフォルト画像
+    }
+
     model.addAttribute("userEditRequest", userEditRequest); // 編集データを渡す
     model.addAttribute("userId", id);
     return "user/edit"; 
   }
 
-  @PostMapping(value = "/user/{id}/edit")
-  public String update(@PathVariable Integer id, @Validated @ModelAttribute UserEditRequest userEditRequest, BindingResult result, Model model) {
-    if (result.hasErrors()) {
-      List<String> errorList = new ArrayList<String>();
-      for (ObjectError error : result.getAllErrors()) {
-        errorList.add(error.getDefaultMessage());
-      }
-      model.addAttribute("validationError", errorList);
-      return "user/edit";
-    }
-    
-    MultipartFile imageFile = userEditRequest.getImageFile();
-    if (imageFile != null && !imageFile.isEmpty()) {
-        byte[] imageData = userService.convertFileToByteArray(imageFile);
-        userEditRequest.setData(imageData);
-    }
+  // -----画像取得機能------
+  // @GetMapping("/user/{id}/avatar")
+  // @ResponseBody
+  // public ResponseEntity<byte[]> getUserAvatar(@PathVariable Integer id) {
+  //     UserResponse user = userService.getUserById(id);
+  //     if (user.getData() == null) {
+  //         return ResponseEntity.notFound().build();
+  //     }
+  //     HttpHeaders headers = new HttpHeaders();
+  //     headers.setContentType(MediaType.IMAGE_JPEG); // JPEG の場合
+  //     return new ResponseEntity<>(user.getData(), headers, HttpStatus.OK);
+  // }
 
-    // ユーザー情報を更新
-    userService.update(userEditRequest);
-    return "redirect:/user/" + userEditRequest.getId() + "/top";
+  @GetMapping("/user/{id}/avatar")
+  @ResponseBody
+  public ResponseEntity<byte[]> getUserAvatar(@PathVariable Integer id) {
+      UserResponse user = userService.getUserById(id);
+      
+      if (user.getData() == null) {
+          System.out.println("【ERROR】ユーザーID " + id + " の画像データが NULL になっています");
+          return ResponseEntity.notFound().build();
+      }
+  
+      System.out.println("【INFO】ユーザーID " + id + " の画像データが取得されました。データサイズ: " + user.getData().length);
+  
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.IMAGE_JPEG); // JPEG の場合
+      return new ResponseEntity<>(user.getData(), headers, HttpStatus.OK);
   }
+  
+
+  @PostMapping(value = "/user/{id}/edit")
+  public String update(@PathVariable Integer id, @Validated @ModelAttribute UserEditRequest userEditRequest,
+                      BindingResult result, Model model,
+                      @RequestParam(name = "existingImageUrl", required = false) String existingImageUrl) {
+      
+      if (result.hasErrors()) {
+          List<String> errorList = new ArrayList<>();
+          for (ObjectError error : result.getAllErrors()) {
+              errorList.add(error.getDefaultMessage());
+          }
+          model.addAttribute("validationError", errorList);
+          return "user/edit";
+      }
+      
+      MultipartFile imageFile = userEditRequest.getImageFile();
+      if (imageFile != null && !imageFile.isEmpty()) {
+          userEditRequest.setData(userService.convertFileToByteArray(imageFile));
+      } else {
+          UserResponse existingUser = userService.getUserById(id);
+          if (existingUser.getData() != null) {
+              userEditRequest.setData(existingUser.getData()); // 以前の画像データを維持
+          }
+      }
+  
+      userService.update(userEditRequest);
+      return "redirect:/user/" + userEditRequest.getId() + "/top";
+  }
+  
 }
