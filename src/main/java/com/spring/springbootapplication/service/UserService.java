@@ -62,18 +62,18 @@ public class UserService {
 
   // -----Base64エンコードされた画像を取得-----
   public UserResponse getUserById(Integer id) {
-    UserEntity userEntity = userMapper.findById(id); // DBからユーザー情報を取得
+    UserEntity userEntity = userMapper.findById(id);
     UserResponse response = new UserResponse();
     response.setId(userEntity.getId());
     response.setName(userEntity.getName());
     response.setBiography(userEntity.getBiography());
 
     if (userEntity.getData() != null) {
-      String base64Data = Base64.getEncoder().encodeToString(userEntity.getData());
-      response.setBase64ImageData("data:image/png;base64," + base64Data); 
-    } else {
-        response.setBase64ImageData("/images/image.png"); // デフォルト画像のパス
+        response.setBase64ImageData("data:image/png;base64," + Base64.getEncoder().encodeToString(userEntity.getData()));
+        response.setData(userEntity.getData()); // 画像データもセット
     }
+
     return response;
   }
+
 }

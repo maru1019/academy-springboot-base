@@ -30,6 +30,7 @@
   font-size: 36px;
   line-height: 42.19px;
   color: #FFFFFF;
+  text-decoration: none;
 }
 
 .logout {
@@ -131,7 +132,6 @@ label {
 .form-control {
   position: relative;
   display: inline-block;
-  width: 480px;
   border: none;
   border-bottom: 1px solid #ddd;
   outline: none;
@@ -139,9 +139,9 @@ label {
   margin: 10px 0 10px 0;
 }
 
-
 .form-control .number-input {
   padding-right: 25px; /* 矢印用のスペース */
+  width: 480px;
 }
 
 .form-control::before,

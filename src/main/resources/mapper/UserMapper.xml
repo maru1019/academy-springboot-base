@@ -6,7 +6,7 @@
 
 <!--top画面-->
     <select id="findById" resultType="com.spring.springbootapplication.entity.UserEntity">
-      SELECT id, name, biography, data
+      SELECT id, name, biography, data, image_url
       FROM users
       WHERE id = #{id}
     </select>
@@ -30,7 +30,7 @@
       SET
         image_url = #{imageUrl},
         biography = #{biography},
-        data = #{data}
+        data = CASE WHEN #{data} IS NOT NULL THEN #{data} ELSE data END
       WHERE
         id = #{id}
     </update>

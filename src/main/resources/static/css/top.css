@@ -114,6 +114,12 @@ h2 {
   margin: 20px 0 ;
 }
 
+.text-area p {
+  height: 81px;
+  width: 520px;
+  overflow: auto;
+}
+
 .btn-blue {
   font-weight: 400;
   font-size: 18px;
