@@ -189,8 +189,8 @@ td {
   outline: none;
   background: transparent; /* 背景を透明に */
   font-size: 16px; /* 見やすいサイズ */
-  width: 160px; /* 適切な幅 */
-  height: 40px;
+  /* width: 160px; /* 適切な幅 */
+  /* height: 40px; */
   padding: 10px;
   border-radius: 4px;
   border: 1px solid #d0d0d0;
@@ -213,8 +213,6 @@ td {
 .form-control {
   position: relative;
   display: inline-block;
-  width: 160px;
-  height: 40px;
   outline: none;
   line-height: 19px;
   margin: 10px 0 10px 0;
@@ -224,26 +222,31 @@ td {
   padding-right: 25px; /* 矢印用のスペース */
 }
 
-.form-control::before,
-.form-control::after {
-  position: absolute;
-  right: 5px;
-  width: 9px;
-  height: 6px;
-  background-color: gray;
-  content: '';
-  pointer-events: none;
+
+/* 矢印アイコンをカスタムデザインで表示する */
+.increase-btn,
+.decrease-btn {
+    position: absolute;
+    right: 5px;
+    width: 9px;
+    height: 6px;
+    background-color: gray;
+    cursor: pointer;
 }
 
-.form-control::before {
-  top: calc(50% - 9px);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+/* 上向き矢印 */
+.increase-btn {
+    top: calc(50% - 9px);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
-.form-control::after {
-  bottom: calc(50% - 8px);
-  clip-path: polygon(0 0, 50% 100%, 100% 0);
+/* 下向き矢印 */
+.decrease-btn {
+    bottom: calc(50% - 8px);
+    clip-path: polygon(0 0, 50% 100%, 100% 0);
 }
+
+
   
 .save {
   width: 158px;

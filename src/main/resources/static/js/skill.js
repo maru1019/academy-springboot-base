@@ -3,6 +3,29 @@ document.addEventListener("DOMContentLoaded", function() {
     const selectedMonth = parseInt(document.getElementById("createMonth").value, 10) || currentMonth; // 選択中の月
     const monthSelect = document.getElementById("createMonth");
 
+    // **★ スピンボタンのクリック処理を追加 ★**
+    const increaseButtons = document.querySelectorAll(".increase-btn");
+    const decreaseButtons = document.querySelectorAll(".decrease-btn");
+
+    increaseButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const studyTimeInput = this.parentElement.querySelector(".number-input");
+            if (studyTimeInput) {
+                studyTimeInput.stepUp();
+            }
+        });
+    });
+
+    decreaseButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            const studyTimeInput = this.parentElement.querySelector(".number-input");
+            if (studyTimeInput) {
+                studyTimeInput.stepDown();
+            }
+        });
+    });
+
+    
     // 常に「当月」「1ヶ月前」「2ヶ月前」のリストを生成
     monthSelect.innerHTML = ""; // 現在の選択肢をクリア
     for (let i = 0; i < 3; i++) {

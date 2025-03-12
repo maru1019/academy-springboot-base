@@ -6,7 +6,26 @@ document.addEventListener("DOMContentLoaded", function() {
   const selectedMonth = form.querySelector('input[name="createMonth"]').value;
   const categoryId = form.querySelector('input[name="categoryId"]').value;
 
-  
+
+  // **★ スピンボタンのクリック処理を追加 ★**
+  const studyTimeInput = document.querySelector(".number-input");
+  const increaseButton = document.querySelector(".increase-btn");
+  const decreaseButton = document.querySelector(".decrease-btn");
+
+  if (increaseButton && decreaseButton && studyTimeInput) {
+      increaseButton.addEventListener("click", function(event) {
+          console.log("上矢印クリック");
+
+          studyTimeInput.stepUp();
+      });
+
+      decreaseButton.addEventListener("click", function(event) {
+          console.log("下矢印クリック"); // デバッグ用ログ
+
+          studyTimeInput.stepDown();
+      });
+  }
+
   form.addEventListener("submit", function(event) {
     event.preventDefault();  // フォームのデフォルト送信を防止
 

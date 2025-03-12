@@ -23,10 +23,14 @@
         <p class="error-message name-error" th:text="${#fields.hasErrors('name')} ? ${#fields.errors('name')} : ''"></p>
         <div class="form-group-study-time">
           <label class="label-study-time">学習時間</label>
+
           <div class="form-control">
               <input type="number" th:field="*{studyTime}" min="0" class="number-input">
+              <div class="increase-btn"></div> <!-- 上矢印 -->
+              <div class="decrease-btn"></div> <!-- 下矢印 -->
           </div>
           <label class="label-study-time-minutes">分単位で入力してください</label>
+
           <p class="error-message studyTime-error" th:text="${#fields.hasErrors('studyTime')} ? ${#fields.errors('studyTime')} : ''"></p>
         </div>  
         <div class="btn">
