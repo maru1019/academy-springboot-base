@@ -28,7 +28,6 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) 
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers( "/user/login", "/user/add", "/css/**", "/js/**").permitAll() 
-                .requestMatchers("/images/**", "/user/{id}/avatar").permitAll() // ← ここを追加
                 .requestMatchers("/user/**").authenticated()
                 .requestMatchers("/learningData/**").authenticated()
                 .anyRequest().authenticated()

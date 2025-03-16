@@ -30,7 +30,7 @@
       SET
         image_url = #{imageUrl},
         biography = #{biography},
-        data = CASE WHEN #{data} IS NOT NULL THEN #{data} ELSE data END
+        data = COALESCE(#{data}::bytea, data)
       WHERE
         id = #{id}
     </update>
