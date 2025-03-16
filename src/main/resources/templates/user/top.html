@@ -24,7 +24,7 @@
             <div class="profile-header">
               <div class="circle">
                 <!-- <img th:src="${user.base64ImageData}" alt="User Avatar"> -->
-                <img th:src="${user.base64ImageData ?: user.imageUrl}" alt="User Avatar">
+                <img th:src="${user.base64ImageData ?: '/images/image.png'}" alt="User Avatar">
               </div>
               <p th:text="${name}"></p>
             </div>

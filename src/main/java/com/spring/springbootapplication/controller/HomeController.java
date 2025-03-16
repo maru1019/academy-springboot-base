@@ -182,19 +182,6 @@ public class HomeController {
     return "user/edit"; 
   }
 
-  // -----画像取得機能------
-  // @GetMapping("/user/{id}/avatar")
-  // @ResponseBody
-  // public ResponseEntity<byte[]> getUserAvatar(@PathVariable Integer id) {
-  //     UserResponse user = userService.getUserById(id);
-  //     if (user.getData() == null) {
-  //         return ResponseEntity.notFound().build();
-  //     }
-  //     HttpHeaders headers = new HttpHeaders();
-  //     headers.setContentType(MediaType.IMAGE_JPEG); // JPEG の場合
-  //     return new ResponseEntity<>(user.getData(), headers, HttpStatus.OK);
-  // }
-
   @GetMapping("/user/{id}/avatar")
   @ResponseBody
   public ResponseEntity<byte[]> getUserAvatar(@PathVariable Integer id) {

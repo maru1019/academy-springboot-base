@@ -37,7 +37,7 @@
             <input type="file" class="file-control" id="form-image" name="imageFile" accept="image/*" onchange="updateFileName()">
             
             <!-- 画像のURLを表示 -->
-            <span id="file-name" class="file-name" th:text="${userEditRequest.imageUrl}"></span>
+            <span id="file-name" class="file-name" th:text="${userEditRequest.imageUrl ?: '/images/image.png'}"></span>
           </div>
         </div>
         <input type="submit" value="自己紹介を確定する" class="btn-blue">

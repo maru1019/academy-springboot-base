@@ -1,5 +1,4 @@
 package com.spring.springbootapplication.service;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,10 +40,31 @@ public class UserService {
 
     userMapper.save(userNewAddRequest);
   }
-  
-  // 編集機能
+
+  //自己紹介編集機能
   public void update(UserEditRequest userEditRequest) {
+    if (userEditRequest.getData() == null) {
+        UserResponse existingUser = getUserById(userEditRequest.getId());
+
+        if (existingUser.getData() != null) {
+            userEditRequest.setData(existingUser.getData()); // 既存の画像データを保持
+        } else {
+            // デフォルト画像をセット
+            userEditRequest.setData(loadDefaultImage());
+        }
+    }
     userMapper.update(userEditRequest);
+  }
+
+  // デフォルト画像をバイト配列として読み込むメソッド
+  private byte[] loadDefaultImage() {
+      try {
+          Path defaultImagePath = Paths.get("src/main/resources/static/images/image.png");
+          return Files.readAllBytes(defaultImagePath);
+      } catch (Exception e) {
+          e.printStackTrace();
+          return null; // デフォルト画像の読み込みに失敗した場合は null を返す
+      }
   }
 
   // ファイルをバイト配列に変換
