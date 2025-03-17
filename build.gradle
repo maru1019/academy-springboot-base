@@ -67,3 +67,17 @@ bootRun {
 	systemProperties = System.properties
 	jvmArgs=[]
 }
+
+test {
+    useJUnitPlatform()
+    systemProperty 'spring.profiles.active', 'test'
+}
+
+jar {
+    enabled = false
+}
+
+bootJar {
+    enabled = true
+    archiveClassifier = ''
+}
