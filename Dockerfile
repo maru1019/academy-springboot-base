@@ -32,12 +32,35 @@
 
 
 
+# FROM openjdk:17-jdk-slim
+
+# WORKDIR /app
+# COPY build/libs/*.jar app.jar
+# COPY src/main/resources/application-postgresql.properties ./application-postgresql.properties
+
+# EXPOSE 8080
+
+# ENTRYPOINT ["java", "-jar", "app.jar", "--spring.config.additional-location=classpath:/,file:./application-postgresql.properties"]
+
+
+
+FROM openjdk:17-jdk-slim AS build
+
+WORKDIR /build
+COPY . .
+
+# SDKMANとGradleをインストールしてビルド実行
+RUN apt-get update && apt-get install -y curl unzip zip
+RUN curl -s https://get.sdkman.io | bash
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && sdk install gradle 8.7"
+
+RUN bash -c "source $HOME/.sdkman/bin/sdkman-init.sh && gradle build -x test"
+
+# 実行用のコンテナ
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
-COPY build/libs/*.jar app.jar
+COPY --from=build /build/build/libs/*.jar app.jar
 COPY src/main/resources/application-postgresql.properties ./application-postgresql.properties
-
-EXPOSE 8080
 
 ENTRYPOINT ["java", "-jar", "app.jar", "--spring.config.additional-location=classpath:/,file:./application-postgresql.properties"]
